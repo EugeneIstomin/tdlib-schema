@@ -6,7 +6,7 @@ module TD::Types
   # @attr in_game_share [Boolean] True, if a game message is being shared from a launched game; applies only to game
   #   messages.
   # @attr copy_options [TD::Types::MessageCopyOptions] Options to be used to copy content of the message without
-  #   reference to the original sender; pass null to try to forward the message as usual.
+  #   reference to the original sender; pass null to forward the message as usual.
   class InputMessageContent::Forwarded < InputMessageContent
     attribute :from_chat_id, TD::Types::Coercible::Integer
     attribute :message_id, TD::Types::Coercible::Integer

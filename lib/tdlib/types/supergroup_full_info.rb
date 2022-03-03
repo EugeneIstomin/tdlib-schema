@@ -25,7 +25,7 @@ module TD::Types
   #   The value of this field is only available for chat administrators.
   # @attr sticker_set_id [Integer] Identifier of the supergroup sticker set; 0 if none.
   # @attr location [TD::Types::ChatLocation, nil] Location to which the supergroup is connected; may be null.
-  # @attr invite_link [TD::Types::ChatInviteLink, nil] Primary invite link for this chat; may be null.
+  # @attr invite_link [TD::Types::ChatInviteLink, nil] Primary invite link for the chat; may be null.
   #   For chat administrators with can_invite_users right only.
   # @attr bot_commands [Array<TD::Types::BotCommands>] List of commands of bots in the group.
   # @attr upgraded_from_basic_group_id [Integer] Identifier of the basic group from which supergroup was upgraded; 0 if

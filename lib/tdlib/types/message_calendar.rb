@@ -1,5 +1,5 @@
 module TD::Types
-  # Contains information about found messages, splitted by days according to the option "utc_time_offset".
+  # Contains information about found messages, split by days according to the option "utc_time_offset".
   #
   # @attr total_count [Integer] Total number of found messages.
   # @attr days [Array<TD::Types::MessageCalendarDay>] Information about messages sent.

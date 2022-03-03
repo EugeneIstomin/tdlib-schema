@@ -8,6 +8,7 @@ module TD::Types
       report_add_block
       add_contact
       share_phone_number
+      join_request
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/chat_action_bar/#{type}"
     end

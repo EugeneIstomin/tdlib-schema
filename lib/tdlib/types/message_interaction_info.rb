@@ -7,9 +7,11 @@ module TD::Types
   #   may be null.
   #   Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which
   #   are not replies itself.
+  # @attr reactions [Array<TD::Types::MessageReaction>] The list of reactions added to the message.
   class MessageInteractionInfo < Base
     attribute :view_count, TD::Types::Coercible::Integer
     attribute :forward_count, TD::Types::Coercible::Integer
     attribute :reply_info, TD::Types::MessageReplyInfo.optional.default(nil)
+    attribute :reactions, TD::Types::Array.of(TD::Types::MessageReaction)
   end
 end

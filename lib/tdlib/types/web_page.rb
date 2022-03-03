@@ -17,15 +17,14 @@ module TD::Types
   # @attr author [TD::Types::String] Author of the content.
   # @attr animation [TD::Types::Animation, nil] Preview of the content as an animation, if available; may be null.
   # @attr audio [TD::Types::Audio, nil] Preview of the content as an audio file, if available; may be null.
-  # @attr document [TD::Types::Document, nil] Preview of the content as a document, if available (currently only
-  #   available for small PDF files and ZIP archives); may be null.
+  # @attr document [TD::Types::Document, nil] Preview of the content as a document, if available; may be null.
   # @attr sticker [TD::Types::Sticker, nil] Preview of the content as a sticker for small WEBP files, if available; may
   #   be null.
   # @attr video [TD::Types::Video, nil] Preview of the content as a video, if available; may be null.
   # @attr video_note [TD::Types::VideoNote, nil] Preview of the content as a video note, if available; may be null.
   # @attr voice_note [TD::Types::VoiceNote, nil] Preview of the content as a voice note, if available; may be null.
-  # @attr instant_view_version [Integer] Version of instant view, available for the web page (currently can be 1 or 2),
-  #   0 if none.
+  # @attr instant_view_version [Integer] Version of instant view, available for the web page (currently, can be 1 or
+  #   2), 0 if none.
   class WebPage < Base
     attribute :url, TD::Types::String
     attribute :display_url, TD::Types::String

@@ -3,7 +3,7 @@ module TD::Types
   #
   # @attr page_blocks [Array<TD::Types::PageBlock>] Content of the web page.
   # @attr view_count [Integer] Number of the instant view views; 0 if unknown.
-  # @attr version [Integer] Version of the instant view, currently can be 1 or 2.
+  # @attr version [Integer] Version of the instant view; currently, can be 1 or 2.
   # @attr is_rtl [Boolean] True, if the instant view must be shown from right to left.
   # @attr is_full [Boolean] True, if the instant view contains the full page.
   #   A network request might be needed to get the full web page instant view.

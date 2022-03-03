@@ -5,8 +5,9 @@ module TD::Types
       enable_archive_and_mute_new_chats
       check_password
       check_phone_number
-      see_ticks_hint
+      view_checks_hint
       convert_to_broadcast_group
+      set_password
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/suggested_action/#{type}"
     end

@@ -13,6 +13,7 @@ module TD::Types
       message_interaction_info
       message_content_opened
       message_mention_read
+      message_unread_reactions
       message_live_location_viewed
       new_chat
       chat_title
@@ -20,30 +21,34 @@ module TD::Types
       chat_permissions
       chat_last_message
       chat_position
-      chat_is_marked_as_unread
-      chat_is_blocked
-      chat_has_scheduled_messages
-      chat_video_chat
-      chat_default_disable_notification
       chat_read_inbox
       chat_read_outbox
-      chat_unread_mention_count
-      chat_notification_settings
-      scope_notification_settings
-      chat_message_ttl_setting
       chat_action_bar
-      chat_theme
+      chat_available_reactions
+      chat_draft_message
+      chat_message_sender
+      chat_message_ttl
+      chat_notification_settings
       chat_pending_join_requests
       chat_reply_markup
-      chat_draft_message
+      chat_theme
+      chat_unread_mention_count
+      chat_unread_reaction_count
+      chat_video_chat
+      chat_default_disable_notification
+      chat_has_protected_content
+      chat_has_scheduled_messages
+      chat_is_blocked
+      chat_is_marked_as_unread
       chat_filters
       chat_online_member_count
+      scope_notification_settings
       notification
       notification_group
       active_notifications
       have_pending_notifications
       delete_messages
-      user_chat_action
+      chat_action
       user_status
       user
       basic_group
@@ -76,6 +81,7 @@ module TD::Types
       connection_state
       terms_of_service
       users_nearby
+      reactions
       dice_emojis
       animated_emoji_message_clicked
       animation_search_parameters

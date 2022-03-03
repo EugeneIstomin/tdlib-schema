@@ -14,6 +14,7 @@ module TD::Types
       italic
       underline
       strikethrough
+      spoiler
       code
       pre
       pre_code

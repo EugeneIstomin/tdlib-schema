@@ -2,7 +2,7 @@ module TD::Types
   # Represents a filter of user chats.
   #
   # @attr title [TD::Types::String] The title of the filter; 1-12 characters without line feeds.
-  # @attr icon_name [TD::Types::String, nil] The icon name for short filter representation.
+  # @attr icon_name [TD::Types::String, nil] The chosen icon name for short filter representation.
   #   If non-empty, must be one of "All", "Unread", "Unmuted", "Bots", "Channels", "Groups", "Private", "Custom",
   #   "Setup", "Cat", "Crown", "Favorite", "Flower", "Game", "Home", "Love", "Mask", "Party", "Sport", "Study", "Trade",
   #   "Travel", "Work".

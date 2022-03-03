@@ -1,5 +1,5 @@
 module TD::Types
-  # Service notification from the server.
+  # A service notification from the server was received.
   # Upon receiving this the application must show a popup with the content of the notification.
   #
   # @attr type [TD::Types::String] Notification type.

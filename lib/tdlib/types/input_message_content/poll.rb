@@ -9,7 +9,7 @@ module TD::Types
   #   Non-anonymous polls can't be sent or forwarded to channels.
   # @attr type [TD::Types::PollType] Type of the poll.
   # @attr open_period [Integer] Amount of time the poll will be active after creation, in seconds; for bots only.
-  # @attr close_date [Integer] Point in time (Unix timestamp) when the poll will be automatically closed; for bots
+  # @attr close_date [Integer] Point in time (Unix timestamp) when the poll will automatically be closed; for bots
   #   only.
   # @attr is_closed [Boolean] True, if the poll needs to be sent already closed; for bots only.
   class InputMessageContent::Poll < InputMessageContent

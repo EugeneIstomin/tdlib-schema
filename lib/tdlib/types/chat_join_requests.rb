@@ -1,5 +1,5 @@
 module TD::Types
-  # Contains a list of chat join requests.
+  # Contains a list of requests to join a chat.
   #
   # @attr total_count [Integer] Approximate total count of requests found.
   # @attr requests [Array<TD::Types::ChatJoinRequest>] List of the requests.

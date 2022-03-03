@@ -9,7 +9,7 @@ module TD::Types
   # @attr is_anonymous [Boolean] True, if the poll is anonymous.
   # @attr type [TD::Types::PollType] Type of the poll.
   # @attr open_period [Integer] Amount of time the poll will be active after creation, in seconds.
-  # @attr close_date [Integer] Point in time (Unix timestamp) when the poll will be automatically closed.
+  # @attr close_date [Integer] Point in time (Unix timestamp) when the poll will automatically be closed.
   # @attr is_closed [Boolean] True, if the poll is closed.
   class Poll < Base
     attribute :id, TD::Types::Coercible::Integer

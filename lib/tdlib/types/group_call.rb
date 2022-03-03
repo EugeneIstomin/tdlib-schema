@@ -14,7 +14,8 @@ module TD::Types
   # @attr can_be_managed [Boolean] True, if the current user can manage the group call.
   # @attr participant_count [Integer] Number of participants in the group call.
   # @attr loaded_all_participants [Boolean] True, if all group call participants are loaded.
-  # @attr recent_speakers [Array<TD::Types::GroupCallRecentSpeaker>] Recently speaking users in the group call.
+  # @attr recent_speakers [Array<TD::Types::GroupCallRecentSpeaker>] At most 3 recently speaking users in the group
+  #   call.
   # @attr is_my_video_enabled [Boolean] True, if the current user's video is enabled.
   # @attr is_my_video_paused [Boolean] True, if the current user's video is paused.
   # @attr can_enable_video [Boolean] True, if the current user can broadcast video or share screen.
