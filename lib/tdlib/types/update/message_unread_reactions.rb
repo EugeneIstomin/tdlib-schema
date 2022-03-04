@@ -8,7 +8,7 @@ module TD::Types
   class Update::MessageUnreadReactions < Update
     attribute :chat_id, TD::Types::Coercible::Integer
     attribute :message_id, TD::Types::Coercible::Integer
-    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction)
+    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction).optional.default([])
     attribute :unread_reaction_count, TD::Types::Coercible::Integer.optional.default(nil)
   end
 end

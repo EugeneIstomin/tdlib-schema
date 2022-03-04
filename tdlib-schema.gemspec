@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: tdlib-schema 1.8.4 ruby lib
+# stub: tdlib-schema 1.8.5 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "tdlib-schema".freeze
-  s.version = "1.8.4"
+  s.version = "1.8.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.metadata = { "homepage_uri" => "https://github.com/seorgiy/tdlib-schema", "source_code_uri" => "https://github.com/southbridgeio/tdlib-schema" } if s.respond_to? :metadata=

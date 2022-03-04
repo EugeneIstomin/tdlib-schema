@@ -79,7 +79,7 @@ module TD::Types
     attribute :edit_date, TD::Types::Coercible::Integer
     attribute :forward_info, TD::Types::MessageForwardInfo.optional.default(nil)
     attribute :interaction_info, TD::Types::MessageInteractionInfo.optional.default(nil)
-    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction)
+    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction).optional.default([])
     attribute :reply_in_chat_id, TD::Types::Coercible::Integer
     attribute :reply_to_message_id, TD::Types::Coercible::Integer
     attribute :message_thread_id, TD::Types::Coercible::Integer
