@@ -67,7 +67,7 @@ module TD::Types
     attribute :can_be_saved, TD::Types::Bool
     attribute :can_be_deleted_only_for_self, TD::Types::Bool
     attribute :can_be_deleted_for_all_users, TD::Types::Bool
-    attribute :can_get_added_reactions, TD::Types::Bool
+    attribute :can_get_added_reactions, TD::Types::Bool.optional.default(nil)
     attribute :can_get_statistics, TD::Types::Bool
     attribute :can_get_message_thread, TD::Types::Bool
     attribute :can_get_viewers, TD::Types::Bool
