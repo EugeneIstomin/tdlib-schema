@@ -70,7 +70,7 @@ module TD::Types
     attribute :unread_mention_count, TD::Types::Coercible::Integer
     attribute :unread_reaction_count, TD::Types::Coercible::Integer.optional.default(nil)
     attribute :notification_settings, TD::Types::ChatNotificationSettings
-    attribute :available_reactions, TD::Types::Array.of(TD::Types::String)
+    attribute :available_reactions, TD::Types::Array.of(TD::Types::String).optional.default([])
     attribute :message_ttl, TD::Types::Coercible::Integer
     attribute :theme_name, TD::Types::String
     attribute :action_bar, TD::Types::ChatActionBar.optional.default(nil)
