@@ -8,11 +8,14 @@ module TD::Types
   # @attr enabled_start_notification [Boolean] True, if the group call is scheduled and the current user will receive a
   #   notification when the group call will start.
   # @attr is_active [Boolean] True, if the call is active.
+  # @attr is_rtmp_stream [Boolean] True, if the chat is an RTMP stream instead of an ordinary video chat.
   # @attr is_joined [Boolean] True, if the call is joined.
   # @attr need_rejoin [Boolean] True, if user was kicked from the call because of network loss and the call needs to be
   #   rejoined.
   # @attr can_be_managed [Boolean] True, if the current user can manage the group call.
   # @attr participant_count [Integer] Number of participants in the group call.
+  # @attr has_hidden_listeners [Boolean] True, if group call participants, which are muted, aren't returned in
+  #   participant list.
   # @attr loaded_all_participants [Boolean] True, if all group call participants are loaded.
   # @attr recent_speakers [Array<TD::Types::GroupCallRecentSpeaker>] At most 3 recently speaking users in the group
   #   call.
@@ -33,10 +36,12 @@ module TD::Types
     attribute :scheduled_start_date, TD::Types::Coercible::Integer
     attribute :enabled_start_notification, TD::Types::Bool
     attribute :is_active, TD::Types::Bool
+    attribute :is_rtmp_stream, TD::Types::Bool
     attribute :is_joined, TD::Types::Bool
     attribute :need_rejoin, TD::Types::Bool
     attribute :can_be_managed, TD::Types::Bool
     attribute :participant_count, TD::Types::Coercible::Integer
+    attribute :has_hidden_listeners, TD::Types::Bool
     attribute :loaded_all_participants, TD::Types::Bool
     attribute :recent_speakers, TD::Types::Array.of(TD::Types::GroupCallRecentSpeaker)
     attribute :is_my_video_enabled, TD::Types::Bool

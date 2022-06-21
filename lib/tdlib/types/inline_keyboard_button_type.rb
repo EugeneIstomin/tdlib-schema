@@ -4,6 +4,7 @@ module TD::Types
     %w[
       url
       login_url
+      web_app
       callback
       callback_with_password
       callback_game

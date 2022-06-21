@@ -2,6 +2,9 @@ module TD::Types
   # A photo message.
   #
   # @attr photo [TD::Types::InputFile] Photo to send.
+  #   The photo must be at most 10 MB in size.
+  #   The photo's width and height must not exceed 10000 in total.
+  #   Width and height ratio must be at most 20.
   # @attr thumbnail [TD::Types::InputThumbnail] Photo thumbnail to be sent; pass null to skip thumbnail uploading.
   #   The thumbnail is sent to the other party only in secret chats.
   # @attr added_sticker_file_ids [Array<Integer>] File identifiers of the stickers added to the photo, if applicable.

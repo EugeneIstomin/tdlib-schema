@@ -6,6 +6,7 @@ module TD::Types
       request_phone_number
       request_location
       request_poll
+      web_app
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/keyboard_button_type/#{type}"
     end

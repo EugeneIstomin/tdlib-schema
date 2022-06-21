@@ -19,7 +19,8 @@ module TD::Types
   # @attr can_get_added_reactions [Boolean] True, if the list of added reactions is available through
   #   getMessageAddedReactions.
   # @attr can_get_statistics [Boolean] True, if the message statistics are available through getMessageStatistics.
-  # @attr can_get_message_thread [Boolean] True, if the message thread info is available through getMessageThread.
+  # @attr can_get_message_thread [Boolean] True, if information about the message thread is available through
+  #   getMessageThread.
   # @attr can_get_viewers [Boolean] True, if chat members already viewed the message can be received through
   #   getMessageViewers.
   # @attr can_get_media_timestamp_links [Boolean] True, if media timestamp links can be generated for media timestamp
@@ -67,7 +68,7 @@ module TD::Types
     attribute :can_be_saved, TD::Types::Bool
     attribute :can_be_deleted_only_for_self, TD::Types::Bool
     attribute :can_be_deleted_for_all_users, TD::Types::Bool
-    attribute :can_get_added_reactions, TD::Types::Bool.optional.default(nil)
+    attribute :can_get_added_reactions, TD::Types::Bool
     attribute :can_get_statistics, TD::Types::Bool
     attribute :can_get_message_thread, TD::Types::Bool
     attribute :can_get_viewers, TD::Types::Bool
@@ -79,7 +80,7 @@ module TD::Types
     attribute :edit_date, TD::Types::Coercible::Integer
     attribute :forward_info, TD::Types::MessageForwardInfo.optional.default(nil)
     attribute :interaction_info, TD::Types::MessageInteractionInfo.optional.default(nil)
-    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction).optional.default([])
+    attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction)
     attribute :reply_in_chat_id, TD::Types::Coercible::Integer
     attribute :reply_to_message_id, TD::Types::Coercible::Integer
     attribute :message_thread_id, TD::Types::Coercible::Integer

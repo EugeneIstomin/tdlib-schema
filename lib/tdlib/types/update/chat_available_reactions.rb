@@ -5,6 +5,6 @@ module TD::Types
   # @attr available_reactions [Array<TD::Types::String>] The new list of reactions, available in the chat.
   class Update::ChatAvailableReactions < Update
     attribute :chat_id, TD::Types::Coercible::Integer
-    attribute :available_reactions, TD::Types::Array.of(TD::Types::String).optional.default([])
+    attribute :available_reactions, TD::Types::Array.of(TD::Types::String)
   end
 end

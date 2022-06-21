@@ -1,7 +1,7 @@
 module TD::Types
   # The link contains a request of Telegram passport data.
   # Call getPassportAuthorizationForm with the given parameters to process the link if the link was received from
-  #   outside of the app, otherwise ignore it.
+  #   outside of the application, otherwise ignore it.
   #
   # @attr bot_user_id [Integer] User identifier of the service's bot.
   # @attr scope [TD::Types::String] Telegram Passport element types requested by the service.

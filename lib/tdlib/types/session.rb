@@ -7,6 +7,8 @@ module TD::Types
   # @attr is_password_pending [Boolean] True, if a password is needed to complete authorization of the session.
   # @attr can_accept_secret_chats [Boolean] True, if incoming secret chats can be accepted by the session.
   # @attr can_accept_calls [Boolean] True, if incoming calls can be accepted by the session.
+  # @attr type [TD::Types::SessionType] Session type based on the system and application version, which can be used to
+  #   display a corresponding icon.
   # @attr api_id [Integer] Telegram API identifier, as provided by the application.
   # @attr application_name [TD::Types::String] Name of the application, as provided by the application.
   # @attr application_version [TD::Types::String] The version of the application, as provided by the application.
@@ -30,6 +32,7 @@ module TD::Types
     attribute :is_password_pending, TD::Types::Bool
     attribute :can_accept_secret_chats, TD::Types::Bool
     attribute :can_accept_calls, TD::Types::Bool
+    attribute :type, TD::Types::SessionType
     attribute :api_id, TD::Types::Coercible::Integer
     attribute :application_name, TD::Types::String
     attribute :application_version, TD::Types::String

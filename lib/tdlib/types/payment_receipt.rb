@@ -2,11 +2,11 @@ module TD::Types
   # Contains information about a successful payment.
   #
   # @attr title [TD::Types::String] Product title.
-  # @attr description [TD::Types::String] Product description.
+  # @attr description [TD::Types::FormattedText] Product description.
   # @attr photo [TD::Types::Photo, nil] Product photo; may be null.
   # @attr date [Integer] Point in time (Unix timestamp) when the payment was made.
   # @attr seller_bot_user_id [Integer] User identifier of the seller bot.
-  # @attr payments_provider_user_id [Integer] User identifier of the payment provider bot.
+  # @attr payment_provider_user_id [Integer] User identifier of the payment provider bot.
   # @attr invoice [TD::Types::Invoice] Information about the invoice.
   # @attr order_info [TD::Types::OrderInfo, nil] Order information; may be null.
   # @attr shipping_option [TD::Types::ShippingOption, nil] Chosen shipping option; may be null.
@@ -14,11 +14,11 @@ module TD::Types
   # @attr tip_amount [Integer] The amount of tip chosen by the buyer in the smallest units of the currency.
   class PaymentReceipt < Base
     attribute :title, TD::Types::String
-    attribute :description, TD::Types::String
+    attribute :description, TD::Types::FormattedText
     attribute :photo, TD::Types::Photo.optional.default(nil)
     attribute :date, TD::Types::Coercible::Integer
     attribute :seller_bot_user_id, TD::Types::Coercible::Integer
-    attribute :payments_provider_user_id, TD::Types::Coercible::Integer
+    attribute :payment_provider_user_id, TD::Types::Coercible::Integer
     attribute :invoice, TD::Types::Invoice
     attribute :order_info, TD::Types::OrderInfo.optional.default(nil)
     attribute :shipping_option, TD::Types::ShippingOption.optional.default(nil)

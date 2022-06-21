@@ -68,9 +68,9 @@ module TD::Types
     attribute :last_read_inbox_message_id, TD::Types::Coercible::Integer
     attribute :last_read_outbox_message_id, TD::Types::Coercible::Integer
     attribute :unread_mention_count, TD::Types::Coercible::Integer
-    attribute :unread_reaction_count, TD::Types::Coercible::Integer.optional.default(nil)
+    attribute :unread_reaction_count, TD::Types::Coercible::Integer
     attribute :notification_settings, TD::Types::ChatNotificationSettings
-    attribute :available_reactions, TD::Types::Array.of(TD::Types::String).optional.default([])
+    attribute :available_reactions, TD::Types::Array.of(TD::Types::String)
     attribute :message_ttl, TD::Types::Coercible::Integer
     attribute :theme_name, TD::Types::String
     attribute :action_bar, TD::Types::ChatActionBar.optional.default(nil)

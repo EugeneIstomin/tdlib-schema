@@ -6,6 +6,7 @@ module TD::Types
       animation
       audio
       document
+      notification_sound
       photo
       profile_photo
       secret

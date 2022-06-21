@@ -47,6 +47,8 @@ module TD::Types
       payment_successful_bot
       contact_registered
       website_connected
+      web_app_data_sent
+      web_app_data_received
       passport_data_sent
       passport_data_received
       proximity_alert_triggered

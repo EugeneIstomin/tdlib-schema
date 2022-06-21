@@ -4,10 +4,8 @@ module TD::Types
   # @attr use_default_mute_for [Boolean] If true, mute_for is ignored and the value for the relevant type of chat is
   #   used instead.
   # @attr mute_for [Integer] Time left before notifications will be unmuted, in seconds.
-  # @attr use_default_sound [Boolean] If true, sound is ignored and the value for the relevant type of chat is used
-  #   instead.
-  # @attr sound [TD::Types::String] The name of an audio file to be used for notification sounds; only applies to iOS
-  #   applications.
+  # @attr use_default_sound [Boolean] If true, the value for the relevant type of chat is used instead of sound_id.
+  # @attr sound_id [Integer] Identifier of the notification sound to be played; 0 if sound is disabled.
   # @attr use_default_show_preview [Boolean] If true, show_preview is ignored and the value for the relevant type of
   #   chat is used instead.
   # @attr show_preview [Boolean] True, if message content must be displayed in notifications.
@@ -23,7 +21,7 @@ module TD::Types
     attribute :use_default_mute_for, TD::Types::Bool
     attribute :mute_for, TD::Types::Coercible::Integer
     attribute :use_default_sound, TD::Types::Bool
-    attribute :sound, TD::Types::String
+    attribute :sound_id, TD::Types::Coercible::Integer
     attribute :use_default_show_preview, TD::Types::Bool
     attribute :show_preview, TD::Types::Bool
     attribute :use_default_disable_pinned_message_notifications, TD::Types::Bool

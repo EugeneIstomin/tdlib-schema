@@ -1,7 +1,7 @@
 module TD::Types
   # Represents a list of reactions added to a message.
   #
-  # @attr total_count [Integer] The total count of found reactions.
+  # @attr total_count [Integer] The total number of found reactions.
   # @attr reactions [Array<TD::Types::AddedReaction>] The list of added reactions.
   # @attr next_offset [TD::Types::String] The offset for the next request.
   #   If empty, there are no more results.

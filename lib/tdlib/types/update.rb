@@ -61,6 +61,10 @@ module TD::Types
       file
       file_generation_start
       file_generation_stop
+      file_downloads
+      file_added_to_downloads
+      file_download
+      file_removed_from_downloads
       call
       group_call
       group_call_participant
@@ -75,12 +79,15 @@ module TD::Types
       recent_stickers
       favorite_stickers
       saved_animations
+      saved_notification_sounds
       selected_background
       chat_themes
       language_pack_strings
       connection_state
       terms_of_service
       users_nearby
+      attachment_menu_bots
+      web_app_message_sent
       reactions
       dice_emojis
       animated_emoji_message_clicked

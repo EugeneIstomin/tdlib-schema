@@ -2,8 +2,7 @@ module TD::Types
   # Contains information about notification settings for several chats.
   #
   # @attr mute_for [Integer] Time left before notifications will be unmuted, in seconds.
-  # @attr sound [TD::Types::String] The name of an audio file to be used for notification sounds; only applies to iOS
-  #   applications.
+  # @attr sound_id [Integer] Identifier of the notification sound to be played; 0 if sound is disabled.
   # @attr show_preview [Boolean] True, if message content must be displayed in notifications.
   # @attr disable_pinned_message_notifications [Boolean] True, if notifications for incoming pinned messages will be
   #   created as for an ordinary unread message.
@@ -11,7 +10,7 @@ module TD::Types
   #   for an ordinary unread message.
   class ScopeNotificationSettings < Base
     attribute :mute_for, TD::Types::Coercible::Integer
-    attribute :sound, TD::Types::String
+    attribute :sound_id, TD::Types::Coercible::Integer
     attribute :show_preview, TD::Types::Bool
     attribute :disable_pinned_message_notifications, TD::Types::Bool
     attribute :disable_mention_notifications, TD::Types::Bool

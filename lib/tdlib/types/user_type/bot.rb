@@ -10,11 +10,13 @@ module TD::Types
   #   input field).
   # @attr need_location [Boolean] True, if the location of the user is expected to be sent with every inline query to
   #   this bot.
+  # @attr can_be_added_to_attachment_menu [Boolean] True, if the bot can be added to attachment menu.
   class UserType::Bot < UserType
     attribute :can_join_groups, TD::Types::Bool
     attribute :can_read_all_group_messages, TD::Types::Bool
     attribute :is_inline, TD::Types::Bool
     attribute :inline_query_placeholder, TD::Types::String
     attribute :need_location, TD::Types::Bool
+    attribute :can_be_added_to_attachment_menu, TD::Types::Bool
   end
 end

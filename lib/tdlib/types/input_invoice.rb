@@ -1,0 +1,11 @@
+module TD::Types
+  # Describe an invoice to process.
+  class InputInvoice < Base
+    %w[
+      message
+      name
+    ].each do |type|
+      autoload TD::Types.camelize(type), "tdlib/types/input_invoice/#{type}"
+    end
+  end
+end

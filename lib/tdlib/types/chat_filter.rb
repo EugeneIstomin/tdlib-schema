@@ -8,8 +8,14 @@ module TD::Types
   #   "Travel", "Work".
   #   If empty, use getChatFilterDefaultIconName to get default icon name for the filter.
   # @attr pinned_chat_ids [Array<Integer>] The chat identifiers of pinned chats in the filtered chat list.
+  #   There can be up to GetOption("chat_filter_chosen_chat_count_max") pinned and always included non-secret chats and
+  #   the same number of secret chats, but the limit can be increased with Telegram Premium.
   # @attr included_chat_ids [Array<Integer>] The chat identifiers of always included chats in the filtered chat list.
+  #   There can be up to GetOption("chat_filter_chosen_chat_count_max") pinned and always included non-secret chats and
+  #   the same number of secret chats, but the limit can be increased with Telegram Premium.
   # @attr excluded_chat_ids [Array<Integer>] The chat identifiers of always excluded chats in the filtered chat list.
+  #   There can be up to GetOption("chat_filter_chosen_chat_count_max") always excluded non-secret chats and the same
+  #   number of secret chats, but the limit can be increased with Telegram Premium.
   # @attr exclude_muted [Boolean] True, if muted chats need to be excluded.
   # @attr exclude_read [Boolean] True, if read chats need to be excluded.
   # @attr exclude_archived [Boolean] True, if archived chats need to be excluded.

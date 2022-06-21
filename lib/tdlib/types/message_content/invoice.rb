@@ -2,7 +2,7 @@ module TD::Types
   # A message with an invoice from a bot.
   #
   # @attr title [TD::Types::String] Product title.
-  # @attr description [TD::Types::String] Product description.
+  # @attr description [TD::Types::FormattedText] Product description.
   # @attr photo [TD::Types::Photo, nil] Product photo; may be null.
   # @attr currency [TD::Types::String] Currency for the product price.
   # @attr total_amount [Integer] Product total price in the smallest units of the currency.
@@ -14,7 +14,7 @@ module TD::Types
   #   purchased.
   class MessageContent::Invoice < MessageContent
     attribute :title, TD::Types::String
-    attribute :description, TD::Types::String
+    attribute :description, TD::Types::FormattedText
     attribute :photo, TD::Types::Photo.optional.default(nil)
     attribute :currency, TD::Types::String
     attribute :total_amount, TD::Types::Coercible::Integer

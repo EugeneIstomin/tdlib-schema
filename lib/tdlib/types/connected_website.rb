@@ -9,7 +9,7 @@ module TD::Types
   # @attr log_in_date [Integer] Point in time (Unix timestamp) when the user was logged in.
   # @attr last_active_date [Integer] Point in time (Unix timestamp) when obtained authorization was last used.
   # @attr ip [TD::Types::String] IP address from which the user was logged in, in human-readable format.
-  # @attr location [TD::Types::String] Human-readable description of a country and a region, from which the user was
+  # @attr location [TD::Types::String] Human-readable description of a country and a region from which the user was
   #   logged in, based on the IP address.
   class ConnectedWebsite < Base
     attribute :id, TD::Types::Coercible::Integer

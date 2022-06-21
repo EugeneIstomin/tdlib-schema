@@ -8,7 +8,7 @@ module TD::Types
   # @attr name [TD::Types::String] Language name.
   # @attr native_name [TD::Types::String] Name of the language in that language.
   # @attr plural_code [TD::Types::String] A language code to be used to apply plural forms.
-  #   See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info.
+  #   See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more information.
   # @attr is_official [Boolean] True, if the language pack is official.
   # @attr is_rtl [Boolean] True, if the language pack strings are RTL.
   # @attr is_beta [Boolean] True, if the language pack is a beta language pack.

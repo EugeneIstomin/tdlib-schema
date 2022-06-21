@@ -9,6 +9,8 @@ module TD::Types
       copyright
       unrelated_location
       fake
+      illegal_drugs
+      personal_details
       custom
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/chat_report_reason/#{type}"

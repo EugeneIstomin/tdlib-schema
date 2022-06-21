@@ -5,6 +5,6 @@ module TD::Types
   # @attr unread_reaction_count [Integer] The number of messages with unread reactions left in the chat.
   class Update::ChatUnreadReactionCount < Update
     attribute :chat_id, TD::Types::Coercible::Integer
-    attribute :unread_reaction_count, TD::Types::Coercible::Integer.optional.default(nil)
+    attribute :unread_reaction_count, TD::Types::Coercible::Integer
   end
 end

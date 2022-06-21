@@ -10,6 +10,8 @@ module TD::Types
   #   paths; may be empty.
   #   The coordinate system origin is in the upper-left corner.
   # @attr thumbnail [TD::Types::Thumbnail, nil] Sticker thumbnail in WEBP or JPEG format; may be null.
+  # @attr premium_animation [TD::Types::File, nil] Premium animation of the sticker; may be null.
+  #   If present, only Premium users can send the sticker.
   # @attr sticker [TD::Types::File] File containing the sticker.
   class Sticker < Base
     attribute :set_id, TD::Types::Coercible::Integer
@@ -19,6 +21,7 @@ module TD::Types
     attribute :type, TD::Types::StickerType
     attribute :outline, TD::Types::Array.of(TD::Types::ClosedVectorPath).optional.default(nil)
     attribute :thumbnail, TD::Types::Thumbnail.optional.default(nil)
+    attribute :premium_animation, TD::Types::File.optional.default(nil)
     attribute :sticker, TD::Types::File
   end
 end
