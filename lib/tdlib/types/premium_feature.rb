@@ -9,6 +9,7 @@ module TD::Types
       disabled_ads
       unique_reactions
       unique_stickers
+      custom_emoji
       advanced_chat_management
       profile_badge
       animated_profile_photo

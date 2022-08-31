@@ -14,6 +14,7 @@ module TD::Types
   # @attr is_archived [Boolean] True, if the sticker set has been archived.
   #   A sticker set can't be installed and archived simultaneously.
   # @attr is_official [Boolean] True, if the sticker set is official.
+  # @attr sticker_format [TD::Types::StickerFormat] Format of the stickers in the set.
   # @attr sticker_type [TD::Types::StickerType] Type of the stickers in the set.
   # @attr is_viewed [Boolean] True for already viewed trending sticker sets.
   # @attr stickers [Array<TD::Types::Sticker>] List of stickers in this set.
@@ -29,6 +30,7 @@ module TD::Types
     attribute :is_installed, TD::Types::Bool
     attribute :is_archived, TD::Types::Bool
     attribute :is_official, TD::Types::Bool
+    attribute :sticker_format, TD::Types::StickerFormat
     attribute :sticker_type, TD::Types::StickerType
     attribute :is_viewed, TD::Types::Bool
     attribute :stickers, TD::Types::Array.of(TD::Types::Sticker)

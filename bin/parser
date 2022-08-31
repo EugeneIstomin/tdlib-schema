@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby.ruby3.1
 require 'active_support/all'
 
 AUTOLOAD_BASE_DIR  = 'tdlib/types'

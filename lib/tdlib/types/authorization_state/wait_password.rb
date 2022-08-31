@@ -1,5 +1,5 @@
 module TD::Types
-  # The user has been authorized, but needs to enter a password to start using the application.
+  # The user has been authorized, but needs to enter a 2-step verification password to start using the application.
   #
   # @attr password_hint [TD::Types::String, nil] Hint for the password; may be empty.
   # @attr has_recovery_email_address [Boolean] True, if a recovery email address has been set up.

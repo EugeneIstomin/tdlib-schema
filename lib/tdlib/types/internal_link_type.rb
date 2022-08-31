@@ -25,6 +25,7 @@ module TD::Types
       proxy
       public_chat
       qr_code_authentication
+      restore_purchases
       settings
       sticker_set
       theme

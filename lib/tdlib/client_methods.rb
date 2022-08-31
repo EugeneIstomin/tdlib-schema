@@ -96,6 +96,7 @@ module TD::ClientMethods
   # The new sticker is added to the top of the list.
   # If the sticker was already in the list, it is removed from the list first.
   # Only stickers belonging to a sticker set can be added to this list.
+  # Emoji stickers can't be added to favorite stickers.
   #
   # @param sticker [TD::Types::InputFile] Sticker file to add.
   # @return [TD::Types::Ok]
@@ -188,6 +189,7 @@ module TD::ClientMethods
   # The new sticker is added to the top of the list.
   # If the sticker was already in the list, it is removed from the list first.
   # Only stickers belonging to a sticker set can be added to this list.
+  # Emoji stickers can't be added to recent stickers.
   #
   # @param is_attached [Boolean] Pass true to add the sticker to the list of stickers recently attached to photo or
   #   video files; pass false to add the sticker to the list of recently sent stickers.
@@ -337,6 +339,34 @@ module TD::ClientMethods
               'result'           => result)
   end
   
+  # Informs server about a purchase through App Store.
+  # For official applications only.
+  #
+  # @param receipt [String] App Store receipt.
+  # @param purpose [TD::Types::StorePaymentPurpose] Transaction purpose.
+  # @return [TD::Types::Ok]
+  def assign_app_store_transaction(receipt:, purpose:)
+    broadcast('@type'   => 'assignAppStoreTransaction',
+              'receipt' => receipt,
+              'purpose' => purpose)
+  end
+  
+  # Informs server about a purchase through Google Play.
+  # For official applications only.
+  #
+  # @param package_name [TD::Types::String] Application package name.
+  # @param store_product_id [TD::Types::String] Identifier of the purchased store product.
+  # @param purchase_token [TD::Types::String] Google Play purchase token.
+  # @param purpose [TD::Types::StorePaymentPurpose] Transaction purpose.
+  # @return [TD::Types::Ok]
+  def assign_google_play_transaction(package_name:, store_product_id:, purchase_token:, purpose:)
+    broadcast('@type'            => 'assignGooglePlayTransaction',
+              'package_name'     => package_name,
+              'store_product_id' => store_product_id,
+              'purchase_token'   => purchase_token,
+              'purpose'          => purpose)
+  end
+  
   # Bans a member in a chat.
   # Members can't be banned in private or secret chats.
   # In supergroups and channels, the user will not be able to return to the group on their own using invite links,
@@ -374,6 +404,16 @@ module TD::ClientMethods
               'report_spam'         => report_spam)
   end
   
+  # Checks whether Telegram Premium purchase is possible.
+  # Must be called before in-store Premium purchase.
+  #
+  # @param purpose [TD::Types::StorePaymentPurpose] Transaction purpose.
+  # @return [TD::Types::Ok]
+  def can_purchase_premium(purpose:)
+    broadcast('@type'   => 'canPurchasePremium',
+              'purpose' => purpose)
+  end
+  
   # Checks whether the current session can be used to transfer a chat ownership to another user.
   #
   # @return [TD::Types::CanTransferOwnershipResult]
@@ -402,14 +442,14 @@ module TD::ClientMethods
     broadcast('@type' => 'cancelPasswordReset')
   end
   
-  # Stops the uploading of a file.
-  # Supported only for files uploaded by using uploadFile.
+  # Stops the preliminary uploading of a file.
+  # Supported only for files uploaded by using preliminaryUploadFile.
   # For other files the behavior is undefined.
   #
   # @param file_id [Integer] Identifier of the file to stop uploading.
   # @return [TD::Types::Ok]
-  def cancel_upload_file(file_id:)
-    broadcast('@type'   => 'cancelUploadFile',
+  def cancel_preliminary_upload_file(file_id:)
+    broadcast('@type'   => 'cancelPreliminaryUploadFile',
               'file_id' => file_id)
   end
   
@@ -473,17 +513,17 @@ module TD::ClientMethods
               'code'  => code)
   end
   
-  # Checks the authentication password for correctness.
+  # Checks the 2-step verification password for correctness.
   # Works only when the current authorization state is authorizationStateWaitPassword.
   #
-  # @param password [TD::Types::String] The password to check.
+  # @param password [TD::Types::String] The 2-step verification password to check.
   # @return [TD::Types::Ok]
   def check_authentication_password(password:)
     broadcast('@type'    => 'checkAuthenticationPassword',
               'password' => password)
   end
   
-  # Checks whether a password recovery code sent to an email address is valid.
+  # Checks whether a 2-step verification password recovery code sent to an email address is valid.
   # Works only when the current authorization state is authorizationStateWaitPassword.
   #
   # @param recovery_code [TD::Types::String] Recovery code to check.
@@ -809,18 +849,20 @@ module TD::ClientMethods
   # @param name [TD::Types::String, nil] Sticker set name.
   #   Can contain only English letters, digits and underscores.
   #   Must end with *"_by_<bot username>"* (*<bot_username>* is case insensitive) for bots; 1-64 characters.
+  # @param sticker_type [TD::Types::StickerType, nil] Type of the stickers in the set.
   # @param stickers [Array<TD::Types::InputSticker>] List of stickers to be added to the set; must be non-empty.
   #   All stickers must have the same format.
   #   For TGS stickers, uploadStickerFile must be used before the sticker is shown.
   # @param source [TD::Types::String, nil] Source of the sticker set; may be empty if unknown.
   # @return [TD::Types::StickerSet]
-  def create_new_sticker_set(user_id: nil, title: nil, name: nil, stickers:, source: nil)
-    broadcast('@type'    => 'createNewStickerSet',
-              'user_id'  => user_id,
-              'title'    => title,
-              'name'     => name,
-              'stickers' => stickers,
-              'source'   => source)
+  def create_new_sticker_set(user_id: nil, title: nil, name: nil, sticker_type: nil, stickers:, source: nil)
+    broadcast('@type'        => 'createNewStickerSet',
+              'user_id'      => user_id,
+              'title'        => title,
+              'name'         => name,
+              'sticker_type' => sticker_type,
+              'stickers'     => stickers,
+              'source'       => source)
   end
   
   # Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate.
@@ -877,7 +919,7 @@ module TD::ClientMethods
   
   # Creates a new temporary password for processing payments.
   #
-  # @param password [TD::Types::String] Persistent user password.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @param valid_for [Integer] Time during which the temporary password will be valid, in seconds; must be between 60
   #   and 86400.
   # @return [TD::Types::TemporaryPasswordState]
@@ -911,10 +953,13 @@ module TD::ClientMethods
   # Can be called before authorization when the current authorization state is authorizationStateWaitPassword.
   #
   # @param reason [TD::Types::String, nil] The reason why the account was deleted; optional.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
+  #   If not specified, account deletion can be canceled within one week.
   # @return [TD::Types::Ok]
-  def delete_account(reason: nil)
-    broadcast('@type'  => 'deleteAccount',
-              'reason' => reason)
+  def delete_account(reason: nil, password:)
+    broadcast('@type'    => 'deleteAccount',
+              'reason'   => reason,
+              'password' => password)
   end
   
   # Deletes all call messages.
@@ -1537,16 +1582,9 @@ module TD::ClientMethods
     broadcast('@type' => 'getActiveSessions')
   end
   
-  # Returns all emojis, which has a corresponding animated emoji.
-  #
-  # @return [TD::Types::Emojis]
-  def get_all_animated_emojis
-    broadcast('@type' => 'getAllAnimatedEmojis')
-  end
-  
   # Returns all available Telegram Passport elements.
   #
-  # @param password [TD::Types::String] Password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @return [TD::Types::PassportElements]
   def get_all_passport_elements(password:)
     broadcast('@type'    => 'getAllPassportElements',
@@ -1581,13 +1619,13 @@ module TD::ClientMethods
   
   # Returns a list of archived sticker sets.
   #
-  # @param is_masks [Boolean] Pass true to return mask stickers sets; pass false to return ordinary sticker sets.
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to return.
   # @param offset_sticker_set_id [Integer] Identifier of the sticker set from which to return the result.
   # @param limit [Integer] The maximum number of sticker sets to return; up to 100.
   # @return [TD::Types::StickerSets]
-  def get_archived_sticker_sets(is_masks:, offset_sticker_set_id:, limit:)
+  def get_archived_sticker_sets(sticker_type:, offset_sticker_set_id:, limit:)
     broadcast('@type'                 => 'getArchivedStickerSets',
-              'is_masks'              => is_masks,
+              'sticker_type'          => sticker_type,
               'offset_sticker_set_id' => offset_sticker_set_id,
               'limit'                 => limit)
   end
@@ -1744,8 +1782,7 @@ module TD::ClientMethods
   # Returns a list of service actions taken by chat members and administrators in the last 48 hours.
   # Available only for supergroups and channels.
   # Requires administrator rights.
-  # Returns results in reverse chronological order (i.
-  # e., in order of decreasing event_id).
+  # Returns results in reverse chronological order (i.e., in order of decreasing event_id).
   #
   # @param chat_id [Integer] Chat identifier.
   # @param query [TD::Types::String] Search query by which to filter events.
@@ -2116,6 +2153,18 @@ module TD::ClientMethods
     broadcast('@type' => 'getCurrentState')
   end
   
+  # Returns list of custom emoji stickers by their identifiers.
+  # Stickers are returned in arbitrary order.
+  # Only found stickers are returned.
+  #
+  # @param custom_emoji_ids [Array<Integer>] Identifiers of custom emoji stickers.
+  #   At most 200 custom emoji stickers can be received simultaneously.
+  # @return [TD::Types::Stickers]
+  def get_custom_emoji_stickers(custom_emoji_ids:)
+    broadcast('@type'            => 'getCustomEmojiStickers',
+              'custom_emoji_ids' => custom_emoji_ids)
+  end
+  
   # Returns database statistics.
   #
   # @return [TD::Types::DatabaseStatistics]
@@ -2346,11 +2395,11 @@ module TD::ClientMethods
   
   # Returns a list of installed sticker sets.
   #
-  # @param is_masks [Boolean] Pass true to return mask sticker sets; pass false to return ordinary sticker sets.
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to return.
   # @return [TD::Types::StickerSets]
-  def get_installed_sticker_sets(is_masks:)
-    broadcast('@type'    => 'getInstalledStickerSets',
-              'is_masks' => is_masks)
+  def get_installed_sticker_sets(sticker_type:)
+    broadcast('@type'        => 'getInstalledStickerSets',
+              'sticker_type' => sticker_type)
   end
   
   # Returns information about the type of an internal link.
@@ -2586,7 +2635,6 @@ module TD::ClientMethods
   # Returns reactions, which can be added to a message.
   # The list can change after updateReactions, updateChatAvailableReactions for the chat, or
   #   updateMessageInteractionInfo for the message.
-  # The method will return Premium reactions, even the current user has no Premium subscription.
   #
   # @param chat_id [Integer] Identifier of the chat to which the message belongs.
   # @param message_id [Integer] Identifier of the message.
@@ -2787,6 +2835,7 @@ module TD::ClientMethods
   # Returns the value of an option by its name.
   # (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before
   #   authorization.
+  # Can be called synchronously for options "version" and "commit_hash".
   #
   # @param name [TD::Types::String] The name of the option.
   # @return [TD::Types::OptionValue]
@@ -2815,7 +2864,7 @@ module TD::ClientMethods
   # Result can be received only once for each authorization form.
   #
   # @param autorization_form_id [Integer] Authorization form identifier.
-  # @param password [TD::Types::String] Password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @return [TD::Types::PassportElementsWithErrors]
   def get_passport_authorization_form_available_elements(autorization_form_id:, password:)
     broadcast('@type'                => 'getPassportAuthorizationFormAvailableElements',
@@ -2826,7 +2875,7 @@ module TD::ClientMethods
   # Returns one of the available Telegram Passport elements.
   #
   # @param type [TD::Types::PassportElementType] Telegram Passport element type.
-  # @param password [TD::Types::String] Password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @return [TD::Types::PassportElement]
   def get_passport_element(type:, password:)
     broadcast('@type'    => 'getPassportElement',
@@ -2949,8 +2998,17 @@ module TD::ClientMethods
   # Returns examples of premium stickers for demonstration purposes.
   #
   # @return [TD::Types::Stickers]
-  def get_premium_stickers
-    broadcast('@type' => 'getPremiumStickers')
+  def get_premium_sticker_examples
+    broadcast('@type' => 'getPremiumStickerExamples')
+  end
+  
+  # Returns premium stickers from regular sticker sets.
+  #
+  # @param limit [Integer] The maximum number of stickers to be returned; 0-100.
+  # @return [TD::Types::Stickers]
+  def get_premium_stickers(limit:)
+    broadcast('@type' => 'getPremiumStickers',
+              'limit' => limit)
   end
   
   # Returns list of proxies that are currently set up.
@@ -3029,7 +3087,7 @@ module TD::ClientMethods
   # Returns a 2-step verification recovery email address that was previously set up.
   # This method can be used to verify a password provided by the user.
   #
-  # @param password [TD::Types::String] The password for the current user.
+  # @param password [TD::Types::String] The 2-step verification password for the current user.
   # @return [TD::Types::RecoveryEmailAddress]
   def get_recovery_email_address(password:)
     broadcast('@type'    => 'getRecoveryEmailAddress',
@@ -3151,16 +3209,21 @@ module TD::ClientMethods
   end
   
   # Returns stickers from the installed sticker sets that correspond to a given emoji.
-  # If the emoji is non-empty, favorite and recently used stickers may also be returned.
+  # If the emoji is non-empty, then favorite, recently used or trending stickers may also be returned.
   #
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to return.
   # @param emoji [TD::Types::String] String representation of emoji.
   #   If empty, returns all known installed stickers.
   # @param limit [Integer] The maximum number of stickers to be returned.
+  # @param chat_id [Integer] Chat identifier for which to return stickers.
+  #   Available custom emoji may be different for different chats.
   # @return [TD::Types::Stickers]
-  def get_stickers(emoji:, limit:)
-    broadcast('@type' => 'getStickers',
-              'emoji' => emoji,
-              'limit' => limit)
+  def get_stickers(sticker_type:, emoji:, limit:, chat_id:)
+    broadcast('@type'        => 'getStickers',
+              'sticker_type' => sticker_type,
+              'emoji'        => emoji,
+              'limit'        => limit,
+              'chat_id'      => chat_id)
   end
   
   # Returns storage usage statistics.
@@ -3301,15 +3364,17 @@ module TD::ClientMethods
   # Returns a list of trending sticker sets.
   # For optimal performance, the number of returned sticker sets is chosen by TDLib.
   #
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to return.
   # @param offset [Integer] The offset from which to return the sticker sets; must be non-negative.
   # @param limit [Integer] The maximum number of sticker sets to be returned; up to 100.
   #   For optimal performance, the number of returned sticker sets is chosen by TDLib and can be smaller than the
   #   specified limit, even if the end of the list has not been reached.
   # @return [TD::Types::TrendingStickerSets]
-  def get_trending_sticker_sets(offset:, limit:)
-    broadcast('@type'  => 'getTrendingStickerSets',
-              'offset' => offset,
-              'limit'  => limit)
+  def get_trending_sticker_sets(sticker_type:, offset:, limit:)
+    broadcast('@type'        => 'getTrendingStickerSets',
+              'sticker_type' => sticker_type,
+              'offset'       => offset,
+              'limit'        => limit)
   end
   
   # Returns information about a user by their identifier.
@@ -3352,6 +3417,15 @@ module TD::ClientMethods
               'user_id' => user_id,
               'offset'  => offset,
               'limit'   => limit)
+  end
+  
+  # Returns support information for the given user; for Telegram support only.
+  #
+  # @param user_id [Integer] User identifier.
+  # @return [TD::Types::UserSupportInfo]
+  def get_user_support_info(user_id:)
+    broadcast('@type'   => 'getUserSupportInfo',
+              'user_id' => user_id)
   end
   
   # Returns list of participant identifiers, on whose behalf a video chat in the chat can be joined.
@@ -3663,8 +3737,8 @@ module TD::ClientMethods
               'text'  => text)
   end
   
-  # Parses Bold, Italic, Underline, Strikethrough, Spoiler, Code, Pre, PreCode, TextUrl and MentionName entities
-  #   contained in the text.
+  # Parses Bold, Italic, Underline, Strikethrough, Spoiler, CustomEmoji, Code, Pre, PreCode, TextUrl and MentionName
+  #   entities contained in the text.
   # Can be called synchronously.
   #
   # @param text [TD::Types::String] The text to parse.
@@ -3701,6 +3775,25 @@ module TD::ClientMethods
   def ping_proxy(proxy_id:)
     broadcast('@type'    => 'pingProxy',
               'proxy_id' => proxy_id)
+  end
+  
+  # Preliminary uploads a file to the cloud before sending it in a message, which can be useful for uploading of being
+  #   recorded voice and video notes.
+  # Updates updateFile will be used to notify about upload progress and successful completion of the upload.
+  # The file will not have a persistent remote identifier until it will be sent in a message.
+  #
+  # @param file [TD::Types::InputFile] File to upload.
+  # @param file_type [TD::Types::FileType] File type; pass null if unknown.
+  # @param priority [Integer] Priority of the upload (1-32).
+  #   The higher the priority, the earlier the file will be uploaded.
+  #   If the priorities of two files are equal, then the first one for which preliminaryUploadFile was called will be
+  #   uploaded first.
+  # @return [TD::Types::File]
+  def preliminary_upload_file(file:, file_type:, priority:)
+    broadcast('@type'     => 'preliminaryUploadFile',
+              'file'      => file,
+              'file_type' => file_type,
+              'priority'  => priority)
   end
   
   # Handles a pending join request in a chat.
@@ -3807,11 +3900,13 @@ module TD::ClientMethods
               'message_id' => message_id)
   end
   
-  # Recovers the password with a password recovery code sent to an email address that was previously set up.
+  # Recovers the 2-step verification password with a password recovery code sent to an email address that was
+  #   previously set up.
   # Works only when the current authorization state is authorizationStateWaitPassword.
   #
   # @param recovery_code [TD::Types::String] Recovery code to check.
-  # @param new_password [TD::Types::String, nil] New password of the user; may be empty to remove the password.
+  # @param new_password [TD::Types::String, nil] New 2-step verification password of the user; may be empty to remove
+  #   the password.
   # @param new_hint [TD::Types::String, nil] New password hint; may be empty.
   # @return [TD::Types::Ok]
   def recover_authentication_password(recovery_code:, new_password: nil, new_hint: nil)
@@ -3825,7 +3920,8 @@ module TD::ClientMethods
   #   up.
   #
   # @param recovery_code [TD::Types::String] Recovery code to check.
-  # @param new_password [TD::Types::String, nil] New password of the user; may be empty to remove the password.
+  # @param new_password [TD::Types::String, nil] New 2-step verification password of the user; may be empty to remove
+  #   the password.
   # @param new_hint [TD::Types::String, nil] New password hint; may be empty.
   # @return [TD::Types::PasswordState]
   def recover_password(recovery_code:, new_password: nil, new_hint: nil)
@@ -4037,13 +4133,12 @@ module TD::ClientMethods
   
   # Changes the order of installed sticker sets.
   #
-  # @param is_masks [Boolean] Pass true to change the order of mask sticker sets; pass false to change the order of
-  #   ordinary sticker sets.
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to reorder.
   # @param sticker_set_ids [Array<Integer>] Identifiers of installed sticker sets in the new correct order.
   # @return [TD::Types::Ok]
-  def reorder_installed_sticker_sets(is_masks:, sticker_set_ids:)
+  def reorder_installed_sticker_sets(sticker_type:, sticker_set_ids:)
     broadcast('@type'           => 'reorderInstalledStickerSets',
-              'is_masks'        => is_masks,
+              'sticker_type'    => sticker_type,
               'sticker_set_ids' => sticker_set_ids)
   end
   
@@ -4111,7 +4206,7 @@ module TD::ClientMethods
               'message_ids'   => message_ids)
   end
   
-  # Requests to send a password recovery code to an email address that was previously set up.
+  # Requests to send a 2-step verification password recovery code to an email address that was previously set up.
   # Works only when the current authorization state is authorizationStateWaitPassword.
   #
   # @return [TD::Types::Ok]
@@ -4281,8 +4376,7 @@ module TD::ClientMethods
   end
   
   # Searches for call messages.
-  # Returns the results in reverse chronological order (i.
-  # e., in order of decreasing message_id).
+  # Returns the results in reverse chronological order (i.e., in order of decreasing message_id).
   # For optimal performance, the number of returned messages is chosen by TDLib.
   #
   # @param from_message_id [Integer] Identifier of the message from which to search; use 0 to get results from the last
@@ -4460,15 +4554,15 @@ module TD::ClientMethods
   
   # Searches for installed sticker sets by looking for specified query in their title and name.
   #
-  # @param is_masks [Boolean] Pass true to return mask sticker sets; pass false to return ordinary sticker sets.
+  # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to search for.
   # @param query [TD::Types::String] Query to search for.
   # @param limit [Integer] The maximum number of sticker sets to return.
   # @return [TD::Types::StickerSets]
-  def search_installed_sticker_sets(is_masks:, query:, limit:)
-    broadcast('@type'    => 'searchInstalledStickerSets',
-              'is_masks' => is_masks,
-              'query'    => query,
-              'limit'    => limit)
+  def search_installed_sticker_sets(sticker_type:, query:, limit:)
+    broadcast('@type'        => 'searchInstalledStickerSets',
+              'sticker_type' => sticker_type,
+              'query'        => query,
+              'limit'        => limit)
   end
   
   # Searches for messages in all chats except secret chats.
@@ -4590,7 +4684,7 @@ module TD::ClientMethods
   # Searches for stickers from public sticker sets that correspond to a given emoji.
   #
   # @param emoji [TD::Types::String] String representation of emoji; must be non-empty.
-  # @param limit [Integer, nil] The maximum number of stickers to be returned.
+  # @param limit [Integer, nil] The maximum number of stickers to be returned; 0-100.
   # @return [TD::Types::Stickers]
   def search_stickers(emoji:, limit: nil)
     broadcast('@type' => 'searchStickers',
@@ -5075,7 +5169,7 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Chat identifier.
   # @param notification_settings [TD::Types::ChatNotificationSettings] New notification settings for the chat.
-  #   If the chat is muted for more than 1 week, it is considered to be muted forever.
+  #   If the chat is muted for more than 366 days, it is considered to be muted forever.
   # @return [TD::Types::Ok]
   def set_chat_notification_settings(chat_id:, notification_settings:)
     broadcast('@type'                 => 'setChatNotificationSettings',
@@ -5438,7 +5532,7 @@ module TD::ClientMethods
   #   number or the chosen email address must be verified first.
   #
   # @param element [TD::Types::InputPassportElement] Input Telegram Passport element.
-  # @param password [TD::Types::String] Password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @return [TD::Types::PassportElement]
   def set_passport_element(element:, password:)
     broadcast('@type'    => 'setPassportElement',
@@ -5458,12 +5552,13 @@ module TD::ClientMethods
               'errors'  => errors)
   end
   
-  # Changes the password for the current user.
+  # Changes the 2-step verification password for the current user.
   # If a new recovery email address is specified, then the change will not be applied until the new recovery email
   #   address is confirmed.
   #
-  # @param old_password [TD::Types::String] Previous password of the user.
-  # @param new_password [TD::Types::String, nil] New password of the user; may be empty to remove the password.
+  # @param old_password [TD::Types::String] Previous 2-step verification password of the user.
+  # @param new_password [TD::Types::String, nil] New 2-step verification password of the user; may be empty to remove
+  #   the password.
   # @param new_hint [TD::Types::String, nil] New password hint; may be empty.
   # @param set_recovery_email_address [Boolean] Pass true to change also the recovery email address.
   # @param new_recovery_email_address [TD::Types::String, nil] New recovery email address; may be empty.
@@ -5519,7 +5614,7 @@ module TD::ClientMethods
   # If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds
   #   immediately and aborts all other requests waiting for an email confirmation.
   #
-  # @param password [TD::Types::String] Password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @param new_recovery_email_address [TD::Types::String] New recovery email address.
   # @return [TD::Types::PasswordState]
   def set_recovery_email_address(password:, new_recovery_email_address:)
@@ -5611,6 +5706,17 @@ module TD::ClientMethods
     broadcast('@type'   => 'setUserPrivacySettingRules',
               'setting' => setting,
               'rules'   => rules)
+  end
+  
+  # Sets support information for the given user; for Telegram support only.
+  #
+  # @param user_id [Integer] User identifier.
+  # @param message [TD::Types::FormattedText] New information message.
+  # @return [TD::Types::UserSupportInfo]
+  def set_user_support_info(user_id:, message:)
+    broadcast('@type'   => 'setUserSupportInfo',
+              'user_id' => user_id,
+              'message' => message)
   end
   
   # Changes the username of the current user.
@@ -5996,7 +6102,7 @@ module TD::ClientMethods
   # @param chat_id [Integer] Chat identifier.
   # @param user_id [Integer] Identifier of the user to which transfer the ownership.
   #   The ownership can't be transferred to a bot or to a deleted user.
-  # @param password [TD::Types::String] The password of the current user.
+  # @param password [TD::Types::String] The 2-step verification password of the current user.
   # @return [TD::Types::Ok]
   def transfer_chat_ownership(chat_id:, user_id:, password:)
     broadcast('@type'    => 'transferChatOwnership',
@@ -6053,24 +6159,6 @@ module TD::ClientMethods
   def upgrade_basic_group_chat_to_supergroup_chat(chat_id:)
     broadcast('@type'   => 'upgradeBasicGroupChatToSupergroupChat',
               'chat_id' => chat_id)
-  end
-  
-  # Asynchronously uploads a file to the cloud without sending it in a message.
-  # updateFile will be used to notify about upload progress and successful completion of the upload.
-  # The file will not have a persistent remote identifier until it will be sent in a message.
-  #
-  # @param file [TD::Types::InputFile] File to upload.
-  # @param file_type [TD::Types::FileType] File type; pass null if unknown.
-  # @param priority [Integer] Priority of the upload (1-32).
-  #   The higher the priority, the earlier the file will be uploaded.
-  #   If the priorities of two files are equal, then the first one for which uploadFile was called will be uploaded
-  #   first.
-  # @return [TD::Types::File]
-  def upload_file(file:, file_type:, priority:)
-    broadcast('@type'     => 'uploadFile',
-              'file'      => file,
-              'file_type' => file_type,
-              'priority'  => priority)
   end
   
   # Uploads a file with a sticker; returns the uploaded file.

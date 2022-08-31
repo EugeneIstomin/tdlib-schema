@@ -5,8 +5,11 @@ module TD::Types
   #
   # @attr bot_username [TD::Types::String] Username of the bot.
   # @attr start_parameter [TD::Types::String] The parameter to be passed to sendBotStartMessage.
+  # @attr autostart [Boolean] True, if sendBotStartMessage must be called automatically without showing the START
+  #   button.
   class InternalLinkType::BotStart < InternalLinkType
     attribute :bot_username, TD::Types::String
     attribute :start_parameter, TD::Types::String
+    attribute :autostart, TD::Types::Bool
   end
 end

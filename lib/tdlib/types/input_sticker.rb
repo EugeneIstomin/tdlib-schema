@@ -6,10 +6,12 @@ module TD::Types
   #   Otherwise, the file must be local or uploaded within a week.
   #   See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements.
   # @attr emojis [TD::Types::String] Emojis corresponding to the sticker.
-  # @attr type [TD::Types::StickerType] Sticker type.
+  # @attr format [TD::Types::StickerFormat] Sticker format.
+  # @attr mask_position [TD::Types::MaskPosition] Position where the mask is placed; pass null if not specified.
   class InputSticker < Base
     attribute :sticker, TD::Types::InputFile
     attribute :emojis, TD::Types::String
-    attribute :type, TD::Types::StickerType
+    attribute :format, TD::Types::StickerFormat
+    attribute :mask_position, TD::Types::MaskPosition
   end
 end

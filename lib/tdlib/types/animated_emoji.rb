@@ -1,13 +1,13 @@
 module TD::Types
-  # Describes an animated representation of an emoji.
+  # Describes an animated or custom representation of an emoji.
   #
-  # @attr sticker [TD::Types::Sticker] Animated sticker for the emoji.
+  # @attr sticker [TD::Types::Sticker, nil] Sticker for the emoji; may be null if yet unknown for a custom emoji.
+  #   If the sticker is a custom emoji, it can have arbitrary format different from stickerFormatTgs.
   # @attr fitzpatrick_type [Integer] Emoji modifier fitzpatrick type; 0-6; 0 if none.
-  # @attr sound [TD::Types::File, nil] File containing the sound to be played when the animated emoji is clicked; may
-  #   be null.
+  # @attr sound [TD::Types::File, nil] File containing the sound to be played when the sticker is clicked; may be null.
   #   The sound is encoded with the Opus codec, and stored inside an OGG container.
   class AnimatedEmoji < Base
-    attribute :sticker, TD::Types::Sticker
+    attribute :sticker, TD::Types::Sticker.optional.default(nil)
     attribute :fitzpatrick_type, TD::Types::Coercible::Integer
     attribute :sound, TD::Types::File.optional.default(nil)
   end

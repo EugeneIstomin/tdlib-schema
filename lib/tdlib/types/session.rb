@@ -4,7 +4,8 @@ module TD::Types
   #
   # @attr id [Integer] Session identifier.
   # @attr is_current [Boolean] True, if this session is the current session.
-  # @attr is_password_pending [Boolean] True, if a password is needed to complete authorization of the session.
+  # @attr is_password_pending [Boolean] True, if a 2-step verification password is needed to complete authorization of
+  #   the session.
   # @attr can_accept_secret_chats [Boolean] True, if incoming secret chats can be accepted by the session.
   # @attr can_accept_calls [Boolean] True, if incoming calls can be accepted by the session.
   # @attr type [TD::Types::SessionType] Session type based on the system and application version, which can be used to

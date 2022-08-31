@@ -5,7 +5,6 @@ module TD::Types
   # @attr limits [Array<TD::Types::PremiumLimit>] The list of limits, increased for Premium users.
   # @attr payment_link [TD::Types::InternalLinkType, nil] An internal link to be opened to pay for Telegram Premium if
   #   store payment isn't possible; may be null if direct payment isn't available.
-  #   If the link has type internalLinkTypeBotStart, then sendBotStartMessage must be called automatically.
   class PremiumFeatures < Base
     attribute :features, TD::Types::Array.of(TD::Types::PremiumFeature)
     attribute :limits, TD::Types::Array.of(TD::Types::PremiumLimit)

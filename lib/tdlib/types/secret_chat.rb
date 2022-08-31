@@ -13,7 +13,8 @@ module TD::Types
   #   2-digit hex numbers.
   # @attr layer [Integer] Secret chat layer; determines features supported by the chat partner's application.
   #   Nested text entities and underline and strikethrough entities are supported if the layer >= 101, files bigger
-  #   than 2000MB are supported if the layer >= 143.
+  #   than 2000MB are supported if the layer >= 143, spoiler and custom emoji text entities are supported if the layer >=
+  #   144.
   class SecretChat < Base
     attribute :id, TD::Types::Coercible::Integer
     attribute :user_id, TD::Types::Coercible::Integer

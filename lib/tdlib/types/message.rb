@@ -20,7 +20,7 @@ module TD::Types
   #   getMessageAddedReactions.
   # @attr can_get_statistics [Boolean] True, if the message statistics are available through getMessageStatistics.
   # @attr can_get_message_thread [Boolean] True, if information about the message thread is available through
-  #   getMessageThread.
+  #   getMessageThread and getMessageThreadHistory.
   # @attr can_get_viewers [Boolean] True, if chat members already viewed the message can be received through
   #   getMessageViewers.
   # @attr can_get_media_timestamp_links [Boolean] True, if media timestamp links can be generated for media timestamp

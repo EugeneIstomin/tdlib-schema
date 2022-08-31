@@ -45,6 +45,7 @@ module TD::Types
       game_score
       payment_successful
       payment_successful_bot
+      gifted_premium
       contact_registered
       website_connected
       web_app_data_sent
