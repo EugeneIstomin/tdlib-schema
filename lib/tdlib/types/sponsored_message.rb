@@ -8,6 +8,7 @@ module TD::Types
   #   link.
   # @attr sponsor_chat_info [TD::Types::ChatInviteLinkInfo, nil] Information about the sponsor chat; may be null unless
   #   sponsor_chat_id == 0.
+  # @attr show_chat_photo [Boolean] True, if the sponsor's chat photo must be shown.
   # @attr link [TD::Types::InternalLinkType, nil] An internal link to be opened when the sponsored message is clicked;
   #   may be null if the sponsor chat needs to be opened instead.
   # @attr content [TD::Types::MessageContent] Content of the message.
@@ -17,6 +18,7 @@ module TD::Types
     attribute :is_recommended, TD::Types::Bool
     attribute :sponsor_chat_id, TD::Types::Coercible::Integer
     attribute :sponsor_chat_info, TD::Types::ChatInviteLinkInfo.optional.default(nil)
+    attribute :show_chat_photo, TD::Types::Bool
     attribute :link, TD::Types::InternalLinkType.optional.default(nil)
     attribute :content, TD::Types::MessageContent
   end

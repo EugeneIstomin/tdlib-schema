@@ -15,6 +15,7 @@ module TD::Types
   # @attr can_change_info [Boolean] True, if the user can change the chat title, photo, and other settings.
   # @attr can_invite_users [Boolean] True, if the user can invite new users to the chat.
   # @attr can_pin_messages [Boolean] True, if the user can pin messages.
+  # @attr can_manage_topics [Boolean] True, if the user can manage topics.
   class ChatPermissions < Base
     attribute :can_send_messages, TD::Types::Bool
     attribute :can_send_media_messages, TD::Types::Bool
@@ -24,5 +25,6 @@ module TD::Types
     attribute :can_change_info, TD::Types::Bool
     attribute :can_invite_users, TD::Types::Bool
     attribute :can_pin_messages, TD::Types::Bool
+    attribute :can_manage_topics, TD::Types::Bool
   end
 end

@@ -13,6 +13,7 @@ module TD::Types
       chat_invite
       filter_settings
       game
+      instant_view
       invoice
       language_pack
       language_settings

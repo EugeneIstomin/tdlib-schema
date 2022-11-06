@@ -1,7 +1,8 @@
 module TD::Types
   # Contains full information about a basic group.
   #
-  # @attr photo [TD::Types::ChatPhoto, nil] Chat photo; may be null.
+  # @attr photo [TD::Types::ChatPhoto, nil] Chat photo; may be null if empty or unknown.
+  #   If non-null, then it is the same photo as in chat.photo.
   # @attr description [TD::Types::String] Group description.
   #   Updated only after the basic group is opened.
   # @attr creator_user_id [Integer] User identifier of the creator of the group; 0 if unknown.

@@ -12,7 +12,9 @@ module TD::Types
       custom_emoji
       advanced_chat_management
       profile_badge
+      emoji_status
       animated_profile_photo
+      forum_topic_icon
       app_icons
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/premium_feature/#{type}"

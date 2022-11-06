@@ -15,6 +15,10 @@ module TD::Types
   # @attr start_parameter [TD::Types::String] Unique invoice bot deep link parameter for the generation of this
   #   invoice.
   #   If empty, it would be possible to pay directly from forwards of the invoice message.
+  # @attr extended_media_content [TD::Types::InputMessageContent] The content of extended media attached to the
+  #   invoice.
+  #   The content of the message to be sent.
+  #   Must be one of the following types: inputMessagePhoto, inputMessageVideo.
   class InputMessageContent::Invoice < InputMessageContent
     attribute :invoice, TD::Types::Invoice
     attribute :title, TD::Types::String
@@ -27,5 +31,6 @@ module TD::Types
     attribute :provider_token, TD::Types::String
     attribute :provider_data, TD::Types::String
     attribute :start_parameter, TD::Types::String
+    attribute :extended_media_content, TD::Types::InputMessageContent
   end
 end

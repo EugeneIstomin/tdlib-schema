@@ -1,7 +1,8 @@
 module TD::Types
   # Contains full information about a supergroup or channel.
   #
-  # @attr photo [TD::Types::ChatPhoto, nil] Chat photo; may be null.
+  # @attr photo [TD::Types::ChatPhoto, nil] Chat photo; may be null if empty or unknown.
+  #   If non-null, then it is the same photo as in chat.photo.
   # @attr description [TD::Types::String] Supergroup or channel description.
   # @attr member_count [Integer] Number of members in the supergroup or channel; 0 if unknown.
   # @attr administrator_count [Integer] Number of privileged users in the supergroup or channel; 0 if unknown.
@@ -20,8 +21,8 @@ module TD::Types
   # @attr can_set_location [Boolean] True, if the supergroup location can be changed.
   # @attr can_get_statistics [Boolean] True, if the supergroup or channel statistics are available.
   # @attr is_all_history_available [Boolean] True, if new chat members will have access to old messages.
-  #   In public or discussion groups and both public and private channels, old messages are always available, so this
-  #   option affects only private supergroups without a linked chat.
+  #   In public, discussion, of forum groups and all channels, old messages are always available, so this option
+  #   affects only private non-forum supergroups without a linked chat.
   #   The value of this field is only available for chat administrators.
   # @attr sticker_set_id [Integer] Identifier of the supergroup sticker set; 0 if none.
   # @attr location [TD::Types::ChatLocation, nil] Location to which the supergroup is connected; may be null.

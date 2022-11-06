@@ -1,5 +1,5 @@
 module TD::Types
-  # Describe an invoice to process.
+  # Describes an invoice to process.
   class InputInvoice < Base
     %w[
       message

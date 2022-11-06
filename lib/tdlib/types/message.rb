@@ -25,10 +25,13 @@ module TD::Types
   #   getMessageViewers.
   # @attr can_get_media_timestamp_links [Boolean] True, if media timestamp links can be generated for media timestamp
   #   entities in the message text, caption or web page description through getMessageLink.
+  # @attr can_report_reactions [Boolean] True, if reactions on the message can be reported through
+  #   reportMessageReactions.
   # @attr has_timestamped_media [Boolean] True, if media timestamp entities refers to a media in this message as
   #   opposed to a media in the replied message.
   # @attr is_channel_post [Boolean] True, if the message is a channel post.
   #   All messages to channels are channel posts, all other messages are not channel posts.
+  # @attr is_topic_message [Boolean] True, if the message is a forum topic message.
   # @attr contains_unread_mention [Boolean] True, if the message contains an unread mention for the current user.
   # @attr date [Integer] Point in time (Unix timestamp) when the message was sent.
   # @attr edit_date [Integer] Point in time (Unix timestamp) when the message was last edited.
@@ -73,8 +76,10 @@ module TD::Types
     attribute :can_get_message_thread, TD::Types::Bool
     attribute :can_get_viewers, TD::Types::Bool
     attribute :can_get_media_timestamp_links, TD::Types::Bool
+    attribute :can_report_reactions, TD::Types::Bool
     attribute :has_timestamped_media, TD::Types::Bool
     attribute :is_channel_post, TD::Types::Bool
+    attribute :is_topic_message, TD::Types::Bool
     attribute :contains_unread_mention, TD::Types::Bool
     attribute :date, TD::Types::Coercible::Integer
     attribute :edit_date, TD::Types::Coercible::Integer

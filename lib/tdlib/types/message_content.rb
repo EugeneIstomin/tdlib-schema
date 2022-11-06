@@ -41,6 +41,9 @@ module TD::Types
       screenshot_taken
       chat_set_theme
       chat_set_ttl
+      forum_topic_created
+      forum_topic_edited
+      forum_topic_is_closed_toggled
       custom_service_action
       game_score
       payment_successful

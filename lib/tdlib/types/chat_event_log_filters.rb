@@ -14,6 +14,7 @@ module TD::Types
   # @attr setting_changes [Boolean] True, if changes in chat settings need to be returned.
   # @attr invite_link_changes [Boolean] True, if changes to invite links need to be returned.
   # @attr video_chat_changes [Boolean] True, if video chat actions need to be returned.
+  # @attr forum_changes [Boolean] True, if forum-related actions need to be returned.
   class ChatEventLogFilters < Base
     attribute :message_edits, TD::Types::Bool
     attribute :message_deletions, TD::Types::Bool
@@ -27,5 +28,6 @@ module TD::Types
     attribute :setting_changes, TD::Types::Bool
     attribute :invite_link_changes, TD::Types::Bool
     attribute :video_chat_changes, TD::Types::Bool
+    attribute :forum_changes, TD::Types::Bool
   end
 end

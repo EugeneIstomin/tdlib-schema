@@ -1,10 +1,9 @@
 module TD::Types
-  # Contains stickers which must be used for reaction animation rendering.
+  # Contains information about a emoji reaction.
   #
-  # @attr reaction [TD::Types::String] Text representation of the reaction.
+  # @attr emoji [TD::Types::String] Text representation of the reaction.
   # @attr title [TD::Types::String] Reaction title.
   # @attr is_active [Boolean] True, if the reaction can be added to new messages and enabled in chats.
-  # @attr is_premium [Boolean] True, if the reaction is available only for Premium users.
   # @attr static_icon [TD::Types::Sticker] Static icon for the reaction.
   # @attr appear_animation [TD::Types::Sticker] Appear animation for the reaction.
   # @attr select_animation [TD::Types::Sticker] Select animation for the reaction.
@@ -12,11 +11,10 @@ module TD::Types
   # @attr effect_animation [TD::Types::Sticker] Effect animation for the reaction.
   # @attr around_animation [TD::Types::Sticker, nil] Around animation for the reaction; may be null.
   # @attr center_animation [TD::Types::Sticker, nil] Center animation for the reaction; may be null.
-  class Reaction < Base
-    attribute :reaction, TD::Types::String
+  class EmojiReaction < Base
+    attribute :emoji, TD::Types::String
     attribute :title, TD::Types::String
     attribute :is_active, TD::Types::Bool
-    attribute :is_premium, TD::Types::Bool
     attribute :static_icon, TD::Types::Sticker
     attribute :appear_animation, TD::Types::Sticker
     attribute :select_animation, TD::Types::Sticker

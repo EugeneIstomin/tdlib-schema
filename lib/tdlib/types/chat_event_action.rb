@@ -25,6 +25,7 @@ module TD::Types
       sticker_set_changed
       title_changed
       username_changed
+      active_usernames_changed
       has_protected_content_toggled
       invites_toggled
       is_all_history_available_toggled
@@ -37,6 +38,12 @@ module TD::Types
       video_chat_mute_new_participants_toggled
       video_chat_participant_is_muted_toggled
       video_chat_participant_volume_level_changed
+      is_forum_toggled
+      forum_topic_created
+      forum_topic_edited
+      forum_topic_toggle_is_closed
+      forum_topic_deleted
+      forum_topic_pinned
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/chat_event_action/#{type}"
     end

@@ -14,6 +14,8 @@ module TD::Types
   #   true for channels.
   # @attr can_pin_messages [Boolean] True, if the administrator can pin messages; applicable to basic groups and
   #   supergroups only.
+  # @attr can_manage_topics [Boolean] True, if the administrator can manage topics; applicable to forum supergroups
+  #   only.
   # @attr can_promote_members [Boolean] True, if the administrator can add new administrators with a subset of their
   #   own privileges or demote administrators that were directly or indirectly promoted by them.
   # @attr can_manage_video_chats [Boolean] True, if the administrator can manage video chats.
@@ -28,6 +30,7 @@ module TD::Types
     attribute :can_invite_users, TD::Types::Bool
     attribute :can_restrict_members, TD::Types::Bool
     attribute :can_pin_messages, TD::Types::Bool
+    attribute :can_manage_topics, TD::Types::Bool
     attribute :can_promote_members, TD::Types::Bool
     attribute :can_manage_video_chats, TD::Types::Bool
     attribute :is_anonymous, TD::Types::Bool

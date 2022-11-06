@@ -30,7 +30,7 @@ module TD::Types
   # @attr unread_mention_count [Integer] Number of unread messages with a mention/reply in the chat.
   # @attr unread_reaction_count [Integer] Number of messages with unread reactions in the chat.
   # @attr notification_settings [TD::Types::ChatNotificationSettings] Notification settings for the chat.
-  # @attr available_reactions [Array<TD::Types::String>] List of reactions, available in the chat.
+  # @attr available_reactions [TD::Types::ChatAvailableReactions] Types of reaction, available in the chat.
   # @attr message_ttl [Integer] Current message Time To Live setting (self-destruct timer) for the chat; 0 if not
   #   defined.
   #   TTL is counted from the time message or its content is viewed in secret chats and from the send date in other
@@ -70,7 +70,7 @@ module TD::Types
     attribute :unread_mention_count, TD::Types::Coercible::Integer
     attribute :unread_reaction_count, TD::Types::Coercible::Integer
     attribute :notification_settings, TD::Types::ChatNotificationSettings
-    attribute :available_reactions, TD::Types::Array.of(TD::Types::String)
+    attribute :available_reactions, TD::Types::ChatAvailableReactions
     attribute :message_ttl, TD::Types::Coercible::Integer
     attribute :theme_name, TD::Types::String
     attribute :action_bar, TD::Types::ChatActionBar.optional.default(nil)

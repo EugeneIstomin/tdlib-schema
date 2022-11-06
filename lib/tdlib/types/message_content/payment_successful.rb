@@ -1,7 +1,7 @@
 module TD::Types
   # A payment has been completed.
   #
-  # @attr invoice_chat_id [Integer] Identifier of the chat, containing the corresponding invoice message; 0 if unknown.
+  # @attr invoice_chat_id [Integer] Identifier of the chat, containing the corresponding invoice message.
   # @attr invoice_message_id [Integer] Identifier of the message with the corresponding invoice; can be 0 or an
   #   identifier of a deleted message.
   # @attr currency [TD::Types::String] Currency for the price of the product.

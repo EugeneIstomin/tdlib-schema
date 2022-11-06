@@ -42,6 +42,7 @@ module TD::Types
       chat_is_marked_as_unread
       chat_filters
       chat_online_member_count
+      forum_topic_info
       scope_notification_settings
       notification
       notification_group
@@ -88,7 +89,8 @@ module TD::Types
       users_nearby
       attachment_menu_bots
       web_app_message_sent
-      reactions
+      active_emoji_reactions
+      default_reaction_type
       dice_emojis
       animated_emoji_message_clicked
       animation_search_parameters

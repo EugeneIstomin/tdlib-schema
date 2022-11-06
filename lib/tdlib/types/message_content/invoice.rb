@@ -12,6 +12,7 @@ module TD::Types
   # @attr need_shipping_address [Boolean] True, if the shipping address must be specified.
   # @attr receipt_message_id [Integer] The identifier of the message with the receipt, after the product has been
   #   purchased.
+  # @attr extended_media [TD::Types::MessageExtendedMedia, nil] Extended media attached to the invoice; may be null.
   class MessageContent::Invoice < MessageContent
     attribute :title, TD::Types::String
     attribute :description, TD::Types::FormattedText
@@ -22,5 +23,6 @@ module TD::Types
     attribute :is_test, TD::Types::Bool
     attribute :need_shipping_address, TD::Types::Bool
     attribute :receipt_message_id, TD::Types::Coercible::Integer
+    attribute :extended_media, TD::Types::MessageExtendedMedia.optional.default(nil)
   end
 end
