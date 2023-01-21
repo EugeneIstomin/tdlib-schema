@@ -1,5 +1,7 @@
 module TD::Types
   # The user has been authorized, but needs to enter a 2-step verification password to start using the application.
+  # Call checkAuthenticationPassword to provide the password, or requestAuthenticationPasswordRecovery to recover the
+  #   password, or deleteAccount to delete the account after a week.
   #
   # @attr password_hint [TD::Types::String, nil] Hint for the password; may be empty.
   # @attr has_recovery_email_address [Boolean] True, if a recovery email address has been set up.

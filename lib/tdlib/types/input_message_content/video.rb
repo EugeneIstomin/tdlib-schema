@@ -9,9 +9,11 @@ module TD::Types
   # @attr height [Integer] Video height.
   # @attr supports_streaming [Boolean] True, if the video is supposed to be streamed.
   # @attr caption [TD::Types::FormattedText] Video caption; pass null to use an empty caption;
-  #   0-GetOption("message_caption_length_max") characters.
-  # @attr ttl [Integer] Video TTL (Time To Live), in seconds (0-60).
-  #   A non-zero TTL can be specified only in private chats.
+  #   0-getOption("message_caption_length_max") characters.
+  # @attr self_destruct_time [Integer] Video self-destruct time, in seconds (0-60).
+  #   A non-zero self-destruct time can be specified only in private chats.
+  # @attr has_spoiler [Boolean] True, if the video preview must be covered by a spoiler animation; not supported in
+  #   secret chats.
   class InputMessageContent::Video < InputMessageContent
     attribute :video, TD::Types::InputFile
     attribute :thumbnail, TD::Types::InputThumbnail
@@ -21,6 +23,7 @@ module TD::Types
     attribute :height, TD::Types::Coercible::Integer
     attribute :supports_streaming, TD::Types::Bool
     attribute :caption, TD::Types::FormattedText
-    attribute :ttl, TD::Types::Coercible::Integer
+    attribute :self_destruct_time, TD::Types::Coercible::Integer
+    attribute :has_spoiler, TD::Types::Bool
   end
 end

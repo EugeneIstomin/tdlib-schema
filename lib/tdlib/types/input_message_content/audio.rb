@@ -8,7 +8,7 @@ module TD::Types
   # @attr title [TD::Types::String] Title of the audio; 0-64 characters; may be replaced by the server.
   # @attr performer [TD::Types::String] Performer of the audio; 0-64 characters, may be replaced by the server.
   # @attr caption [TD::Types::FormattedText] Audio caption; pass null to use an empty caption;
-  #   0-GetOption("message_caption_length_max") characters.
+  #   0-getOption("message_caption_length_max") characters.
   class InputMessageContent::Audio < InputMessageContent
     attribute :audio, TD::Types::InputFile
     attribute :album_cover_thumbnail, TD::Types::InputThumbnail

@@ -31,10 +31,10 @@ module TD::Types
   # @attr unread_reaction_count [Integer] Number of messages with unread reactions in the chat.
   # @attr notification_settings [TD::Types::ChatNotificationSettings] Notification settings for the chat.
   # @attr available_reactions [TD::Types::ChatAvailableReactions] Types of reaction, available in the chat.
-  # @attr message_ttl [Integer] Current message Time To Live setting (self-destruct timer) for the chat; 0 if not
-  #   defined.
-  #   TTL is counted from the time message or its content is viewed in secret chats and from the send date in other
-  #   chats.
+  # @attr message_auto_delete_time [Integer] Current message auto-delete or self-destruct timer setting for the chat,
+  #   in seconds; 0 if disabled.
+  #   Self-destruct timer in secret chats starts after the message or its content is viewed.
+  #   Auto-delete timer in other chats starts from the send date.
   # @attr theme_name [TD::Types::String] If non-empty, name of a theme, set for the chat.
   # @attr action_bar [TD::Types::ChatActionBar, nil] Information about actions which must be possible to do through the
   #   chat action bar; may be null.
@@ -71,7 +71,7 @@ module TD::Types
     attribute :unread_reaction_count, TD::Types::Coercible::Integer
     attribute :notification_settings, TD::Types::ChatNotificationSettings
     attribute :available_reactions, TD::Types::ChatAvailableReactions
-    attribute :message_ttl, TD::Types::Coercible::Integer
+    attribute :message_auto_delete_time, TD::Types::Coercible::Integer
     attribute :theme_name, TD::Types::String
     attribute :action_bar, TD::Types::ChatActionBar.optional.default(nil)
     attribute :video_chat, TD::Types::VideoChat

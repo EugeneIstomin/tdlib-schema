@@ -1,7 +1,8 @@
 module TD::Types
   # Describes actions that a user is allowed to take in a chat.
   #
-  # @attr can_send_messages [Boolean] True, if the user can send text messages, contacts, locations, and venues.
+  # @attr can_send_messages [Boolean] True, if the user can send text messages, contacts, invoices, locations, and
+  #   venues.
   # @attr can_send_media_messages [Boolean] True, if the user can send audio files, documents, photos, videos, video
   #   notes, and voice notes.
   #   Implies can_send_messages permissions.

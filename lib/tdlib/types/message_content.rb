@@ -40,10 +40,12 @@ module TD::Types
       pin_message
       screenshot_taken
       chat_set_theme
-      chat_set_ttl
+      chat_set_message_auto_delete_time
       forum_topic_created
       forum_topic_edited
       forum_topic_is_closed_toggled
+      forum_topic_is_hidden_toggled
+      suggest_profile_photo
       custom_service_action
       game_score
       payment_successful
@@ -51,6 +53,7 @@ module TD::Types
       gifted_premium
       contact_registered
       website_connected
+      bot_write_access_allowed
       web_app_data_sent
       web_app_data_received
       passport_data_sent

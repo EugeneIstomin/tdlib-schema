@@ -18,7 +18,7 @@ module TD::Types
       description_changed
       linked_chat_changed
       location_changed
-      message_ttl_changed
+      message_auto_delete_time_changed
       permissions_changed
       photo_changed
       slow_mode_delay_changed
@@ -29,6 +29,7 @@ module TD::Types
       has_protected_content_toggled
       invites_toggled
       is_all_history_available_toggled
+      has_aggressive_anti_spam_enabled_toggled
       sign_messages_toggled
       invite_link_edited
       invite_link_revoked
@@ -42,6 +43,7 @@ module TD::Types
       forum_topic_created
       forum_topic_edited
       forum_topic_toggle_is_closed
+      forum_topic_toggle_is_hidden
       forum_topic_deleted
       forum_topic_pinned
     ].each do |type|

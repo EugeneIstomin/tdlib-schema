@@ -7,7 +7,8 @@ module TD::Types
   #   or channels.
   # @attr inviter_user_id [Integer] Identifier of a user that invited/promoted/banned this member in the chat; 0 if
   #   unknown.
-  # @attr joined_chat_date [Integer] Point in time (Unix timestamp) when the user joined the chat.
+  # @attr joined_chat_date [Integer] Point in time (Unix timestamp) when the user joined/was promoted/was banned in the
+  #   chat.
   # @attr status [TD::Types::ChatMemberStatus] Status of the member in the chat.
   class ChatMember < Base
     attribute :member_id, TD::Types::MessageSender

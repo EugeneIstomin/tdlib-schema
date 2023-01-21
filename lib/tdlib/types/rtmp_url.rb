@@ -1,5 +1,5 @@
 module TD::Types
-  # Represents an RTMP url.
+  # Represents an RTMP URL.
   #
   # @attr url [TD::Types::String] The URL.
   # @attr stream_key [TD::Types::String] Stream key.

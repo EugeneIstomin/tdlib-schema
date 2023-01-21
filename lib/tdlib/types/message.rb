@@ -45,10 +45,13 @@ module TD::Types
   #   the identifier of a deleted message.
   # @attr message_thread_id [Integer] If non-zero, the identifier of the message thread the message belongs to; unique
   #   within the chat to which the message belongs.
-  # @attr ttl [Integer] For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none.
-  #   TDLib will send {TD::Types::Update::DeleteMessages} or {TD::Types::Update::MessageContent} once the TTL expires.
-  # @attr ttl_expires_in [Float] Time left before the message expires, in seconds.
-  #   If the TTL timer isn't started yet, equals to the value of the ttl field.
+  # @attr self_destruct_time [Integer] The message's self-destruct time, in seconds; 0 if none.
+  #   TDLib will send {TD::Types::Update::DeleteMessages} or {TD::Types::Update::MessageContent} once the time expires.
+  # @attr self_destruct_in [Float] Time left before the message self-destruct timer expires, in seconds.
+  #   If the self-destruct timer isn't started yet, equals to the value of the self_destruct_time field.
+  # @attr auto_delete_in [Float] Time left before the message will be automatically deleted by message_auto_delete_time
+  #   setting of the chat, in seconds; 0 if never.
+  #   TDLib will send {TD::Types::Update::DeleteMessages} or {TD::Types::Update::MessageContent} once the time expires.
   # @attr via_bot_user_id [Integer] If non-zero, the user identifier of the bot through which this message was sent.
   # @attr author_signature [TD::Types::String, nil] For channel posts and anonymous group messages, optional author
   #   signature.
@@ -89,8 +92,9 @@ module TD::Types
     attribute :reply_in_chat_id, TD::Types::Coercible::Integer
     attribute :reply_to_message_id, TD::Types::Coercible::Integer
     attribute :message_thread_id, TD::Types::Coercible::Integer
-    attribute :ttl, TD::Types::Coercible::Integer
-    attribute :ttl_expires_in, TD::Types::Coercible::Float
+    attribute :self_destruct_time, TD::Types::Coercible::Integer
+    attribute :self_destruct_in, TD::Types::Coercible::Float
+    attribute :auto_delete_in, TD::Types::Coercible::Float
     attribute :via_bot_user_id, TD::Types::Coercible::Integer
     attribute :author_signature, TD::Types::String.optional.default(nil)
     attribute :media_album_id, TD::Types::Coercible::Integer

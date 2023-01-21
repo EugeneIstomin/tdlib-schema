@@ -1,10 +1,10 @@
 module TD::Types
-  # Contains information about a link to a message in a chat.
+  # Contains information about a link to a message or a forum topic in a chat.
   #
-  # @attr is_public [Boolean] True, if the link is a public link for a message in a chat.
-  # @attr chat_id [Integer] If found, identifier of the chat to which the message belongs, 0 otherwise.
-  # @attr message_thread_id [Integer] If found, identifier of the message thread in which to open the message, or which
-  #   to open in case of a missing message.
+  # @attr is_public [Boolean] True, if the link is a public link for a message or a forum topic in a chat.
+  # @attr chat_id [Integer] If found, identifier of the chat to which the link points, 0 otherwise.
+  # @attr message_thread_id [Integer] If found, identifier of the message thread in which to open the message, or a
+  #   forum topic to open if the message is missing.
   # @attr message [TD::Types::Message, nil] If found, the linked message; may be null.
   # @attr media_timestamp [Integer] Timestamp from which the video/audio/video note/voice note playing must start, in
   #   seconds; 0 if not specified.

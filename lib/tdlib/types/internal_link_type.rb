@@ -11,6 +11,8 @@ module TD::Types
       bot_add_to_channel
       change_phone_number
       chat_invite
+      default_message_auto_delete_timer_settings
+      edit_profile_settings
       filter_settings
       game
       instant_view
@@ -34,6 +36,7 @@ module TD::Types
       unknown_deep_link
       unsupported_proxy
       user_phone_number
+      user_token
       video_chat
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/internal_link_type/#{type}"

@@ -1,5 +1,5 @@
 module TD::Types
-  # An HTTP url needs to be open.
+  # An HTTP URL needs to be open.
   #
   # @attr url [TD::Types::String] The URL to open.
   # @attr skip_confirm [Boolean] True, if there is no need to show an ordinary open URL confirm.

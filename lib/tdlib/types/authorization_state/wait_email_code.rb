@@ -1,6 +1,6 @@
 module TD::Types
   # TDLib needs the user's authentication code sent to an email address to authorize.
-  # Call `checkAuthenticationEmailCode` to provide the code.
+  # Call checkAuthenticationEmailCode to provide the code.
   #
   # @attr allow_apple_id [Boolean] True, if authorization through Apple ID is allowed.
   # @attr allow_google_id [Boolean] True, if authorization through Google ID is allowed.

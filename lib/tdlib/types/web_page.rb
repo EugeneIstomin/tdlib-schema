@@ -23,8 +23,7 @@ module TD::Types
   # @attr video [TD::Types::Video, nil] Preview of the content as a video, if available; may be null.
   # @attr video_note [TD::Types::VideoNote, nil] Preview of the content as a video note, if available; may be null.
   # @attr voice_note [TD::Types::VoiceNote, nil] Preview of the content as a voice note, if available; may be null.
-  # @attr instant_view_version [Integer] Version of instant view, available for the web page (currently, can be 1 or
-  #   2), 0 if none.
+  # @attr instant_view_version [Integer] Version of web page instant view (currently, can be 1 or 2); 0 if none.
   class WebPage < Base
     attribute :url, TD::Types::String
     attribute :display_url, TD::Types::String

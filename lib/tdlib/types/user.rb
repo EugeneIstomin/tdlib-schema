@@ -23,7 +23,7 @@ module TD::Types
   # @attr is_fake [Boolean] True, if many users reported this user as a fake account.
   # @attr have_access [Boolean] If false, the user is inaccessible, and the only information known about the user is
   #   inside this class.
-  #   Identifier of the user can't be passed to any method except GetUser.
+  #   Identifier of the user can't be passed to any method.
   # @attr type [TD::Types::UserType] Type of the user.
   # @attr language_code [TD::Types::String] IETF language tag of the user's language; only available to bots.
   # @attr added_to_attachment_menu [Boolean] True, if the user added the current bot to attachment menu; only available

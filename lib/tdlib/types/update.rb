@@ -27,7 +27,7 @@ module TD::Types
       chat_available_reactions
       chat_draft_message
       chat_message_sender
-      chat_message_ttl
+      chat_message_auto_delete_time
       chat_notification_settings
       chat_pending_join_requests
       chat_reply_markup

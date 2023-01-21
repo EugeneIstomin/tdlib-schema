@@ -1,5 +1,5 @@
 module TD::Types
-  # Represents a bot added to attachment menu.
+  # Represents a bot, which can be added to attachment menu.
   #
   # @attr bot_user_id [Integer] User identifier of the bot added to attachment menu.
   # @attr supports_self_chat [Boolean] True, if the bot supports opening from attachment menu in the chat with the bot.
@@ -11,6 +11,8 @@ module TD::Types
   #   supergroup chats.
   # @attr supports_channel_chats [Boolean] True, if the bot supports opening from attachment menu in channel chats.
   # @attr supports_settings [Boolean] True, if the bot supports "settings_button_pressed" event.
+  # @attr request_write_access [Boolean] True, if the user needs to be requested to give the permission to the bot to
+  #   send them messages.
   # @attr name [TD::Types::String] Name for the bot in attachment menu.
   # @attr name_color [TD::Types::AttachmentMenuBotColor, nil] Color to highlight selected name of the bot if
   #   appropriate; may be null.
@@ -35,6 +37,7 @@ module TD::Types
     attribute :supports_group_chats, TD::Types::Bool
     attribute :supports_channel_chats, TD::Types::Bool
     attribute :supports_settings, TD::Types::Bool
+    attribute :request_write_access, TD::Types::Bool
     attribute :name, TD::Types::String
     attribute :name_color, TD::Types::AttachmentMenuBotColor.optional.default(nil)
     attribute :default_icon, TD::Types::File.optional.default(nil)

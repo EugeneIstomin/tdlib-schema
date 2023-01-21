@@ -8,9 +8,11 @@ module TD::Types
   # @attr formatted_phone_number [TD::Types::String] The phone number without country calling code formatted
   #   accordingly to local rules.
   #   Expected digits are returned as '-', but even more digits might be entered by the user.
+  # @attr is_anonymous [Boolean] True, if the phone number was bought on Fragment and isn't tied to a SIM card.
   class PhoneNumberInfo < Base
     attribute :country, TD::Types::CountryInfo.optional.default(nil)
     attribute :country_calling_code, TD::Types::String
     attribute :formatted_phone_number, TD::Types::String
+    attribute :is_anonymous, TD::Types::Bool
   end
 end

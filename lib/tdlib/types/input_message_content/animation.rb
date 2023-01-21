@@ -9,7 +9,9 @@ module TD::Types
   # @attr width [Integer] Width of the animation; may be replaced by the server.
   # @attr height [Integer] Height of the animation; may be replaced by the server.
   # @attr caption [TD::Types::FormattedText] Animation caption; pass null to use an empty caption;
-  #   0-GetOption("message_caption_length_max") characters.
+  #   0-getOption("message_caption_length_max") characters.
+  # @attr has_spoiler [Boolean] True, if the animation preview must be covered by a spoiler animation; not supported in
+  #   secret chats.
   class InputMessageContent::Animation < InputMessageContent
     attribute :animation, TD::Types::InputFile
     attribute :thumbnail, TD::Types::InputThumbnail
@@ -18,5 +20,6 @@ module TD::Types
     attribute :width, TD::Types::Coercible::Integer
     attribute :height, TD::Types::Coercible::Integer
     attribute :caption, TD::Types::FormattedText
+    attribute :has_spoiler, TD::Types::Bool
   end
 end

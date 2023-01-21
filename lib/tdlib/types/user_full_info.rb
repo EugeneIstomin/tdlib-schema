@@ -1,8 +1,20 @@
 module TD::Types
   # Contains full information about a user.
   #
-  # @attr photo [TD::Types::ChatPhoto, nil] User profile photo; may be null if empty or unknown.
+  # @attr personal_photo [TD::Types::ChatPhoto, nil] User profile photo set by the current user for the contact; may be
+  #   null.
+  #   If null and user.profile_photo is null, then the photo is empty; otherwise, it is unknown.
   #   If non-null, then it is the same photo as in user.profile_photo and chat.photo.
+  #   This photo isn't returned in the list of user photos.
+  # @attr photo [TD::Types::ChatPhoto, nil] User profile photo; may be null.
+  #   If null and user.profile_photo is null, then the photo is empty; otherwise, it is unknown.
+  #   If non-null and personal_photo is null, then it is the same photo as in user.profile_photo and chat.photo.
+  # @attr public_photo [TD::Types::ChatPhoto, nil] User profile photo visible if the main photo is hidden by privacy
+  #   settings; may be null.
+  #   If null and user.profile_photo is null, then the photo is empty; otherwise, it is unknown.
+  #   If non-null and both photo and personal_photo are null, then it is the same photo as in user.profile_photo and
+  #   chat.photo.
+  #   This photo isn't returned in the list of user photos.
   # @attr is_blocked [Boolean] True, if the user is blocked by the current user.
   # @attr can_be_called [Boolean] True, if the user can be called.
   # @attr supports_video_calls [Boolean] True, if a video call can be created with the user.
@@ -20,7 +32,9 @@ module TD::Types
   #   member; 0 for the current user.
   # @attr bot_info [TD::Types::BotInfo, nil] For bots, information about the bot; may be null.
   class UserFullInfo < Base
+    attribute :personal_photo, TD::Types::ChatPhoto.optional.default(nil)
     attribute :photo, TD::Types::ChatPhoto.optional.default(nil)
+    attribute :public_photo, TD::Types::ChatPhoto.optional.default(nil)
     attribute :is_blocked, TD::Types::Bool
     attribute :can_be_called, TD::Types::Bool
     attribute :supports_video_calls, TD::Types::Bool

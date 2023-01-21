@@ -2,7 +2,7 @@ module TD::Types
   # Describes a forum topic.
   #
   # @attr info [TD::Types::ForumTopicInfo] Basic information about the topic.
-  # @attr last_message [TD::Types::Message, nil] Last message in the topic; may be null.
+  # @attr last_message [TD::Types::Message, nil] Last message in the topic; may be null if unknown.
   # @attr is_pinned [Boolean] True, if the topic is pinned in the topic list.
   # @attr unread_count [Integer] Number of unread messages in the topic.
   # @attr last_read_inbox_message_id [Integer] Identifier of the last read incoming message.

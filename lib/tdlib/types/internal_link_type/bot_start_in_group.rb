@@ -8,8 +8,8 @@ module TD::Types
   #   received rights with the requested administrator rights, show confirmation box to the user, and call
   #   setChatMemberStatus with the chosen chat and confirmed administrator rights.
   # Before call to setChatMemberStatus it may be required to upgrade the chosen basic group chat to a supergroup chat.
-  # Then if start_parameter isn't empty, call sendBotStartMessage with the given start parameter and the chosen chat,
-  #   otherwise just send /start message with bot's username added to the chat..
+  # Then, if start_parameter isn't empty, call sendBotStartMessage with the given start parameter and the chosen chat;
+  #   otherwise, just send /start message with bot's username added to the chat..
   #
   # @attr bot_username [TD::Types::String] Username of the bot.
   # @attr start_parameter [TD::Types::String] The parameter to be passed to sendBotStartMessage.
