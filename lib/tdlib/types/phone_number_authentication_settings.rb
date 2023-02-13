@@ -10,6 +10,9 @@ module TD::Types
   #   True, if the application can use Android SMS Retriever API (requires Google Play Services >= 10.2) to
   #   automatically receive the authentication code from the SMS.
   #   See https://developers.google.com/identity/sms-retriever/ for more details.
+  # @attr firebase_authentication_settings [TD::Types::FirebaseAuthenticationSettings] For official Android and iOS
+  #   applications only; pass null otherwise.
+  #   Settings for Firebase Authentication.
   # @attr authentication_tokens [Array<TD::Types::String>] List of up to 20 authentication tokens, recently received in
   #   updateOption("authentication_token") in previously logged out sessions.
   class PhoneNumberAuthenticationSettings < Base
@@ -17,6 +20,7 @@ module TD::Types
     attribute :allow_missed_call, TD::Types::Bool
     attribute :is_current_phone_number, TD::Types::Bool
     attribute :allow_sms_retriever_api, TD::Types::Bool
+    attribute :firebase_authentication_settings, TD::Types::FirebaseAuthenticationSettings
     attribute :authentication_tokens, TD::Types::Array.of(TD::Types::String)
   end
 end

@@ -37,9 +37,10 @@ module TD::Types
       chat_video_chat
       chat_default_disable_notification
       chat_has_protected_content
-      chat_has_scheduled_messages
-      chat_is_blocked
+      chat_is_translatable
       chat_is_marked_as_unread
+      chat_is_blocked
+      chat_has_scheduled_messages
       chat_filters
       chat_online_member_count
       forum_topic_info
@@ -95,6 +96,7 @@ module TD::Types
       animated_emoji_message_clicked
       animation_search_parameters
       suggested_actions
+      autosave_settings
       new_inline_query
       new_chosen_inline_result
       new_callback_query

@@ -13,6 +13,7 @@ module TD::Types
   # @attr message_sender_id [TD::Types::MessageSender, nil] Identifier of a user or chat that is selected to send
   #   messages in the chat; may be null if the user can't change message sender.
   # @attr has_protected_content [Boolean] True, if chat content can't be saved locally, forwarded, or copied.
+  # @attr is_translatable [Boolean] True, if translation of all messages in the chat must be suggested to the user.
   # @attr is_marked_as_unread [Boolean] True, if the chat is marked as unread.
   # @attr is_blocked [Boolean] True, if the chat is blocked by the current user and private messages from the chat
   #   can't be received.
@@ -57,6 +58,7 @@ module TD::Types
     attribute :positions, TD::Types::Array.of(TD::Types::ChatPosition)
     attribute :message_sender_id, TD::Types::MessageSender.optional.default(nil)
     attribute :has_protected_content, TD::Types::Bool
+    attribute :is_translatable, TD::Types::Bool
     attribute :is_marked_as_unread, TD::Types::Bool
     attribute :is_blocked, TD::Types::Bool
     attribute :has_scheduled_messages, TD::Types::Bool

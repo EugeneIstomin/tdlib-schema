@@ -686,6 +686,14 @@ module TD::ClientMethods
               'exclude_secret_chats' => exclude_secret_chats)
   end
   
+  # Clears the list of all autosave settings exceptions.
+  # The method is guaranteed to work only after at least one call to getAutosaveSettings.
+  #
+  # @return [TD::Types::Ok]
+  def clear_autosave_settings_exceptions
+    broadcast('@type' => 'clearAutosaveSettingsExceptions')
+  end
+  
   # Clears all imported contacts, contact list remains unchanged.
   #
   # @return [TD::Types::Ok]
@@ -930,7 +938,8 @@ module TD::ClientMethods
   # Returns the newly created chat.
   #
   # @param title [TD::Types::String] Title of the new chat; 1-128 characters.
-  # @param is_channel [Boolean] Pass true to create a channel chat.
+  # @param is_forum [Boolean] Pass true to create a forum supergroup chat.
+  # @param is_channel [Boolean] Pass true to create a channel chat; ignored if a forum is created.
   # @param description [TD::Types::String] Chat description; 0-255 characters.
   # @param location [TD::Types::ChatLocation] Chat location if a location-based supergroup is being created; pass null
   #   to create an ordinary supergroup chat.
@@ -939,9 +948,11 @@ module TD::ClientMethods
   #   If 0, then messages aren't deleted automatically.
   # @param for_import [Boolean] Pass true to create a supergroup for importing messages using importMessage.
   # @return [TD::Types::Chat]
-  def create_new_supergroup_chat(title:, is_channel:, description:, location:, message_auto_delete_time:, for_import:)
+  def create_new_supergroup_chat(title:, is_forum:, is_channel:, description:, location:, message_auto_delete_time:,
+                                 for_import:)
     broadcast('@type'                    => 'createNewSupergroupChat',
               'title'                    => title,
+              'is_forum'                 => is_forum,
               'is_channel'               => is_channel,
               'description'              => description,
               'location'                 => location,
@@ -1781,6 +1792,13 @@ module TD::ClientMethods
     broadcast('@type' => 'getAutoDownloadSettingsPresets')
   end
   
+  # Returns autosave settings for the current user.
+  #
+  # @return [TD::Types::AutosaveSettings]
+  def get_autosave_settings
+    broadcast('@type' => 'getAutosaveSettings')
+  end
+  
   # Constructs a persistent HTTP URL for a background.
   #
   # @param name [TD::Types::String] Background name.
@@ -2225,7 +2243,7 @@ module TD::ClientMethods
               'limit'     => limit)
   end
   
-  # Returns the list of commands supported by the bot for the given user scope and language; for bots only.
+  # Returns list of commands supported by the bot for the given user scope and language; for bots only.
   #
   # @param scope [TD::Types::BotCommandScope] The scope to which the commands are relevant; pass null to get commands
   #   in the default bot command scope.
@@ -2325,6 +2343,13 @@ module TD::ClientMethods
               'link'  => link)
   end
   
+  # Returns default list of custom emoji stickers for placing on a chat photo.
+  #
+  # @return [TD::Types::Stickers]
+  def get_default_chat_photo_custom_emoji_stickers
+    broadcast('@type' => 'getDefaultChatPhotoCustomEmojiStickers')
+  end
+  
   # Returns default emoji statuses.
   #
   # @return [TD::Types::EmojiStatuses]
@@ -2337,6 +2362,23 @@ module TD::ClientMethods
   # @return [TD::Types::MessageAutoDeleteTime]
   def get_default_message_auto_delete_time
     broadcast('@type' => 'getDefaultMessageAutoDeleteTime')
+  end
+  
+  # Returns default list of custom emoji stickers for placing on a profile photo.
+  #
+  # @return [TD::Types::Stickers]
+  def get_default_profile_photo_custom_emoji_stickers
+    broadcast('@type' => 'getDefaultProfilePhotoCustomEmojiStickers')
+  end
+  
+  # Returns available emojis categories.
+  #
+  # @param type [TD::Types::EmojiCategoryType] Type of emoji categories to return; pass null to get default emoji
+  #   categories.
+  # @return [TD::Types::EmojiCategories]
+  def get_emoji_categories(type:)
+    broadcast('@type' => 'getEmojiCategories',
+              'type'  => type)
   end
   
   # Returns information about a emoji reaction.
@@ -3438,12 +3480,12 @@ module TD::ClientMethods
               'set_id' => set_id)
   end
   
-  # Returns stickers from the installed sticker sets that correspond to a given emoji or can be found by
+  # Returns stickers from the installed sticker sets that correspond to any of the given emoji or can be found by
   #   sticker-specific keywords.
   # If the query is non-empty, then favorite, recently used or trending stickers may also be returned.
   #
   # @param sticker_type [TD::Types::StickerType] Type of the stickers to return.
-  # @param query [TD::Types::String, nil] Search query; an emoji or a keyword prefix.
+  # @param query [TD::Types::String, nil] Search query; a space-separated list of emoji or a keyword prefix.
   #   If empty, returns all known installed stickers.
   # @param limit [Integer] The maximum number of stickers to be returned.
   # @param chat_id [Integer] Chat identifier for which to return stickers.
@@ -5026,15 +5068,17 @@ module TD::ClientMethods
               'query' => query)
   end
   
-  # Searches for stickers from public sticker sets that correspond to a given emoji.
+  # Searches for stickers from public sticker sets that correspond to any of the given emoji.
   #
-  # @param emoji [TD::Types::String] String representation of emoji; must be non-empty.
+  # @param sticker_type [TD::Types::StickerType, nil] Type of the stickers to return.
+  # @param emojis [TD::Types::String] Space-separated list of emoji to search for; must be non-empty.
   # @param limit [Integer, nil] The maximum number of stickers to be returned; 0-100.
   # @return [TD::Types::Stickers]
-  def search_stickers(emoji:, limit: nil)
-    broadcast('@type' => 'searchStickers',
-              'emoji' => emoji,
-              'limit' => limit)
+  def search_stickers(sticker_type: nil, emojis:, limit: nil)
+    broadcast('@type'        => 'searchStickers',
+              'sticker_type' => sticker_type,
+              'emojis'       => emojis,
+              'limit'        => limit)
   end
   
   # Searches a user by their phone number.
@@ -5053,6 +5097,18 @@ module TD::ClientMethods
   # @return [TD::Types::User]
   def search_user_by_token(token:)
     broadcast('@type' => 'searchUserByToken',
+              'token' => token)
+  end
+  
+  # Sends Firebase Authentication SMS to the phone number of the user.
+  # Works only when the current authorization state is authorizationStateWaitCode and the server returned code of the
+  #   type authenticationCodeTypeFirebaseAndroid or authenticationCodeTypeFirebaseIos.
+  #
+  # @param token [TD::Types::String] SafetyNet Attestation API token for the Android application, or secret from push
+  #   notification for the iOS application.
+  # @return [TD::Types::Ok]
+  def send_authentication_firebase_sms(token:)
+    broadcast('@type' => 'sendAuthenticationFirebaseSms',
               'token' => token)
   end
   
@@ -5366,6 +5422,19 @@ module TD::ClientMethods
     broadcast('@type'    => 'setAutoDownloadSettings',
               'settings' => settings,
               'type'     => type)
+  end
+  
+  # Sets autosave settings for the given scope.
+  # The method is guaranteed to work only after at least one call to getAutosaveSettings.
+  #
+  # @param scope [TD::Types::AutosaveSettingsScope] Autosave settings scope.
+  # @param settings [TD::Types::ScopeAutosaveSettings] New autosave settings for the scope; pass null to set autosave
+  #   settings to default.
+  # @return [TD::Types::Ok]
+  def set_autosave_settings(scope:, settings:)
+    broadcast('@type'    => 'setAutosaveSettings',
+              'scope'    => scope,
+              'settings' => settings)
   end
   
   # Changes the background selected by the user; adds background to the list of installed backgrounds.
@@ -6222,6 +6291,31 @@ module TD::ClientMethods
               'default_participant_id' => default_participant_id)
   end
   
+  # Shares a chat after pressing a keyboardButtonTypeRequestChat button with the bot.
+  #
+  # @param chat_id [Integer] Identifier of the chat with the bot.
+  # @param message_id [Integer] Identifier of the message with the button.
+  # @param button_id [Integer] Identifier of the button.
+  # @param shared_chat_id [Integer] Identifier of the shared chat.
+  # @param only_check [Boolean] Pass true to check that the chat can be shared by the button instead of actually
+  #   sharing it.
+  #   Doesn't check bot_is_member and bot_administrator_rights restrictions.
+  #   If the bot must be a member, then all chats from getGroupsInCommon and all chats, where the user can add the bot,
+  #   are suitable.
+  #   In the latter case the bot will be automatically added to the chat.
+  #   If the bot must be an administrator, then all chats, where the bot already has requested rights or can be added
+  #   to administrators by the user, are suitable.
+  #   In the latter case the bot will be automatically granted requested rights.
+  # @return [TD::Types::Ok]
+  def share_chat_with_bot(chat_id:, message_id:, button_id:, shared_chat_id:, only_check:)
+    broadcast('@type'          => 'shareChatWithBot',
+              'chat_id'        => chat_id,
+              'message_id'     => message_id,
+              'button_id'      => button_id,
+              'shared_chat_id' => shared_chat_id,
+              'only_check'     => only_check)
+  end
+  
   # Shares the phone number of the current user with a mutual contact.
   # Supposed to be called when the user clicks on chatActionBarSharePhoneNumber.
   #
@@ -6231,6 +6325,24 @@ module TD::ClientMethods
   def share_phone_number(user_id:)
     broadcast('@type'   => 'sharePhoneNumber',
               'user_id' => user_id)
+  end
+  
+  # Shares a user after pressing a keyboardButtonTypeRequestUser button with the bot.
+  #
+  # @param chat_id [Integer] Identifier of the chat with the bot.
+  # @param message_id [Integer] Identifier of the message with the button.
+  # @param button_id [Integer] Identifier of the button.
+  # @param shared_user_id [Integer] Identifier of the shared user.
+  # @param only_check [Boolean] Pass true to check that the user can be shared by the button instead of actually
+  #   sharing them.
+  # @return [TD::Types::Ok]
+  def share_user_with_bot(chat_id:, message_id:, button_id:, shared_user_id:, only_check:)
+    broadcast('@type'          => 'shareUserWithBot',
+              'chat_id'        => chat_id,
+              'message_id'     => message_id,
+              'button_id'      => button_id,
+              'shared_user_id' => shared_user_id,
+              'only_check'     => only_check)
   end
   
   # Starts recording of an active group call.
@@ -6400,6 +6512,17 @@ module TD::ClientMethods
               'chat_list' => chat_list,
               'chat_id'   => chat_id,
               'is_pinned' => is_pinned)
+  end
+  
+  # Changes the tranlatable state of a chat; for Telegram Premium users only.
+  #
+  # @param chat_id [Integer] Chat identifier.
+  # @param is_translatable [Boolean] New value of is_translatable.
+  # @return [TD::Types::Ok]
+  def toggle_chat_is_translatable(chat_id:, is_translatable:)
+    broadcast('@type'           => 'toggleChatIsTranslatable',
+              'chat_id'         => chat_id,
+              'is_translatable' => is_translatable)
   end
   
   # Changes pause state of a file in the file download list.
@@ -6715,21 +6838,44 @@ module TD::ClientMethods
               'password' => password)
   end
   
-  # Translates a text to the given language.
-  # Returns a 404 error if the translation can't be performed.
+  # Extracts text or caption of the given message and translates it to the given language.
+  # If the current user is a Telegram Premium user, then text formatting is preserved.
   #
-  # @param text [TD::Types::String] Text to translate.
-  # @param from_language_code [TD::Types::String] A two-letter ISO 639-1 language code of the language from which the
-  #   message is translated.
-  #   If empty, the language will be detected automatically.
-  # @param to_language_code [TD::Types::String] A two-letter ISO 639-1 language code of the language to which the
-  #   message is translated.
-  # @return [TD::Types::Text]
-  def translate_text(text:, from_language_code:, to_language_code:)
-    broadcast('@type'              => 'translateText',
-              'text'               => text,
-              'from_language_code' => from_language_code,
-              'to_language_code'   => to_language_code)
+  # @param chat_id [Integer] Identifier of the chat to which the message belongs.
+  # @param message_id [Integer] Identifier of the message.
+  # @param to_language_code [TD::Types::String] ISO language code of the language to which the message is translated.
+  #   Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh",
+  #   "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de",
+  #   "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn",
+  #   "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "my",
+  #   "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl",
+  #   "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh",
+  #   "yi", "ji", "yo", "zu".
+  # @return [TD::Types::FormattedText]
+  def translate_message_text(chat_id:, message_id:, to_language_code:)
+    broadcast('@type'            => 'translateMessageText',
+              'chat_id'          => chat_id,
+              'message_id'       => message_id,
+              'to_language_code' => to_language_code)
+  end
+  
+  # Translates a text to the given language.
+  # If the current user is a Telegram Premium user, then text formatting is preserved.
+  #
+  # @param text [TD::Types::FormattedText] Text to translate.
+  # @param to_language_code [TD::Types::String] ISO language code of the language to which the message is translated.
+  #   Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh",
+  #   "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de",
+  #   "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn",
+  #   "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "my",
+  #   "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl",
+  #   "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh",
+  #   "yi", "ji", "yo", "zu".
+  # @return [TD::Types::FormattedText]
+  def translate_text(text:, to_language_code:)
+    broadcast('@type'            => 'translateText',
+              'text'             => text,
+              'to_language_code' => to_language_code)
   end
   
   # Removes all pinned messages from a chat; requires can_pin_messages rights in the group or can_edit_messages rights

@@ -1,6 +1,7 @@
 module TD::Types
   # Describes a sticker.
   #
+  # @attr id [Integer] Unique sticker identifier within the set; 0 if none.
   # @attr set_id [Integer] The identifier of the sticker set to which the sticker belongs; 0 if none.
   # @attr width [Integer] Sticker width; as defined by the sender.
   # @attr height [Integer] Sticker height; as defined by the sender.
@@ -13,6 +14,7 @@ module TD::Types
   # @attr thumbnail [TD::Types::Thumbnail, nil] Sticker thumbnail in WEBP or JPEG format; may be null.
   # @attr sticker [TD::Types::File] File containing the sticker.
   class Sticker < Base
+    attribute :id, TD::Types::Coercible::Integer
     attribute :set_id, TD::Types::Coercible::Integer
     attribute :width, TD::Types::Coercible::Integer
     attribute :height, TD::Types::Coercible::Integer

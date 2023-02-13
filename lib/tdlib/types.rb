@@ -14,6 +14,8 @@ module TD::Types
       'authenticationCodeTypeFlashCall'                         => 'AuthenticationCodeType::FlashCall',
       'authenticationCodeTypeMissedCall'                        => 'AuthenticationCodeType::MissedCall',
       'authenticationCodeTypeFragment'                          => 'AuthenticationCodeType::Fragment',
+      'authenticationCodeTypeFirebaseAndroid'                   => 'AuthenticationCodeType::FirebaseAndroid',
+      'authenticationCodeTypeFirebaseIos'                       => 'AuthenticationCodeType::FirebaseIos',
       'authenticationCodeInfo'                                  => 'AuthenticationCodeInfo',
       'emailAddressAuthenticationCodeInfo'                      => 'EmailAddressAuthenticationCodeInfo',
       'EmailAddressAuthentication'                              => 'EmailAddressAuthentication',
@@ -107,6 +109,10 @@ module TD::Types
       'botCommands'                                             => 'BotCommands',
       'botMenuButton'                                           => 'BotMenuButton',
       'chatLocation'                                            => 'ChatLocation',
+      'ChatPhotoStickerType'                                    => 'ChatPhotoStickerType',
+      'chatPhotoStickerTypeRegularOrMask'                       => 'ChatPhotoStickerType::RegularOrMask',
+      'chatPhotoStickerTypeCustomEmoji'                         => 'ChatPhotoStickerType::CustomEmoji',
+      'chatPhotoSticker'                                        => 'ChatPhotoSticker',
       'animatedChatPhoto'                                       => 'AnimatedChatPhoto',
       'chatPhoto'                                               => 'ChatPhoto',
       'chatPhotos'                                              => 'ChatPhotos',
@@ -114,9 +120,11 @@ module TD::Types
       'inputChatPhotoPrevious'                                  => 'InputChatPhoto::Previous',
       'inputChatPhotoStatic'                                    => 'InputChatPhoto::Static',
       'inputChatPhotoAnimation'                                 => 'InputChatPhoto::Animation',
+      'inputChatPhotoSticker'                                   => 'InputChatPhoto::Sticker',
       'chatPermissions'                                         => 'ChatPermissions',
       'chatAdministratorRights'                                 => 'ChatAdministratorRights',
       'premiumPaymentOption'                                    => 'PremiumPaymentOption',
+      'premiumStatePaymentOption'                               => 'PremiumStatePaymentOption',
       'emojiStatus'                                             => 'EmojiStatus',
       'emojiStatuses'                                           => 'EmojiStatuses',
       'usernames'                                               => 'Usernames',
@@ -256,6 +264,8 @@ module TD::Types
       'keyboardButtonTypeRequestPhoneNumber'                    => 'KeyboardButtonType::RequestPhoneNumber',
       'keyboardButtonTypeRequestLocation'                       => 'KeyboardButtonType::RequestLocation',
       'keyboardButtonTypeRequestPoll'                           => 'KeyboardButtonType::RequestPoll',
+      'keyboardButtonTypeRequestUser'                           => 'KeyboardButtonType::RequestUser',
+      'keyboardButtonTypeRequestChat'                           => 'KeyboardButtonType::RequestChat',
       'keyboardButtonTypeWebApp'                                => 'KeyboardButtonType::WebApp',
       'keyboardButton'                                          => 'KeyboardButton',
       'InlineKeyboardButtonType'                                => 'InlineKeyboardButtonType',
@@ -508,6 +518,8 @@ module TD::Types
       'messagePaymentSuccessfulBot'                             => 'MessageContent::PaymentSuccessfulBot',
       'messageGiftedPremium'                                    => 'MessageContent::GiftedPremium',
       'messageContactRegistered'                                => 'MessageContent::ContactRegistered',
+      'messageUserShared'                                       => 'MessageContent::UserShared',
+      'messageChatShared'                                       => 'MessageContent::ChatShared',
       'messageWebsiteConnected'                                 => 'MessageContent::WebsiteConnected',
       'messageBotWriteAccessAllowed'                            => 'MessageContent::BotWriteAccessAllowed',
       'messageWebAppDataSent'                                   => 'MessageContent::WebAppDataSent',
@@ -608,6 +620,12 @@ module TD::Types
       'stickerSetInfo'                                          => 'StickerSetInfo',
       'stickerSets'                                             => 'StickerSets',
       'trendingStickerSets'                                     => 'TrendingStickerSets',
+      'emojiCategory'                                           => 'EmojiCategory',
+      'emojiCategories'                                         => 'EmojiCategories',
+      'EmojiCategoryType'                                       => 'EmojiCategoryType',
+      'emojiCategoryTypeDefault'                                => 'EmojiCategoryType::Default',
+      'emojiCategoryTypeEmojiStatus'                            => 'EmojiCategoryType::EmojiStatus',
+      'emojiCategoryTypeChatPhoto'                              => 'EmojiCategoryType::ChatPhoto',
       'CallDiscardReason'                                       => 'CallDiscardReason',
       'callDiscardReasonEmpty'                                  => 'CallDiscardReason::Empty',
       'callDiscardReasonMissed'                                 => 'CallDiscardReason::Missed',
@@ -651,6 +669,9 @@ module TD::Types
       'callProblemDistortedVideo'                               => 'CallProblem::DistortedVideo',
       'callProblemPixelatedVideo'                               => 'CallProblem::PixelatedVideo',
       'call'                                                    => 'Call',
+      'FirebaseAuthenticationSettings'                          => 'FirebaseAuthenticationSettings',
+      'firebaseAuthenticationSettingsAndroid'                   => 'FirebaseAuthenticationSettings::Android',
+      'firebaseAuthenticationSettingsIos'                       => 'FirebaseAuthenticationSettings::Ios',
       'phoneNumberAuthenticationSettings'                       => 'PhoneNumberAuthenticationSettings',
       'addedReaction'                                           => 'AddedReaction',
       'addedReactions'                                          => 'AddedReactions',
@@ -788,6 +809,7 @@ module TD::Types
       'premiumFeatureAnimatedProfilePhoto'                      => 'PremiumFeature::AnimatedProfilePhoto',
       'premiumFeatureForumTopicIcon'                            => 'PremiumFeature::ForumTopicIcon',
       'premiumFeatureAppIcons'                                  => 'PremiumFeature::AppIcons',
+      'premiumFeatureRealTimeChatTranslation'                   => 'PremiumFeature::RealTimeChatTranslation',
       'premiumLimit'                                            => 'PremiumLimit',
       'premiumFeatures'                                         => 'PremiumFeatures',
       'PremiumSource'                                           => 'PremiumSource',
@@ -812,6 +834,7 @@ module TD::Types
       'deviceTokenUbuntuPush'                                   => 'DeviceToken::UbuntuPush',
       'deviceTokenBlackBerryPush'                               => 'DeviceToken::BlackBerryPush',
       'deviceTokenTizenPush'                                    => 'DeviceToken::TizenPush',
+      'deviceTokenHuaweiPush'                                   => 'DeviceToken::HuaweiPush',
       'pushReceiverId'                                          => 'PushReceiverId',
       'BackgroundFill'                                          => 'BackgroundFill',
       'backgroundFillSolid'                                     => 'BackgroundFill::Solid',
@@ -1045,6 +1068,14 @@ module TD::Types
       'networkStatistics'                                       => 'NetworkStatistics',
       'autoDownloadSettings'                                    => 'AutoDownloadSettings',
       'autoDownloadSettingsPresets'                             => 'AutoDownloadSettingsPresets',
+      'AutosaveSettingsScope'                                   => 'AutosaveSettingsScope',
+      'autosaveSettingsScopePrivateChats'                       => 'AutosaveSettingsScope::PrivateChats',
+      'autosaveSettingsScopeGroupChats'                         => 'AutosaveSettingsScope::GroupChats',
+      'autosaveSettingsScopeChannelChats'                       => 'AutosaveSettingsScope::ChannelChats',
+      'autosaveSettingsScopeChat'                               => 'AutosaveSettingsScope::Chat',
+      'scopeAutosaveSettings'                                   => 'ScopeAutosaveSettings',
+      'autosaveSettingsException'                               => 'AutosaveSettingsException',
+      'autosaveSettings'                                        => 'AutosaveSettings',
       'ConnectionState'                                         => 'ConnectionState',
       'connectionStateWaitingForNetwork'                        => 'ConnectionState::WaitingForNetwork',
       'connectionStateConnectingToProxy'                        => 'ConnectionState::ConnectingToProxy',
@@ -1073,6 +1104,8 @@ module TD::Types
       'suggestedActionViewChecksHint'                           => 'SuggestedAction::ViewChecksHint',
       'suggestedActionConvertToBroadcastGroup'                  => 'SuggestedAction::ConvertToBroadcastGroup',
       'suggestedActionSetPassword'                              => 'SuggestedAction::SetPassword',
+      'suggestedActionUpgradePremium'                           => 'SuggestedAction::UpgradePremium',
+      'suggestedActionSubscribeToAnnualPremium'                 => 'SuggestedAction::SubscribeToAnnualPremium',
       'count'                                                   => 'Count',
       'text'                                                    => 'Text',
       'seconds'                                                 => 'Seconds',
@@ -1150,9 +1183,10 @@ module TD::Types
       'updateChatVideoChat'                                     => 'Update::ChatVideoChat',
       'updateChatDefaultDisableNotification'                    => 'Update::ChatDefaultDisableNotification',
       'updateChatHasProtectedContent'                           => 'Update::ChatHasProtectedContent',
-      'updateChatHasScheduledMessages'                          => 'Update::ChatHasScheduledMessages',
-      'updateChatIsBlocked'                                     => 'Update::ChatIsBlocked',
+      'updateChatIsTranslatable'                                => 'Update::ChatIsTranslatable',
       'updateChatIsMarkedAsUnread'                              => 'Update::ChatIsMarkedAsUnread',
+      'updateChatIsBlocked'                                     => 'Update::ChatIsBlocked',
+      'updateChatHasScheduledMessages'                          => 'Update::ChatHasScheduledMessages',
       'updateChatFilters'                                       => 'Update::ChatFilters',
       'updateChatOnlineMemberCount'                             => 'Update::ChatOnlineMemberCount',
       'updateForumTopicInfo'                                    => 'Update::ForumTopicInfo',
@@ -1208,6 +1242,7 @@ module TD::Types
       'updateAnimatedEmojiMessageClicked'                       => 'Update::AnimatedEmojiMessageClicked',
       'updateAnimationSearchParameters'                         => 'Update::AnimationSearchParameters',
       'updateSuggestedActions'                                  => 'Update::SuggestedActions',
+      'updateAutosaveSettings'                                  => 'Update::AutosaveSettings',
       'updateNewInlineQuery'                                    => 'Update::NewInlineQuery',
       'updateNewChosenInlineResult'                             => 'Update::NewChosenInlineResult',
       'updateNewCallbackQuery'                                  => 'Update::NewCallbackQuery',
@@ -1282,6 +1317,9 @@ module TD::Types
     authorization_state
     auto_download_settings
     auto_download_settings_presets
+    autosave_settings
+    autosave_settings_exception
+    autosave_settings_scope
     available_reaction
     available_reactions
     background
@@ -1346,6 +1384,8 @@ module TD::Types
     chat_permissions
     chat_photo
     chat_photo_info
+    chat_photo_sticker
+    chat_photo_sticker_type
     chat_photos
     chat_position
     chat_report_reason
@@ -1382,6 +1422,9 @@ module TD::Types
     draft_message
     email_address_authentication
     email_address_authentication_code_info
+    emoji_categories
+    emoji_category
+    emoji_category_type
     emoji_reaction
     emoji_status
     emoji_statuses
@@ -1394,6 +1437,7 @@ module TD::Types
     file_downloaded_prefix_size
     file_part
     file_type
+    firebase_authentication_settings
     formatted_text
     forum_topic
     forum_topic_icon
@@ -1535,6 +1579,7 @@ module TD::Types
     premium_payment_option
     premium_source
     premium_state
+    premium_state_payment_option
     profile_photo
     proxies
     proxy
@@ -1552,6 +1597,7 @@ module TD::Types
     rich_text
     rtmp_url
     saved_credentials
+    scope_autosave_settings
     scope_notification_settings
     search_messages_filter
     seconds

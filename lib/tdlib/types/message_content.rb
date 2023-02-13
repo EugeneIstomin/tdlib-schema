@@ -52,6 +52,8 @@ module TD::Types
       payment_successful_bot
       gifted_premium
       contact_registered
+      user_shared
+      chat_shared
       website_connected
       bot_write_access_allowed
       web_app_data_sent
