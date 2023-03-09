@@ -11,8 +11,8 @@ module TD::Types
   #   supergroup chats.
   # @attr supports_channel_chats [Boolean] True, if the bot supports opening from attachment menu in channel chats.
   # @attr supports_settings [Boolean] True, if the bot supports "settings_button_pressed" event.
-  # @attr request_write_access [Boolean] True, if the user needs to be requested to give the permission to the bot to
-  #   send them messages.
+  # @attr request_write_access [Boolean] True, if the user must be asked for the permission to the bot to send them
+  #   messages.
   # @attr name [TD::Types::String] Name for the bot in attachment menu.
   # @attr name_color [TD::Types::AttachmentMenuBotColor, nil] Color to highlight selected name of the bot if
   #   appropriate; may be null.

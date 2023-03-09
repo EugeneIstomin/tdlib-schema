@@ -10,11 +10,15 @@ module TD::Types
   # @attr scheduling_state [TD::Types::MessageSchedulingState] Message scheduling state; pass null to send message
   #   immediately.
   #   Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled.
+  # @attr sending_id [Integer] Non-persistent identifier, which will be returned back in
+  #   {TD::Types::MessageSendingState::Pending} object and can be used to match sent messages and corresponding
+  #   {TD::Types::Update::NewMessage} updates.
   class MessageSendOptions < Base
     attribute :disable_notification, TD::Types::Bool
     attribute :from_background, TD::Types::Bool
     attribute :protect_content, TD::Types::Bool
     attribute :update_order_of_installed_sticker_sets, TD::Types::Bool
     attribute :scheduling_state, TD::Types::MessageSchedulingState
+    attribute :sending_id, TD::Types::Coercible::Integer
   end
 end

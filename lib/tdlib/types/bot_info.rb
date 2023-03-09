@@ -1,8 +1,8 @@
 module TD::Types
   # Contains information about a bot.
   #
-  # @attr share_text [TD::Types::String] The text that is shown on the bot's profile page and is sent together with the
-  #   link when users share the bot.
+  # @attr short_description [TD::Types::String] The text that is shown on the bot's profile page and is sent together
+  #   with the link when users share the bot.
   # @attr description [TD::Types::String] The text shown in the chat with the bot if the chat is empty.
   # @attr photo [TD::Types::Photo, nil] Photo shown in the chat with the bot if the chat is empty; may be null.
   # @attr animation [TD::Types::Animation, nil] Animation shown in the chat with the bot if the chat is empty; may be
@@ -15,7 +15,7 @@ module TD::Types
   # @attr default_channel_administrator_rights [TD::Types::ChatAdministratorRights, nil] Default administrator rights
   #   for adding the bot to channels; may be null.
   class BotInfo < Base
-    attribute :share_text, TD::Types::String
+    attribute :short_description, TD::Types::String
     attribute :description, TD::Types::String
     attribute :photo, TD::Types::Photo.optional.default(nil)
     attribute :animation, TD::Types::Animation.optional.default(nil)

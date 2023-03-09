@@ -97,6 +97,7 @@ module TD::Types
       'location'                                                => 'Location',
       'venue'                                                   => 'Venue',
       'game'                                                    => 'Game',
+      'webApp'                                                  => 'WebApp',
       'poll'                                                    => 'Poll',
       'profilePhoto'                                            => 'ProfilePhoto',
       'chatPhotoInfo'                                           => 'ChatPhotoInfo',
@@ -185,6 +186,8 @@ module TD::Types
       'messageSenders'                                          => 'MessageSenders',
       'chatMessageSender'                                       => 'ChatMessageSender',
       'chatMessageSenders'                                      => 'ChatMessageSenders',
+      'messageViewer'                                           => 'MessageViewer',
+      'messageViewers'                                          => 'MessageViewers',
       'MessageForwardOrigin'                                    => 'MessageForwardOrigin',
       'messageForwardOriginUser'                                => 'MessageForwardOrigin::User',
       'messageForwardOriginChat'                                => 'MessageForwardOrigin::Chat',
@@ -210,6 +213,16 @@ module TD::Types
       'messagePositions'                                        => 'MessagePositions',
       'messageCalendarDay'                                      => 'MessageCalendarDay',
       'messageCalendar'                                         => 'MessageCalendar',
+      'MessageSource'                                           => 'MessageSource',
+      'messageSourceChatHistory'                                => 'MessageSource::ChatHistory',
+      'messageSourceMessageThreadHistory'                       => 'MessageSource::MessageThreadHistory',
+      'messageSourceForumTopicHistory'                          => 'MessageSource::ForumTopicHistory',
+      'messageSourceHistoryPreview'                             => 'MessageSource::HistoryPreview',
+      'messageSourceChatList'                                   => 'MessageSource::ChatList',
+      'messageSourceSearch'                                     => 'MessageSource::Search',
+      'messageSourceChatEventLog'                               => 'MessageSource::ChatEventLog',
+      'messageSourceNotification'                               => 'MessageSource::Notification',
+      'messageSourceOther'                                      => 'MessageSource::Other',
       'sponsoredMessage'                                        => 'SponsoredMessage',
       'sponsoredMessages'                                       => 'SponsoredMessages',
       'fileDownload'                                            => 'FileDownload',
@@ -287,6 +300,7 @@ module TD::Types
       'LoginUrlInfo'                                            => 'LoginUrlInfo',
       'loginUrlInfoOpen'                                        => 'LoginUrlInfo::Open',
       'loginUrlInfoRequestConfirmation'                         => 'LoginUrlInfo::RequestConfirmation',
+      'foundWebApp'                                             => 'FoundWebApp',
       'webAppInfo'                                              => 'WebAppInfo',
       'messageThreadInfo'                                       => 'MessageThreadInfo',
       'forumTopicIcon'                                          => 'ForumTopicIcon',
@@ -718,6 +732,10 @@ module TD::Types
       'inlineQueryResultSticker'                                => 'InlineQueryResult::Sticker',
       'inlineQueryResultVideo'                                  => 'InlineQueryResult::Video',
       'inlineQueryResultVoiceNote'                              => 'InlineQueryResult::VoiceNote',
+      'InlineQueryResultsButtonType'                            => 'InlineQueryResultsButtonType',
+      'inlineQueryResultsButtonTypeStartBot'                    => 'InlineQueryResultsButtonType::StartBot',
+      'inlineQueryResultsButtonTypeWebApp'                      => 'InlineQueryResultsButtonType::WebApp',
+      'inlineQueryResultsButton'                                => 'InlineQueryResultsButton',
       'inlineQueryResults'                                      => 'InlineQueryResults',
       'CallbackQueryPayload'                                    => 'CallbackQueryPayload',
       'callbackQueryPayloadData'                                => 'CallbackQueryPayload::Data',
@@ -998,9 +1016,9 @@ module TD::Types
       'internalLinkTypeAttachmentMenuBot'                       => 'InternalLinkType::AttachmentMenuBot',
       'internalLinkTypeAuthenticationCode'                      => 'InternalLinkType::AuthenticationCode',
       'internalLinkTypeBackground'                              => 'InternalLinkType::Background',
+      'internalLinkTypeBotAddToChannel'                         => 'InternalLinkType::BotAddToChannel',
       'internalLinkTypeBotStart'                                => 'InternalLinkType::BotStart',
       'internalLinkTypeBotStartInGroup'                         => 'InternalLinkType::BotStartInGroup',
-      'internalLinkTypeBotAddToChannel'                         => 'InternalLinkType::BotAddToChannel',
       'internalLinkTypeChangePhoneNumber'                       => 'InternalLinkType::ChangePhoneNumber',
       'internalLinkTypeChatInvite'                              => 'InternalLinkType::ChatInvite',
       'internalLinkTypeDefaultMessageAutoDeleteTimerSettings'   => 'InternalLinkType::DefaultMessageAutoDeleteTimerSettings',
@@ -1030,6 +1048,7 @@ module TD::Types
       'internalLinkTypeUserPhoneNumber'                         => 'InternalLinkType::UserPhoneNumber',
       'internalLinkTypeUserToken'                               => 'InternalLinkType::UserToken',
       'internalLinkTypeVideoChat'                               => 'InternalLinkType::VideoChat',
+      'internalLinkTypeWebApp'                                  => 'InternalLinkType::WebApp',
       'messageLink'                                             => 'MessageLink',
       'messageLinkInfo'                                         => 'MessageLinkInfo',
       'filePart'                                                => 'FilePart',
@@ -1242,6 +1261,7 @@ module TD::Types
       'updateAnimatedEmojiMessageClicked'                       => 'Update::AnimatedEmojiMessageClicked',
       'updateAnimationSearchParameters'                         => 'Update::AnimationSearchParameters',
       'updateSuggestedActions'                                  => 'Update::SuggestedActions',
+      'updateAddChatMembersPrivacyForbidden'                    => 'Update::AddChatMembersPrivacyForbidden',
       'updateAutosaveSettings'                                  => 'Update::AutosaveSettings',
       'updateNewInlineQuery'                                    => 'Update::NewInlineQuery',
       'updateNewChosenInlineResult'                             => 'Update::NewChosenInlineResult',
@@ -1446,6 +1466,7 @@ module TD::Types
     found_chat_messages
     found_file_downloads
     found_messages
+    found_web_app
     game
     game_high_score
     game_high_scores
@@ -1466,6 +1487,8 @@ module TD::Types
     inline_keyboard_button_type
     inline_query_result
     inline_query_results
+    inline_query_results_button
+    inline_query_results_button_type
     input_background
     input_chat_photo
     input_credentials
@@ -1522,8 +1545,11 @@ module TD::Types
     message_sender
     message_senders
     message_sending_state
+    message_source
     message_statistics
     message_thread_info
+    message_viewer
+    message_viewers
     messages
     minithumbnail
     network_statistics
@@ -1668,6 +1694,7 @@ module TD::Types
     video_chat
     video_note
     voice_note
+    web_app
     web_app_info
     web_page
     web_page_instant_view

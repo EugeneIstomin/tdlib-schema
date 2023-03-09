@@ -13,6 +13,10 @@ module TD::Types
   #   may be null if the sponsor chat needs to be opened instead.
   # @attr content [TD::Types::MessageContent] Content of the message.
   #   Currently, can be only of the type messageText.
+  # @attr sponsor_info [TD::Types::String] If non-empty, information about the sponsor to be shown along with the
+  #   message.
+  # @attr additional_info [TD::Types::String] If non-empty, additional information about the sponsored message to be
+  #   shown along with the message.
   class SponsoredMessage < Base
     attribute :message_id, TD::Types::Coercible::Integer
     attribute :is_recommended, TD::Types::Bool
@@ -21,5 +25,7 @@ module TD::Types
     attribute :show_chat_photo, TD::Types::Bool
     attribute :link, TD::Types::InternalLinkType.optional.default(nil)
     attribute :content, TD::Types::MessageContent
+    attribute :sponsor_info, TD::Types::String
+    attribute :additional_info, TD::Types::String
   end
 end

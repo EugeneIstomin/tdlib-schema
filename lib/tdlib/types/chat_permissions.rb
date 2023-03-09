@@ -1,8 +1,8 @@
 module TD::Types
   # Describes actions that a user is allowed to take in a chat.
   #
-  # @attr can_send_messages [Boolean] True, if the user can send text messages, contacts, invoices, locations, and
-  #   venues.
+  # @attr can_send_basic_messages [Boolean] True, if the user can send text messages, contacts, invoices, locations,
+  #   and venues.
   # @attr can_send_audios [Boolean] True, if the user can send music files.
   # @attr can_send_documents [Boolean] True, if the user can send documents.
   # @attr can_send_photos [Boolean] True, if the user can send audio photos.
@@ -18,7 +18,7 @@ module TD::Types
   # @attr can_pin_messages [Boolean] True, if the user can pin messages.
   # @attr can_manage_topics [Boolean] True, if the user can manage topics.
   class ChatPermissions < Base
-    attribute :can_send_messages, TD::Types::Bool
+    attribute :can_send_basic_messages, TD::Types::Bool
     attribute :can_send_audios, TD::Types::Bool
     attribute :can_send_documents, TD::Types::Bool
     attribute :can_send_photos, TD::Types::Bool

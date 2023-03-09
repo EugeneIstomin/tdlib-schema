@@ -6,9 +6,9 @@ module TD::Types
       attachment_menu_bot
       authentication_code
       background
+      bot_add_to_channel
       bot_start
       bot_start_in_group
-      bot_add_to_channel
       change_phone_number
       chat_invite
       default_message_auto_delete_timer_settings
@@ -38,6 +38,7 @@ module TD::Types
       user_phone_number
       user_token
       video_chat
+      web_app
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/internal_link_type/#{type}"
     end

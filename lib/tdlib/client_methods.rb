@@ -21,6 +21,16 @@ module TD::ClientMethods
               'terms_of_service_id' => terms_of_service_id)
   end
   
+  # Adds server-provided application changelog as messages to the chat 777000 (Telegram); for official applications
+  #   only.
+  #
+  # @param previous_application_version [TD::Types::String] The previous application version.
+  # @return [TD::Types::Ok]
+  def add_application_changelog(previous_application_version:)
+    broadcast('@type'                        => 'addApplicationChangelog',
+              'previous_application_version' => previous_application_version)
+  end
+  
   # Adds a new member to a chat.
   # Members can't be added to private or secret chats.
   #
@@ -84,8 +94,7 @@ module TD::ClientMethods
   # Adds a custom server language pack to the list of installed language packs in current localization target.
   # Can be called before authorization.
   #
-  # @param language_pack_id [TD::Types::String] Identifier of a language pack to be added; may be different from a name
-  #   that is used in an "https://t.me/setlanguage/" link.
+  # @param language_pack_id [TD::Types::String] Identifier of a language pack to be added.
   # @return [TD::Types::Ok]
   def add_custom_server_language_pack(language_pack_id:)
     broadcast('@type'            => 'addCustomServerLanguagePack',
@@ -255,12 +264,11 @@ module TD::ClientMethods
   end
   
   # Adds a new sticker to a set; for bots only.
-  # Returns the sticker set.
   #
   # @param user_id [Integer] Sticker set owner.
   # @param name [TD::Types::String] Sticker set name.
   # @param sticker [TD::Types::InputSticker] Sticker to add to the set.
-  # @return [TD::Types::StickerSet]
+  # @return [TD::Types::Ok]
   def add_sticker_to_set(user_id:, name:, sticker:)
     broadcast('@type'   => 'addStickerToSet',
               'user_id' => user_id,
@@ -301,24 +309,21 @@ module TD::ClientMethods
   # @param inline_query_id [Integer] Identifier of the inline query.
   # @param is_personal [Boolean] Pass true if results may be cached and returned only for the user that sent the query.
   #   By default, results may be returned to any user who sends the same query.
+  # @param button [TD::Types::InlineQueryResultsButton] Button to be shown above inline query results; pass null if
+  #   none.
   # @param results [Array<TD::Types::InputInlineQueryResult>] The results of the query.
   # @param cache_time [Integer] Allowed time to cache the results of the query, in seconds.
   # @param next_offset [TD::Types::String] Offset for the next inline query; pass an empty string if there are no more
   #   results.
-  # @param switch_pm_text [TD::Types::String] If non-empty, this text must be shown on the button that opens a private
-  #   chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter.
-  # @param switch_pm_parameter [TD::Types::String] The parameter for the bot start message.
   # @return [TD::Types::Ok]
-  def answer_inline_query(inline_query_id:, is_personal:, results:, cache_time:, next_offset:, switch_pm_text:,
-                          switch_pm_parameter:)
-    broadcast('@type'               => 'answerInlineQuery',
-              'inline_query_id'     => inline_query_id,
-              'is_personal'         => is_personal,
-              'results'             => results,
-              'cache_time'          => cache_time,
-              'next_offset'         => next_offset,
-              'switch_pm_text'      => switch_pm_text,
-              'switch_pm_parameter' => switch_pm_parameter)
+  def answer_inline_query(inline_query_id:, is_personal:, button:, results:, cache_time:, next_offset:)
+    broadcast('@type'           => 'answerInlineQuery',
+              'inline_query_id' => inline_query_id,
+              'is_personal'     => is_personal,
+              'button'          => button,
+              'results'         => results,
+              'cache_time'      => cache_time,
+              'next_offset'     => next_offset)
   end
   
   # Sets the result of a pre-checkout query; for bots only.
@@ -887,13 +892,14 @@ module TD::ClientMethods
   # Creates a new basic group and sends a corresponding messageBasicGroupChatCreate.
   # Returns the newly created chat.
   #
-  # @param user_ids [Array<Integer>] Identifiers of users to be added to the basic group.
+  # @param user_ids [Array<Integer>, nil] Identifiers of users to be added to the basic group; may be empty to create a
+  #   basic group without other members.
   # @param title [TD::Types::String] Title of the new basic group; 1-128 characters.
   # @param message_auto_delete_time [Integer] Message auto-delete time value, in seconds; must be from 0 up to 365 *
   #   86400 and be divisible by 86400.
   #   If 0, then messages aren't deleted automatically.
   # @return [TD::Types::Chat]
-  def create_new_basic_group_chat(user_ids:, title:, message_auto_delete_time:)
+  def create_new_basic_group_chat(user_ids: nil, title:, message_auto_delete_time:)
     broadcast('@type'                    => 'createNewBasicGroupChat',
               'user_ids'                 => user_ids,
               'title'                    => title,
@@ -918,20 +924,26 @@ module TD::ClientMethods
   # @param name [TD::Types::String, nil] Sticker set name.
   #   Can contain only English letters, digits and underscores.
   #   Must end with *"_by_<bot username>"* (*<bot_username>* is case insensitive) for bots; 1-64 characters.
+  # @param sticker_format [TD::Types::StickerFormat, nil] Format of the stickers in the set.
   # @param sticker_type [TD::Types::StickerType, nil] Type of the stickers in the set.
+  # @param needs_repainting [Boolean, nil] Pass true if stickers in the sticker set must be repainted; for custom emoji
+  #   sticker sets only.
   # @param stickers [Array<TD::Types::InputSticker>] List of stickers to be added to the set; must be non-empty.
   #   All stickers must have the same format.
   #   For TGS stickers, uploadStickerFile must be used before the sticker is shown.
   # @param source [TD::Types::String, nil] Source of the sticker set; may be empty if unknown.
   # @return [TD::Types::StickerSet]
-  def create_new_sticker_set(user_id: nil, title: nil, name: nil, sticker_type: nil, stickers:, source: nil)
-    broadcast('@type'        => 'createNewStickerSet',
-              'user_id'      => user_id,
-              'title'        => title,
-              'name'         => name,
-              'sticker_type' => sticker_type,
-              'stickers'     => stickers,
-              'source'       => source)
+  def create_new_sticker_set(user_id: nil, title: nil, name: nil, sticker_format: nil, sticker_type: nil,
+                             needs_repainting: nil, stickers:, source: nil)
+    broadcast('@type'            => 'createNewStickerSet',
+              'user_id'          => user_id,
+              'title'            => title,
+              'name'             => name,
+              'sticker_format'   => sticker_format,
+              'sticker_type'     => sticker_type,
+              'needs_repainting' => needs_repainting,
+              'stickers'         => stickers,
+              'source'           => source)
   end
   
   # Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate.
@@ -1240,6 +1252,15 @@ module TD::ClientMethods
   # @return [TD::Types::Ok]
   def delete_saved_order_info
     broadcast('@type' => 'deleteSavedOrderInfo')
+  end
+  
+  # Deleted a sticker set; for bots only.
+  #
+  # @param name [TD::Types::String] Sticker set name.
+  # @return [TD::Types::Ok]
+  def delete_sticker_set(name:)
+    broadcast('@type' => 'deleteStickerSet',
+              'name'  => name)
   end
   
   # Closes the TDLib instance, destroying all local data without a proper logout.
@@ -1856,6 +1877,25 @@ module TD::ClientMethods
     broadcast('@type'  => 'getBlockedMessageSenders',
               'offset' => offset,
               'limit'  => limit)
+  end
+  
+  # Returns the text shown in the chat with the bot if the chat is empty in the given language; bots only.
+  #
+  # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code or an empty string.
+  # @return [TD::Types::Text]
+  def get_bot_info_description(language_code:)
+    broadcast('@type'         => 'getBotInfoDescription',
+              'language_code' => language_code)
+  end
+  
+  # Returns the text shown on the bot's profile page and sent together with the link when users share the bot in the
+  #   given language; bots only.
+  #
+  # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code or an empty string.
+  # @return [TD::Types::Text]
+  def get_bot_info_short_description(language_code:)
+    broadcast('@type'         => 'getBotInfoShortDescription',
+              'language_code' => language_code)
   end
   
   # Sends a callback query to a bot and returns an answer.
@@ -2664,6 +2704,19 @@ module TD::ClientMethods
               'sticker_type' => sticker_type)
   end
   
+  # Returns an HTTPS or a tg: link with the given type.
+  # Can be called before authorization.
+  #
+  # @param type [TD::Types::InternalLinkType] Expected type of the link.
+  # @param is_http [Boolean] Pass true to create an HTTPS link (only available for some link types); pass false to
+  #   create a tg: link.
+  # @return [TD::Types::HttpUrl]
+  def get_internal_link(type:, is_http:)
+    broadcast('@type'   => 'getInternalLink',
+              'type'    => type,
+              'is_http' => is_http)
+  end
+  
   # Returns information about the type of an internal link.
   # Returns a 404 error if the link is not internal.
   # Can be called before authorization.
@@ -3067,7 +3120,7 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Chat identifier.
   # @param message_id [Integer] Identifier of the message.
-  # @return [TD::Types::Users]
+  # @return [TD::Types::MessageViewers]
   def get_message_viewers(chat_id:, message_id:)
     broadcast('@type'      => 'getMessageViewers',
               'chat_id'    => chat_id,
@@ -3733,10 +3786,35 @@ module TD::ClientMethods
               'chat_id' => chat_id)
   end
   
-  # Returns an HTTPS URL of a Web App to open after keyboardButtonTypeWebApp button is pressed.
+  # Returns an HTTPS URL of a Web App to open after a link of the type internalLinkTypeWebApp is clicked.
+  #
+  # @param chat_id [Integer] Identifier of the chat in which the link was clicked; pass 0 if none.
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param web_app_short_name [TD::Types::String] Short name of the Web App.
+  # @param start_parameter [TD::Types::String] Start parameter from internalLinkTypeWebApp.
+  # @param theme [TD::Types::ThemeParameters] Preferred Web App theme; pass null to use the default theme.
+  # @param application_name [TD::Types::String] Short name of the application; 0-64 English letters, digits, and
+  #   underscores.
+  # @param allow_write_access [Boolean] Pass true if the current user allowed the bot to send them messages.
+  # @return [TD::Types::HttpUrl]
+  def get_web_app_link_url(chat_id:, bot_user_id:, web_app_short_name:, start_parameter:, theme:, application_name:,
+                           allow_write_access:)
+    broadcast('@type'              => 'getWebAppLinkUrl',
+              'chat_id'            => chat_id,
+              'bot_user_id'        => bot_user_id,
+              'web_app_short_name' => web_app_short_name,
+              'start_parameter'    => start_parameter,
+              'theme'              => theme,
+              'application_name'   => application_name,
+              'allow_write_access' => allow_write_access)
+  end
+  
+  # Returns an HTTPS URL of a Web App to open after keyboardButtonTypeWebApp or inlineQueryResultsButtonTypeWebApp
+  #   button is pressed.
   #
   # @param bot_user_id [Integer] Identifier of the target bot.
-  # @param url [TD::Types::String] The URL from the {TD::Types::KeyboardButtonType::WebApp} button.
+  # @param url [TD::Types::String] The URL from the {TD::Types::KeyboardButtonType::WebApp} or
+  #   {TD::Types::InlineQueryResultsButtonType::WebApp} button.
   # @param theme [TD::Types::ThemeParameters] Preferred Web App theme; pass null to use the default theme.
   # @param application_name [TD::Types::String] Short name of the application; 0-64 English letters, digits, and
   #   underscores.
@@ -5100,6 +5178,18 @@ module TD::ClientMethods
               'token' => token)
   end
   
+  # Returns information about a Web App by its short name.
+  # Returns a 404 error if the Web App is not found.
+  #
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param web_app_short_name [TD::Types::String] Short name of the Web App.
+  # @return [TD::Types::FoundWebApp]
+  def search_web_app(bot_user_id:, web_app_short_name:)
+    broadcast('@type'              => 'searchWebApp',
+              'bot_user_id'        => bot_user_id,
+              'web_app_short_name' => web_app_short_name)
+  end
+  
   # Sends Firebase Authentication SMS to the phone number of the user.
   # Works only when the current authorization state is authorizationStateWaitCode and the server returned code of the
   #   type authenticationCodeTypeFirebaseAndroid or authenticationCodeTypeFirebaseIos.
@@ -5462,6 +5552,31 @@ module TD::ClientMethods
               'bio'   => bio)
   end
   
+  # Sets the text shown in the chat with the bot if the chat is empty; bots only.
+  #
+  # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code.
+  #   If empty, the description will be shown to all users, for which language there are no dedicated description.
+  # @param description [TD::Types::String] New bot's description on the specified language.
+  # @return [TD::Types::Ok]
+  def set_bot_info_description(language_code:, description:)
+    broadcast('@type'         => 'setBotInfoDescription',
+              'language_code' => language_code,
+              'description'   => description)
+  end
+  
+  # Sets the text shown on the bot's profile page and sent together with the link when users share the bot; bots only.
+  #
+  # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code.
+  #   If empty, the short description will be shown to all users, for which language there are no dedicated
+  #   description.
+  # @param short_description [TD::Types::String] New bot's short description on the specified language.
+  # @return [TD::Types::Ok]
+  def set_bot_info_short_description(language_code:, short_description:)
+    broadcast('@type'             => 'setBotInfoShortDescription',
+              'language_code'     => language_code,
+              'short_description' => short_description)
+  end
+  
   # Informs the server about the number of pending bot updates if they haven't been processed for a long time; for bots
   #   only.
   #
@@ -5690,6 +5805,18 @@ module TD::ClientMethods
               'scope'         => scope,
               'language_code' => language_code,
               'commands'      => commands)
+  end
+  
+  # Sets a custom emoji sticker set thumbnail; for bots only.
+  #
+  # @param name [TD::Types::String] Sticker set name.
+  # @param custom_emoji_id [Integer] Identifier of the custom emoji from the sticker set, which will be set as sticker
+  #   set thumbnail; pass 0 to remove the sticker set thumbnail.
+  # @return [TD::Types::Ok]
+  def set_custom_emoji_sticker_set_thumbnail(name:, custom_emoji_id:)
+    broadcast('@type'           => 'setCustomEmojiStickerSetThumbnail',
+              'name'            => name,
+              'custom_emoji_id' => custom_emoji_id)
   end
   
   # Adds or changes a custom local language pack to the current localization target.
@@ -6125,6 +6252,44 @@ module TD::ClientMethods
               'notification_settings' => notification_settings)
   end
   
+  # Changes the list of emoji corresponding to a sticker; for bots only.
+  # The sticker must belong to a regular or custom emoji sticker set created by the bot.
+  #
+  # @param sticker [TD::Types::InputFile] Sticker.
+  # @param emojis [TD::Types::String] New string with 1-20 emoji corresponding to the sticker.
+  # @return [TD::Types::Ok]
+  def set_sticker_emojis(sticker:, emojis:)
+    broadcast('@type'   => 'setStickerEmojis',
+              'sticker' => sticker,
+              'emojis'  => emojis)
+  end
+  
+  # Changes the list of keywords of a sticker; for bots only.
+  # The sticker must belong to a regular or custom emoji sticker set created by the bot.
+  #
+  # @param sticker [TD::Types::InputFile] Sticker.
+  # @param keywords [Array<TD::Types::String>] List of up to 20 keywords with total length up to 64 characters, which
+  #   can be used to find the sticker.
+  # @return [TD::Types::Ok]
+  def set_sticker_keywords(sticker:, keywords:)
+    broadcast('@type'    => 'setStickerKeywords',
+              'sticker'  => sticker,
+              'keywords' => keywords)
+  end
+  
+  # Changes the mask position of a mask sticker; for bots only.
+  # The sticker must belong to a mask sticker set created by the bot.
+  #
+  # @param sticker [TD::Types::InputFile] Sticker.
+  # @param mask_position [TD::Types::MaskPosition] Position where the mask is placed; pass null to remove mask
+  #   position.
+  # @return [TD::Types::Ok]
+  def set_sticker_mask_position(sticker:, mask_position:)
+    broadcast('@type'         => 'setStickerMaskPosition',
+              'sticker'       => sticker,
+              'mask_position' => mask_position)
+  end
+  
   # Changes the position of a sticker in the set to which it belongs; for bots only.
   # The sticker set must have been created by the bot.
   #
@@ -6138,19 +6303,29 @@ module TD::ClientMethods
   end
   
   # Sets a sticker set thumbnail; for bots only.
-  # Returns the sticker set.
   #
   # @param user_id [Integer] Sticker set owner.
   # @param name [TD::Types::String] Sticker set name.
   # @param thumbnail [TD::Types::InputFile] Thumbnail to set in PNG, TGS, or WEBM format; pass null to remove the
   #   sticker set thumbnail.
   #   Thumbnail format must match the format of stickers in the set.
-  # @return [TD::Types::StickerSet]
+  # @return [TD::Types::Ok]
   def set_sticker_set_thumbnail(user_id:, name:, thumbnail:)
     broadcast('@type'     => 'setStickerSetThumbnail',
               'user_id'   => user_id,
               'name'      => name,
               'thumbnail' => thumbnail)
+  end
+  
+  # Sets a sticker set title; for bots only.
+  #
+  # @param name [TD::Types::String] Sticker set name.
+  # @param title [TD::Types::String] New sticker set title.
+  # @return [TD::Types::Ok]
+  def set_sticker_set_title(name:, title:)
+    broadcast('@type' => 'setStickerSetTitle',
+              'name'  => name,
+              'title' => title)
   end
   
   # Changes the sticker set of a supergroup; requires can_change_info administrator right.
@@ -6843,7 +7018,7 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Identifier of the chat to which the message belongs.
   # @param message_id [Integer] Identifier of the message.
-  # @param to_language_code [TD::Types::String] ISO language code of the language to which the message is translated.
+  # @param to_language_code [TD::Types::String] Language code of the language to which the message is translated.
   #   Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh",
   #   "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de",
   #   "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn",
@@ -6863,7 +7038,7 @@ module TD::ClientMethods
   # If the current user is a Telegram Premium user, then text formatting is preserved.
   #
   # @param text [TD::Types::FormattedText] Text to translate.
-  # @param to_language_code [TD::Types::String] ISO language code of the language to which the message is translated.
+  # @param to_language_code [TD::Types::String] Language code of the language to which the message is translated.
   #   Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh",
   #   "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de",
   #   "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn",
@@ -6925,12 +7100,16 @@ module TD::ClientMethods
   # Uploads a file with a sticker; returns the uploaded file.
   #
   # @param user_id [Integer] Sticker file owner; ignored for regular users.
-  # @param sticker [TD::Types::InputSticker] Sticker file to upload.
+  # @param sticker_format [TD::Types::StickerFormat] Sticker format.
+  # @param sticker [TD::Types::InputFile] File file to upload; must fit in a 512x512 square.
+  #   For WEBP stickers the file must be in WEBP or PNG format, which will be converted to WEBP server-side.
+  #   See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements.
   # @return [TD::Types::File]
-  def upload_sticker_file(user_id:, sticker:)
-    broadcast('@type'   => 'uploadStickerFile',
-              'user_id' => user_id,
-              'sticker' => sticker)
+  def upload_sticker_file(user_id:, sticker_format:, sticker:)
+    broadcast('@type'          => 'uploadStickerFile',
+              'user_id'        => user_id,
+              'sticker_format' => sticker_format,
+              'sticker'        => sticker)
   end
   
   # Validates the order information provided by a user and returns the available shipping options for a flexible
@@ -6954,16 +7133,17 @@ module TD::ClientMethods
   #   read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels).
   #
   # @param chat_id [Integer] Chat identifier.
-  # @param message_thread_id [Integer] If not 0, a message thread identifier in which the messages are being viewed.
   # @param message_ids [Array<Integer>] The identifiers of the messages being viewed.
-  # @param force_read [Boolean] Pass true to mark as read the specified messages even the chat is closed.
+  # @param source [TD::Types::MessageSource] Source of the message view.
+  # @param force_read [Boolean] Pass true to mark as read the specified messages even the chat is closed; pass null to
+  #   guess the source based on chat open state.
   # @return [TD::Types::Ok]
-  def view_messages(chat_id:, message_thread_id:, message_ids:, force_read:)
-    broadcast('@type'             => 'viewMessages',
-              'chat_id'           => chat_id,
-              'message_thread_id' => message_thread_id,
-              'message_ids'       => message_ids,
-              'force_read'        => force_read)
+  def view_messages(chat_id:, message_ids:, source:, force_read:)
+    broadcast('@type'       => 'viewMessages',
+              'chat_id'     => chat_id,
+              'message_ids' => message_ids,
+              'source'      => source,
+              'force_read'  => force_read)
   end
   
   # Informs TDLib that the user viewed detailed information about a Premium feature on the Premium features screen.

@@ -96,6 +96,7 @@ module TD::Types
       animated_emoji_message_clicked
       animation_search_parameters
       suggested_actions
+      add_chat_members_privacy_forbidden
       autosave_settings
       new_inline_query
       new_chosen_inline_result
