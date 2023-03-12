@@ -277,9 +277,9 @@ puts "Converting classes into Ruby types"
   if (subclasses = @class_hierarchy[class_info[:class]])
     autoload_statements = <<-RUBY
     %w[
-      #{subclasses.map { |c| c.sub(class_name, '').underscore }.join("\n      ")}
+      #{subclasses.map { |c| c.sub(class_name, '') }.join("\n      ")}
     ].each do |type|
-      autoload TD::Types.camelize(type), "#{AUTOLOAD_BASE_DIR}/#{class_name.underscore}/\#{type}"
+      autoload TD::Types.camelize(type), "#{AUTOLOAD_BASE_DIR}/#{class_name}/\#{type}"
     end
     RUBY
   else
@@ -287,14 +287,14 @@ puts "Converting classes into Ruby types"
   end
 
   if super_class_name == 'Base'
-    file_name  = class_name.underscore
+    file_name  = class_name
     class_name = "#{class_name} < Base"
   else
-    file_name  = "#{super_class_name.underscore}/#{class_name.sub(super_class_name, '').underscore}"
+    file_name  = "#{super_class_name}/#{class_name.sub(super_class_name, '')}"
     class_name = "#{super_class_name}::#{class_name.sub(super_class_name, '')} < #{super_class_name}"
 
-    puts "MKDIR 'lib/tdlib/types/#{super_class_name.underscore}'"
-     FileUtils.mkdir_p "lib/tdlib/types/#{super_class_name.underscore}"
+    puts "MKDIR 'lib/tdlib/types/#{super_class_name}'"
+     FileUtils.mkdir_p "lib/tdlib/types/#{super_class_name}"
   end
 
   if attributes.blank?
@@ -380,7 +380,7 @@ module TD::Types
   end
   
   %w[
-    #{(@class_hierarchy["Base"].map { |c| c.underscore } + ['base']).sort_by { |c| c }.join("\n    ")}
+    #{(@class_hierarchy["Base"].map { |c| c } + ['base']).sort_by { |c| c }.join("\n    ")}
   ].each do |type|
     autoload camelize(type), "#{AUTOLOAD_BASE_DIR}/\#{type}"
   end
@@ -396,7 +396,7 @@ puts "Converting functions"
 
 # Converts TDApi functions into methods. Still need human touch haha
 @functions = @functions.map do |func|
-  method_name  = func[:class].underscore
+  method_name  = func[:class]
   params       = func[:arguments]
   description  = func[:description]
   # TODO: Replace InputMessageContent and others (see #normalize_class_name)
