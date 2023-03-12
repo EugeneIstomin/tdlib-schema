@@ -7,7 +7,7 @@ module TD::Types
       Integer
       String
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/OptionValue/#{type}"
+      autoload TD::Types.type, "tdlib/types/OptionValue/#{type}"
     end
   end
 end

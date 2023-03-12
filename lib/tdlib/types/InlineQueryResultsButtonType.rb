@@ -5,7 +5,7 @@ module TD::Types
       StartBot
       WebApp
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/InlineQueryResultsButtonType/#{type}"
+      autoload TD::Types.type, "tdlib/types/InlineQueryResultsButtonType/#{type}"
     end
   end
 end

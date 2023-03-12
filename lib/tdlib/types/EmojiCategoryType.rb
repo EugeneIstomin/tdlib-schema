@@ -6,7 +6,7 @@ module TD::Types
       EmojiStatus
       ChatPhoto
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/EmojiCategoryType/#{type}"
+      autoload TD::Types.type, "tdlib/types/EmojiCategoryType/#{type}"
     end
   end
 end

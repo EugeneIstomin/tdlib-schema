@@ -20,7 +20,7 @@ module TD::Types
       AnchorLink
       s
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/RichText/#{type}"
+      autoload TD::Types.type, "tdlib/types/RichText/#{type}"
     end
   end
 end

@@ -5,7 +5,7 @@ module TD::Types
       Open
       RequestConfirmation
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/LoginUrlInfo/#{type}"
+      autoload TD::Types.type, "tdlib/types/LoginUrlInfo/#{type}"
     end
   end
 end

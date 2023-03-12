@@ -11,7 +11,7 @@ module TD::Types
       UpgradePremium
       SubscribeToAnnualPremium
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/SuggestedAction/#{type}"
+      autoload TD::Types.type, "tdlib/types/SuggestedAction/#{type}"
     end
   end
 end

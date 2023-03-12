@@ -20,7 +20,7 @@ module TD::Types
       FailedToSend
       Pinned
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/SearchMessagesFilter/#{type}"
+      autoload TD::Types.type, "tdlib/types/SearchMessagesFilter/#{type}"
     end
   end
 end

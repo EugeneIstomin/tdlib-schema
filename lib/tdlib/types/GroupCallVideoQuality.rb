@@ -6,7 +6,7 @@ module TD::Types
       Medium
       Full
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/GroupCallVideoQuality/#{type}"
+      autoload TD::Types.type, "tdlib/types/GroupCallVideoQuality/#{type}"
     end
   end
 end

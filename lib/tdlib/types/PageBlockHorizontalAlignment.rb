@@ -6,7 +6,7 @@ module TD::Types
       Center
       Right
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/PageBlockHorizontalAlignment/#{type}"
+      autoload TD::Types.type, "tdlib/types/PageBlockHorizontalAlignment/#{type}"
     end
   end
 end

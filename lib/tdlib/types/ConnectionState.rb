@@ -8,7 +8,7 @@ module TD::Types
       Updating
       Ready
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/ConnectionState/#{type}"
+      autoload TD::Types.type, "tdlib/types/ConnectionState/#{type}"
     end
   end
 end

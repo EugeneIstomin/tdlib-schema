@@ -18,7 +18,7 @@ module TD::Types
       WatchingAnimations
       Cancel
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/ChatAction/#{type}"
+      autoload TD::Types.type, "tdlib/types/ChatAction/#{type}"
     end
   end
 end

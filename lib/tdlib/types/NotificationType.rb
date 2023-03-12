@@ -7,7 +7,7 @@ module TD::Types
       NewCall
       NewPushMessage
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/NotificationType/#{type}"
+      autoload TD::Types.type, "tdlib/types/NotificationType/#{type}"
     end
   end
 end

@@ -12,7 +12,7 @@ module TD::Types
       Buy
       User
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/InlineKeyboardButtonType/#{type}"
+      autoload TD::Types.type, "tdlib/types/InlineKeyboardButtonType/#{type}"
     end
   end
 end

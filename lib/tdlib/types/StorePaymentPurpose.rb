@@ -5,7 +5,7 @@ module TD::Types
       PremiumSubscription
       GiftedPremium
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/StorePaymentPurpose/#{type}"
+      autoload TD::Types.type, "tdlib/types/StorePaymentPurpose/#{type}"
     end
   end
 end

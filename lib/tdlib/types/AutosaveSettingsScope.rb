@@ -7,7 +7,7 @@ module TD::Types
       ChannelChats
       Chat
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/AutosaveSettingsScope/#{type}"
+      autoload TD::Types.type, "tdlib/types/AutosaveSettingsScope/#{type}"
     end
   end
 end

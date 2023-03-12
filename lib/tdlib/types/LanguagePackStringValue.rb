@@ -6,7 +6,7 @@ module TD::Types
       Pluralized
       Deleted
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/LanguagePackStringValue/#{type}"
+      autoload TD::Types.type, "tdlib/types/LanguagePackStringValue/#{type}"
     end
   end
 end

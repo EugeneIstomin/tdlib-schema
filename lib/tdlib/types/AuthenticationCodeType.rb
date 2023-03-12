@@ -11,7 +11,7 @@ module TD::Types
       FirebaseAndroid
       FirebaseIos
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/AuthenticationCodeType/#{type}"
+      autoload TD::Types.type, "tdlib/types/AuthenticationCodeType/#{type}"
     end
   end
 end

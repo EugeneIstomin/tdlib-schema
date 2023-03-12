@@ -5,7 +5,7 @@ module TD::Types
       MtprotoProxy
       PublicServiceAnnouncement
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/ChatSource/#{type}"
+      autoload TD::Types.type, "tdlib/types/ChatSource/#{type}"
     end
   end
 end

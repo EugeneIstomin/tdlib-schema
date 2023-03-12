@@ -11,7 +11,7 @@ module TD::Types
       Mention
       Bots
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/SupergroupMembersFilter/#{type}"
+      autoload TD::Types.type, "tdlib/types/SupergroupMembersFilter/#{type}"
     end
   end
 end

@@ -6,7 +6,7 @@ module TD::Types
       File
       Empty
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/LogStream/#{type}"
+      autoload TD::Types.type, "tdlib/types/LogStream/#{type}"
     end
   end
 end

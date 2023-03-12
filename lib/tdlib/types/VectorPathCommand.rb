@@ -5,7 +5,7 @@ module TD::Types
       Line
       CubicBezierCurve
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/VectorPathCommand/#{type}"
+      autoload TD::Types.type, "tdlib/types/VectorPathCommand/#{type}"
     end
   end
 end

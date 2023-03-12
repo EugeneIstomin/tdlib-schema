@@ -17,7 +17,7 @@ module TD::Types
       TizenPush
       HuaweiPush
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/DeviceToken/#{type}"
+      autoload TD::Types.type, "tdlib/types/DeviceToken/#{type}"
     end
   end
 end

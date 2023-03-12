@@ -7,7 +7,7 @@ module TD::Types
       PasswordTooFresh
       SessionTooFresh
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/CanTransferOwnershipResult/#{type}"
+      autoload TD::Types.type, "tdlib/types/CanTransferOwnershipResult/#{type}"
     end
   end
 end

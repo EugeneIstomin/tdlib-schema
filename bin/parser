@@ -244,8 +244,8 @@ module TD::Types
 end
 RUBY
 
-puts "Writing 'lib/tdlib/types/base.rb'"
-File.write 'lib/tdlib/types/base.rb', klass
+puts "Writing 'lib/tdlib/types/Base.rb'"
+File.write 'lib/tdlib/types/Base.rb', klass
 
 puts "Parsing #{TD_API_TL_LOCATION}"
 
@@ -279,7 +279,7 @@ puts "Converting classes into Ruby types"
     %w[
       #{subclasses.map { |c| c.sub(class_name, '') }.join("\n      ")}
     ].each do |type|
-      autoload TD::Types.camelize(type), "#{AUTOLOAD_BASE_DIR}/#{class_name}/\#{type}"
+      autoload TD::Types.type, "#{AUTOLOAD_BASE_DIR}/#{class_name}/\#{type}"
     end
     RUBY
   else
@@ -376,13 +376,14 @@ module TD::Types
   
   # Simple implementation for internal use only.
   def camelize(str)
-    str.gsub(/(?:_|(\\/)|^)([a-z\\d]*)/i) { "\#{$1}\#{$2.capitalize}" }
+    str
+    #.gsub(/(?:_|(\\/)|^)([a-z\\d]*)/i) { "\#{$1}\#{$2.capitalize}" }
   end
   
   %w[
-    #{(@class_hierarchy["Base"].map { |c| c } + ['base']).sort_by { |c| c }.join("\n    ")}
+    #{(@class_hierarchy["Base"].map { |c| c } + ['Base']).sort_by { |c| c }.join("\n    ")}
   ].each do |type|
-    autoload camelize(type), "#{AUTOLOAD_BASE_DIR}/\#{type}"
+    autoload type, "#{AUTOLOAD_BASE_DIR}/\#{type}"
   end
 end
 RUBY

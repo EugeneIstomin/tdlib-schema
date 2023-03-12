@@ -10,7 +10,7 @@ module TD::Types
       RequestChat
       WebApp
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/KeyboardButtonType/#{type}"
+      autoload TD::Types.type, "tdlib/types/KeyboardButtonType/#{type}"
     end
   end
 end

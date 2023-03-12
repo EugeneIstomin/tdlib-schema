@@ -6,7 +6,7 @@ module TD::Types
       Chosen
       InternalLink
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/TargetChat/#{type}"
+      autoload TD::Types.type, "tdlib/types/TargetChat/#{type}"
     end
   end
 end

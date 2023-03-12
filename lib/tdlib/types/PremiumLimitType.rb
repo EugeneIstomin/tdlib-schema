@@ -13,7 +13,7 @@ module TD::Types
       CaptionLength
       BioLength
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/PremiumLimitType/#{type}"
+      autoload TD::Types.type, "tdlib/types/PremiumLimitType/#{type}"
     end
   end
 end

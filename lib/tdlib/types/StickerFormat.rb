@@ -6,7 +6,7 @@ module TD::Types
       Tgs
       Webm
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/StickerFormat/#{type}"
+      autoload TD::Types.type, "tdlib/types/StickerFormat/#{type}"
     end
   end
 end

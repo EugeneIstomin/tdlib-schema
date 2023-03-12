@@ -1317,7 +1317,8 @@ module TD::Types
   
   # Simple implementation for internal use only.
   def camelize(str)
-    str.gsub(/(?:_|(\/)|^)([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+    str
+    #.gsub(/(?:_|(\/)|^)([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
   end
   
   %w[
@@ -1348,6 +1349,7 @@ module TD::Types
     Backgrounds
     BankCardActionOpenUrl
     BankCardInfo
+    Base
     BasicGroup
     BasicGroupFullInfo
     BotCommand
@@ -1697,8 +1699,7 @@ module TD::Types
     WebAppInfo
     WebPage
     WebPageInstantView
-    base
   ].each do |type|
-    autoload camelize(type), "tdlib/types/#{type}"
+    autoload type, "tdlib/types/#{type}"
   end
 end

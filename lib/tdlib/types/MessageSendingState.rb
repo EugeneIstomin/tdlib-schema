@@ -5,7 +5,7 @@ module TD::Types
       Pending
       Failed
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/MessageSendingState/#{type}"
+      autoload TD::Types.type, "tdlib/types/MessageSendingState/#{type}"
     end
   end
 end

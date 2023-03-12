@@ -8,7 +8,7 @@ module TD::Types
       Bot
       Unknown
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/UserType/#{type}"
+      autoload TD::Types.type, "tdlib/types/UserType/#{type}"
     end
   end
 end

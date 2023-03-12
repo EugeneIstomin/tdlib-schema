@@ -6,7 +6,7 @@ module TD::Types
       AppleId
       GoogleId
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/EmailAddressAuthentication/#{type}"
+      autoload TD::Types.type, "tdlib/types/EmailAddressAuthentication/#{type}"
     end
   end
 end

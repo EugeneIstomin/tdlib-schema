@@ -16,7 +16,7 @@ module TD::Types
       PhoneNumber
       EmailAddress
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/PassportElementType/#{type}"
+      autoload TD::Types.type, "tdlib/types/PassportElementType/#{type}"
     end
   end
 end

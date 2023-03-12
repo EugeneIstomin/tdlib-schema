@@ -7,7 +7,7 @@ module TD::Types
       ApplePay
       GooglePay
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/InputCredentials/#{type}"
+      autoload TD::Types.type, "tdlib/types/InputCredentials/#{type}"
     end
   end
 end

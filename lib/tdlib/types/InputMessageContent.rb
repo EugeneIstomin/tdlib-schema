@@ -20,7 +20,7 @@ module TD::Types
       Poll
       Forwarded
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/InputMessageContent/#{type}"
+      autoload TD::Types.type, "tdlib/types/InputMessageContent/#{type}"
     end
   end
 end

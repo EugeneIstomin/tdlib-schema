@@ -8,7 +8,7 @@ module TD::Types
       WiFi
       Other
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/NetworkType/#{type}"
+      autoload TD::Types.type, "tdlib/types/NetworkType/#{type}"
     end
   end
 end

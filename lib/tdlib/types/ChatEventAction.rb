@@ -47,7 +47,7 @@ module TD::Types
       ForumTopicDeleted
       ForumTopicPinned
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/ChatEventAction/#{type}"
+      autoload TD::Types.type, "tdlib/types/ChatEventAction/#{type}"
     end
   end
 end

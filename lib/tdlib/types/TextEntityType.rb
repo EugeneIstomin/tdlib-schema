@@ -23,7 +23,7 @@ module TD::Types
       CustomEmoji
       MediaTimestamp
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/TextEntityType/#{type}"
+      autoload TD::Types.type, "tdlib/types/TextEntityType/#{type}"
     end
   end
 end

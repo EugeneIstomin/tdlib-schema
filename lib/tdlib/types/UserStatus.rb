@@ -9,7 +9,7 @@ module TD::Types
       LastWeek
       LastMonth
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/UserStatus/#{type}"
+      autoload TD::Types.type, "tdlib/types/UserStatus/#{type}"
     end
   end
 end

@@ -12,7 +12,7 @@ module TD::Types
       DistortedVideo
       PixelatedVideo
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/CallProblem/#{type}"
+      autoload TD::Types.type, "tdlib/types/CallProblem/#{type}"
     end
   end
 end

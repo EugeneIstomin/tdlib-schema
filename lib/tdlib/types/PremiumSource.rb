@@ -7,7 +7,7 @@ module TD::Types
       Link
       Settings
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/PremiumSource/#{type}"
+      autoload TD::Types.type, "tdlib/types/PremiumSource/#{type}"
     end
   end
 end

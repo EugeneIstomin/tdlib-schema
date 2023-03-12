@@ -20,7 +20,7 @@ module TD::Types
       VoiceNote
       Wallpaper
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/FileType/#{type}"
+      autoload TD::Types.type, "tdlib/types/FileType/#{type}"
     end
   end
 end

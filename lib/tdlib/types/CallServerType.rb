@@ -5,7 +5,7 @@ module TD::Types
       TelegramReflector
       Webrtc
     ].each do |type|
-      autoload TD::Types.camelize(type), "tdlib/types/CallServerType/#{type}"
+      autoload TD::Types.type, "tdlib/types/CallServerType/#{type}"
     end
   end
 end
