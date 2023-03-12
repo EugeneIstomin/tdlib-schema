@@ -12,7 +12,7 @@ module TD::Types
       AllowFindingByPhoneNumber
       AllowPrivateVoiceAndVideoNoteMessages
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/UserPrivacySetting/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/UserPrivacySetting/#{type}"
     end
   end
 end

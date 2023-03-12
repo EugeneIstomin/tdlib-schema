@@ -7,7 +7,7 @@ module TD::Types
       Animation
       Sticker
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/InputChatPhoto/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/InputChatPhoto/#{type}"
     end
   end
 end

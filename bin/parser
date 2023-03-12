@@ -279,7 +279,7 @@ puts "Converting classes into Ruby types"
     %w[
       #{subclasses.map { |c| c.sub(class_name, '') }.join("\n      ")}
     ].each do |type|
-      autoload TD::Types.type, "#{AUTOLOAD_BASE_DIR}/#{class_name}/\#{type}"
+      autoload TD::Types.camelize(type), "#{AUTOLOAD_BASE_DIR}/#{class_name}/\#{type}"
     end
     RUBY
   else

@@ -7,7 +7,7 @@ module TD::Types
       Supergroup
       Secret
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatType/#{type}"
     end
   end
 end

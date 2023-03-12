@@ -6,7 +6,7 @@ module TD::Types
       Gradient
       FreeformGradient
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/BackgroundFill/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/BackgroundFill/#{type}"
     end
   end
 end

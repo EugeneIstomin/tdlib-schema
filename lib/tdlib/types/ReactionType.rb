@@ -5,7 +5,7 @@ module TD::Types
       Emoji
       CustomEmoji
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ReactionType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ReactionType/#{type}"
     end
   end
 end

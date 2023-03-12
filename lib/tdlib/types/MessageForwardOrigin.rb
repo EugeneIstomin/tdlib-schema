@@ -8,7 +8,7 @@ module TD::Types
       Channel
       MessageImport
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageForwardOrigin/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageForwardOrigin/#{type}"
     end
   end
 end

@@ -111,7 +111,7 @@ module TD::Types
       ChatMember
       NewChatJoinRequest
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/Update/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/Update/#{type}"
     end
   end
 end

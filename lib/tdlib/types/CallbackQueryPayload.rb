@@ -6,7 +6,7 @@ module TD::Types
       DataWithPassword
       Game
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/CallbackQueryPayload/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/CallbackQueryPayload/#{type}"
     end
   end
 end

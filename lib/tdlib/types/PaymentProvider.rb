@@ -6,7 +6,7 @@ module TD::Types
       Stripe
       Other
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PaymentProvider/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PaymentProvider/#{type}"
     end
   end
 end

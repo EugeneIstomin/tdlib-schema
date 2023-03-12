@@ -6,7 +6,7 @@ module TD::Types
       Mask
       CustomEmoji
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/StickerType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/StickerType/#{type}"
     end
   end
 end

@@ -5,7 +5,7 @@ module TD::Types
       SendAtDate
       SendWhenOnline
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageSchedulingState/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageSchedulingState/#{type}"
     end
   end
 end

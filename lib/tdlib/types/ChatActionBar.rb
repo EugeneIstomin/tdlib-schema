@@ -10,7 +10,7 @@ module TD::Types
       SharePhoneNumber
       JoinRequest
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatActionBar/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatActionBar/#{type}"
     end
   end
 end

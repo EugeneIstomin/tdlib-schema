@@ -63,7 +63,7 @@ module TD::Types
       ProximityAlertTriggered
       Unsupported
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageContent/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageContent/#{type}"
     end
   end
 end

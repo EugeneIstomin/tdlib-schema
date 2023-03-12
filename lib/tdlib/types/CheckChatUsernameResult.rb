@@ -9,7 +9,7 @@ module TD::Types
       PublicChatsTooMany
       PublicGroupsUnavailable
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/CheckChatUsernameResult/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/CheckChatUsernameResult/#{type}"
     end
   end
 end

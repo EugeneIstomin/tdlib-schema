@@ -13,7 +13,7 @@ module TD::Types
       PersonalDetails
       Custom
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatReportReason/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatReportReason/#{type}"
     end
   end
 end

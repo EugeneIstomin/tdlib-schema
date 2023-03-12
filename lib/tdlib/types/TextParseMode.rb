@@ -5,7 +5,7 @@ module TD::Types
       Markdown
       HTML
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/TextParseMode/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/TextParseMode/#{type}"
     end
   end
 end

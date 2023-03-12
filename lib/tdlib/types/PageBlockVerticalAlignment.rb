@@ -6,7 +6,7 @@ module TD::Types
       Middle
       Bottom
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PageBlockVerticalAlignment/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PageBlockVerticalAlignment/#{type}"
     end
   end
 end

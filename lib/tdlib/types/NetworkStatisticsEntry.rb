@@ -5,7 +5,7 @@ module TD::Types
       File
       Call
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/NetworkStatisticsEntry/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/NetworkStatisticsEntry/#{type}"
     end
   end
 end

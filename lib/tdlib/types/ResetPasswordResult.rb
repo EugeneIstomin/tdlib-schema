@@ -6,7 +6,7 @@ module TD::Types
       Pending
       Declined
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ResetPasswordResult/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ResetPasswordResult/#{type}"
     end
   end
 end

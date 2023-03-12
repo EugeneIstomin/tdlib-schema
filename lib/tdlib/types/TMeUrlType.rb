@@ -7,7 +7,7 @@ module TD::Types
       ChatInvite
       StickerSet
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/TMeUrlType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/TMeUrlType/#{type}"
     end
   end
 end

@@ -7,7 +7,7 @@ module TD::Types
       ShowKeyboard
       InlineKeyboard
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ReplyMarkup/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ReplyMarkup/#{type}"
     end
   end
 end

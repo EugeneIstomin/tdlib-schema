@@ -10,7 +10,7 @@ module TD::Types
       ChatAdministrators
       ChatMember
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/BotCommandScope/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/BotCommandScope/#{type}"
     end
   end
 end

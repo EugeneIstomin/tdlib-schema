@@ -15,7 +15,7 @@ module TD::Types
       Closing
       Closed
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/AuthorizationState/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/AuthorizationState/#{type}"
     end
   end
 end

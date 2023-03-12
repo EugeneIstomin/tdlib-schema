@@ -15,7 +15,7 @@ module TD::Types
       Video
       VoiceNote
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/InputInlineQueryResult/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/InputInlineQueryResult/#{type}"
     end
   end
 end

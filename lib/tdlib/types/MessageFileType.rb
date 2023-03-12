@@ -6,7 +6,7 @@ module TD::Types
       Group
       Unknown
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageFileType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageFileType/#{type}"
     end
   end
 end

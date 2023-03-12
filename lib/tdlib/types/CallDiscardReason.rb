@@ -8,7 +8,7 @@ module TD::Types
       Disconnected
       HungUp
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/CallDiscardReason/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/CallDiscardReason/#{type}"
     end
   end
 end

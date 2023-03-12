@@ -12,7 +12,7 @@ module TD::Types
       File
       Files
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PassportElementErrorSource/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PassportElementErrorSource/#{type}"
     end
   end
 end

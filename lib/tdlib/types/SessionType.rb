@@ -20,7 +20,7 @@ module TD::Types
       Windows
       Xbox
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/SessionType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/SessionType/#{type}"
     end
   end
 end

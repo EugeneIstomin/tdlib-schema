@@ -6,7 +6,7 @@ module TD::Types
       Ready
       Closed
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/SecretChatState/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/SecretChatState/#{type}"
     end
   end
 end

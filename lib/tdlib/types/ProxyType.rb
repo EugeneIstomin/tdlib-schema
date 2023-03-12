@@ -6,7 +6,7 @@ module TD::Types
       Http
       Mtproto
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ProxyType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ProxyType/#{type}"
     end
   end
 end

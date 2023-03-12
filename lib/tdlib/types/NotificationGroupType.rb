@@ -7,7 +7,7 @@ module TD::Types
       SecretChat
       Calls
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/NotificationGroupType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/NotificationGroupType/#{type}"
     end
   end
 end

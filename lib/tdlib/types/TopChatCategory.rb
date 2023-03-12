@@ -10,7 +10,7 @@ module TD::Types
       Calls
       ForwardChats
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/TopChatCategory/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/TopChatCategory/#{type}"
     end
   end
 end

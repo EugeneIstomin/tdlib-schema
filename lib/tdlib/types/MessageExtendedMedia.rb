@@ -7,7 +7,7 @@ module TD::Types
       Video
       Unsupported
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageExtendedMedia/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageExtendedMedia/#{type}"
     end
   end
 end

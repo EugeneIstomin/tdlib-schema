@@ -5,7 +5,7 @@ module TD::Types
       RegularOrMask
       CustomEmoji
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatPhotoStickerType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatPhotoStickerType/#{type}"
     end
   end
 end

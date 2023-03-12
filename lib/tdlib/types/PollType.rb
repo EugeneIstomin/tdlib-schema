@@ -5,7 +5,7 @@ module TD::Types
       Regular
       Quiz
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PollType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PollType/#{type}"
     end
   end
 end

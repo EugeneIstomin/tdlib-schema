@@ -10,7 +10,7 @@ module TD::Types
       Webm
       Webp
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ThumbnailFormat/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ThumbnailFormat/#{type}"
     end
   end
 end

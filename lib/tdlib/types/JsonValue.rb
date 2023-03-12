@@ -9,7 +9,7 @@ module TD::Types
       Array
       Object
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/JsonValue/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/JsonValue/#{type}"
     end
   end
 end

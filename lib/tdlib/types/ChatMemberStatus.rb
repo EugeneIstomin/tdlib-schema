@@ -9,7 +9,7 @@ module TD::Types
       Left
       Banned
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatMemberStatus/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatMemberStatus/#{type}"
     end
   end
 end

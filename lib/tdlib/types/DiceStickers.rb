@@ -5,7 +5,7 @@ module TD::Types
       Regular
       SlotMachine
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/DiceStickers/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/DiceStickers/#{type}"
     end
   end
 end

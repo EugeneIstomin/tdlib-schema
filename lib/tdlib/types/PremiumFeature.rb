@@ -18,7 +18,7 @@ module TD::Types
       AppIcons
       RealTimeChatTranslation
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PremiumFeature/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PremiumFeature/#{type}"
     end
   end
 end

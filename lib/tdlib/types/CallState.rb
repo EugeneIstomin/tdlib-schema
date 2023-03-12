@@ -9,7 +9,7 @@ module TD::Types
       Discarded
       Error
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/CallState/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/CallState/#{type}"
     end
   end
 end

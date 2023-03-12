@@ -32,7 +32,7 @@ module TD::Types
       RelatedArticles
       Map
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PageBlock/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PageBlock/#{type}"
     end
   end
 end

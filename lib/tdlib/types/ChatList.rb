@@ -6,7 +6,7 @@ module TD::Types
       Archive
       Filter
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatList/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatList/#{type}"
     end
   end
 end

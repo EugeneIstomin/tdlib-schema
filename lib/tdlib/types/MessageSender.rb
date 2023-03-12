@@ -5,7 +5,7 @@ module TD::Types
       User
       Chat
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MessageSender/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MessageSender/#{type}"
     end
   end
 end

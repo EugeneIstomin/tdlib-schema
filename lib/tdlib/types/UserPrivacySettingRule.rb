@@ -11,7 +11,7 @@ module TD::Types
       RestrictUsers
       RestrictChatMembers
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/UserPrivacySettingRule/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/UserPrivacySettingRule/#{type}"
     end
   end
 end

@@ -33,7 +33,7 @@ module TD::Types
       MessageForwards
       MediaAlbum
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/PushMessageContent/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/PushMessageContent/#{type}"
     end
   end
 end

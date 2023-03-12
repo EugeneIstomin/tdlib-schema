@@ -5,7 +5,7 @@ module TD::Types
       Message
       Name
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/InputInvoice/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/InputInvoice/#{type}"
     end
   end
 end

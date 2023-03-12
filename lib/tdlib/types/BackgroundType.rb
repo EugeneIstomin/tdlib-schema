@@ -6,7 +6,7 @@ module TD::Types
       Pattern
       Fill
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/BackgroundType/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/BackgroundType/#{type}"
     end
   end
 end

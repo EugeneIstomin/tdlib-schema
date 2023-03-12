@@ -5,7 +5,7 @@ module TD::Types
       Supergroup
       Channel
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatStatistics/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatStatistics/#{type}"
     end
   end
 end

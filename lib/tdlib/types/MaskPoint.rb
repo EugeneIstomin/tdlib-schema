@@ -7,7 +7,7 @@ module TD::Types
       Mouth
       Chin
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/MaskPoint/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/MaskPoint/#{type}"
     end
   end
 end

@@ -5,7 +5,7 @@ module TD::Types
       All
       Some
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/ChatAvailableReactions/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/ChatAvailableReactions/#{type}"
     end
   end
 end

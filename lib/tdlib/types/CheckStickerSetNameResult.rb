@@ -6,7 +6,7 @@ module TD::Types
       NameInvalid
       NameOccupied
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/CheckStickerSetNameResult/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/CheckStickerSetNameResult/#{type}"
     end
   end
 end

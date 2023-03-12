@@ -6,7 +6,7 @@ module TD::Types
       Text
       Error
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/SpeechRecognitionResult/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/SpeechRecognitionResult/#{type}"
     end
   end
 end

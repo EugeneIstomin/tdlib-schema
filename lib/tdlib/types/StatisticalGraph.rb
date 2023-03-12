@@ -6,7 +6,7 @@ module TD::Types
       Async
       Error
     ].each do |type|
-      autoload TD::Types.type, "tdlib/types/StatisticalGraph/#{type}"
+      autoload TD::Types.camelize(type), "tdlib/types/StatisticalGraph/#{type}"
     end
   end
 end
