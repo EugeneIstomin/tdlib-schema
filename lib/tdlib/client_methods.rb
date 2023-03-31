@@ -23,6 +23,7 @@ module TD::ClientMethods
   
   # Adds server-provided application changelog as messages to the chat 777000 (Telegram); for official applications
   #   only.
+  # Returns a 404 error if nothing changed.
   #
   # @param previous_application_version [TD::Types::String] The previous application version.
   # @return [TD::Types::Ok]
@@ -3640,6 +3641,13 @@ module TD::ClientMethods
               'limit'         => limit)
   end
   
+  # Returns localized name of the Telegram support user; for Telegram support only.
+  #
+  # @return [TD::Types::Text]
+  def getSupportName
+    broadcast('@type' => 'getSupportName')
+  end
+  
   # Returns a user that can be contacted to get support.
   #
   # @return [TD::Types::User]
@@ -3658,7 +3666,7 @@ module TD::ClientMethods
   #   found in the text.
   # Can be called synchronously.
   #
-  # @param text [TD::Types::String] The text in which to look for entites.
+  # @param text [TD::Types::String] The text in which to look for entities.
   # @return [TD::Types::TextEntities]
   def getTextEntities(text:)
     broadcast('@type' => 'getTextEntities',
@@ -4036,6 +4044,7 @@ module TD::ClientMethods
   # For each bot, a confirmation alert about data sent to the bot must be shown once.
   #
   # @param chat_id [Integer] Identifier of the chat in which the Web App is opened.
+  #   The Web App can't be opened in secret chats.
   # @param bot_user_id [Integer] Identifier of the bot, providing the Web App.
   # @param url [TD::Types::String] The URL from an {TD::Types::InlineKeyboardButtonType::WebApp} button, a
   #   {TD::Types::BotMenuButton} button, or an {TD::Types::InternalLinkType::AttachmentMenuBot} link, or an empty string
@@ -4770,6 +4779,16 @@ module TD::ClientMethods
   # @return [TD::Types::Ok]
   def resetAllNotificationSettings
     broadcast('@type' => 'resetAllNotificationSettings')
+  end
+  
+  # Resets the login email address.
+  # May return an error with a message "TASK_ALREADY_EXISTS" if reset is still pending.
+  # Works only when the current authorization state is authorizationStateWaitEmailCode and
+  #   authorization_state.can_reset_email_address == true.
+  #
+  # @return [TD::Types::Ok]
+  def resetAuthenticationEmailAddress
+    broadcast('@type' => 'resetAuthenticationEmailAddress')
   end
   
   # Resets list of installed backgrounds to its default value.
@@ -6070,6 +6089,8 @@ module TD::ClientMethods
   end
   
   # Changes the login email address of the user.
+  # The email address can be changed only if the current user already has login email and
+  #   passwordState.login_email_address_pattern is non-empty.
   # The change will not be applied until the new login email address is confirmed with checkLoginEmailAddressCode.
   # To use Apple ID/Google ID instead of a email address, call checkLoginEmailAddressCode directly.
   #
@@ -6689,7 +6710,7 @@ module TD::ClientMethods
               'is_pinned' => is_pinned)
   end
   
-  # Changes the tranlatable state of a chat; for Telegram Premium users only.
+  # Changes the translatable state of a chat; for Telegram Premium users only.
   #
   # @param chat_id [Integer] Chat identifier.
   # @param is_translatable [Boolean] New value of is_translatable.
@@ -6862,7 +6883,7 @@ module TD::ClientMethods
   # Toggles whether a session can accept incoming secret chats.
   #
   # @param session_id [Integer] Session identifier.
-  # @param can_accept_secret_chats [Boolean] Pass true to allow accepring secret chats by the session; pass false
+  # @param can_accept_secret_chats [Boolean] Pass true to allow accepting secret chats by the session; pass false
   #   otherwise.
   # @return [TD::Types::Ok]
   def toggleSessionCanAcceptSecretChats(session_id:, can_accept_secret_chats:)
@@ -7134,9 +7155,9 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Chat identifier.
   # @param message_ids [Array<Integer>] The identifiers of the messages being viewed.
-  # @param source [TD::Types::MessageSource] Source of the message view.
-  # @param force_read [Boolean] Pass true to mark as read the specified messages even the chat is closed; pass null to
-  #   guess the source based on chat open state.
+  # @param source [TD::Types::MessageSource] Source of the message view; pass null to guess the source based on chat
+  #   open state.
+  # @param force_read [Boolean] Pass true to mark as read the specified messages even the chat is closed.
   # @return [TD::Types::Ok]
   def viewMessages(chat_id:, message_ids:, source:, force_read:)
     broadcast('@type'       => 'viewMessages',

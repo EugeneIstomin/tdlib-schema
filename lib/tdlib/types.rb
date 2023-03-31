@@ -22,6 +22,9 @@ module TD::Types
       'emailAddressAuthenticationCode'                          => 'EmailAddressAuthentication::Code',
       'emailAddressAuthenticationAppleId'                       => 'EmailAddressAuthentication::AppleId',
       'emailAddressAuthenticationGoogleId'                      => 'EmailAddressAuthentication::GoogleId',
+      'EmailAddressResetState'                                  => 'EmailAddressResetState',
+      'emailAddressResetStateAvailable'                         => 'EmailAddressResetState::Available',
+      'emailAddressResetStatePending'                           => 'EmailAddressResetState::Pending',
       'textEntity'                                              => 'TextEntity',
       'textEntities'                                            => 'TextEntities',
       'formattedText'                                           => 'FormattedText',
@@ -1443,6 +1446,7 @@ module TD::Types
     DraftMessage
     EmailAddressAuthentication
     EmailAddressAuthenticationCodeInfo
+    EmailAddressResetState
     EmojiCategories
     EmojiCategory
     EmojiCategoryType

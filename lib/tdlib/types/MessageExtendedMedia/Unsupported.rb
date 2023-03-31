@@ -1,5 +1,5 @@
 module TD::Types
-  # The media is unuspported.
+  # The media is unsupported.
   #
   # @attr caption [TD::Types::FormattedText] Media caption.
   class MessageExtendedMedia::Unsupported < MessageExtendedMedia

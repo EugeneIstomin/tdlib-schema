@@ -1,7 +1,7 @@
 module TD::Types
   # An authentication code is delivered via Firebase Authentication to the official iOS application.
   #
-  # @attr receipt [TD::Types::String] Receipt of successful applikation token validation to compare with receipt from
+  # @attr receipt [TD::Types::String] Receipt of successful application token validation to compare with receipt from
   #   push notification.
   # @attr push_timeout [Integer] Time after the next authentication method is supposed to be used if verification push
   #   notification isn't received, in seconds.

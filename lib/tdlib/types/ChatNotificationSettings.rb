@@ -1,5 +1,5 @@
 module TD::Types
-  # Contains information about notification settings for a chat or a froum topic.
+  # Contains information about notification settings for a chat or a forum topic.
   #
   # @attr use_default_mute_for [Boolean] If true, mute_for is ignored and the value for the relevant type of chat or
   #   the forum chat is used instead.
