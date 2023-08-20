@@ -8,7 +8,7 @@ module TD::Types
   # @attr unread_message_count [Integer] Approximate number of unread messages in the message thread.
   # @attr messages [Array<TD::Types::Message>] The messages from which the thread starts.
   #   The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
-  # @attr draft_message [TD::Types::DraftMessage, nil] A draft of a message in the message thread; may be null.
+  # @attr draft_message [TD::Types::DraftMessage, nil] A draft of a message in the message thread; may be null if none.
   class MessageThreadInfo < Base
     attribute :chat_id, TD::Types::Coercible::Integer
     attribute :message_thread_id, TD::Types::Coercible::Integer

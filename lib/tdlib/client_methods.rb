@@ -21,8 +21,17 @@ module TD::ClientMethods
               'terms_of_service_id' => terms_of_service_id)
   end
   
-  # Adds server-provided application changelog as messages to the chat 777000 (Telegram); for official applications
-  #   only.
+  # Activates stealth mode for stories, which hides all views of stories from the current user in the last
+  #   "story_stealth_mode_past_period" seconds and for the next "story_stealth_mode_future_period" seconds; for Telegram
+  #   Premium users only.
+  #
+  # @return [TD::Types::Ok]
+  def activateStoryStealthMode
+    broadcast('@type' => 'activateStoryStealthMode')
+  end
+  
+  # Adds server-provided application changelog as messages to the chat 777000 (Telegram) or as a stories; for official
+  #   applications only.
   # Returns a 404 error if nothing changed.
   #
   # @param previous_application_version [TD::Types::String] The previous application version.
@@ -30,6 +39,18 @@ module TD::ClientMethods
   def addApplicationChangelog(previous_application_version:)
     broadcast('@type'                        => 'addApplicationChangelog',
               'previous_application_version' => previous_application_version)
+  end
+  
+  # Adds a chat folder by an invite link.
+  #
+  # @param invite_link [TD::Types::String] Invite link for the chat folder.
+  # @param chat_ids [Array<Integer>] Identifiers of the chats added to the chat folder.
+  #   The chats are automatically joined if they aren't joined yet.
+  # @return [TD::Types::Ok]
+  def addChatFolderByInviteLink(invite_link:, chat_ids:)
+    broadcast('@type'       => 'addChatFolderByInviteLink',
+              'invite_link' => invite_link,
+              'chat_ids'    => chat_ids)
   end
   
   # Adds a new member to a chat.
@@ -143,15 +164,15 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Target chat.
   # @param sender_id [TD::Types::MessageSender] Identifier of the sender of the message.
-  # @param reply_to_message_id [Integer] Identifier of the replied message; 0 if none.
+  # @param reply_to [TD::Types::MessageReplyTo] Identifier of the replied message or story; pass null if none.
   # @param disable_notification [Boolean] Pass true to disable notification for the message.
   # @param input_message_content [TD::Types::InputMessageContent] The content of the message to be added.
   # @return [TD::Types::Message]
-  def addLocalMessage(chat_id:, sender_id:, reply_to_message_id:, disable_notification:, input_message_content:)
+  def addLocalMessage(chat_id:, sender_id:, reply_to:, disable_notification:, input_message_content:)
     broadcast('@type'                 => 'addLocalMessage',
               'chat_id'               => chat_id,
               'sender_id'             => sender_id,
-              'reply_to_message_id'   => reply_to_message_id,
+              'reply_to'              => reply_to,
               'disable_notification'  => disable_notification,
               'input_message_content' => input_message_content)
   end
@@ -438,6 +459,13 @@ module TD::ClientMethods
               'purpose' => purpose)
   end
   
+  # Checks whether the current user can send a story.
+  #
+  # @return [TD::Types::CanSendStoryResult]
+  def canSendStory
+    broadcast('@type' => 'canSendStory')
+  end
+  
   # Checks whether the current session can be used to transfer a chat ownership to another user.
   #
   # @return [TD::Types::CanTransferOwnershipResult]
@@ -489,7 +517,8 @@ module TD::ClientMethods
               'contacts' => contacts)
   end
   
-  # Changes the phone number of the user and sends an authentication code to the user's new phone number.
+  # Changes the phone number of the user and sends an authentication code to the user's new phone number; for official
+  #   Android and iOS applications only.
   # On success, returns information about the sent code.
   #
   # @param phone_number [TD::Types::String] The new phone number of the user in international format.
@@ -574,6 +603,16 @@ module TD::ClientMethods
   def checkChangePhoneNumberCode(code:)
     broadcast('@type' => 'checkChangePhoneNumberCode',
               'code'  => code)
+  end
+  
+  # Checks the validity of an invite link for a chat folder and returns information about the corresponding chat
+  #   folder.
+  #
+  # @param invite_link [TD::Types::String] Invite link to be checked.
+  # @return [TD::Types::ChatFolderInviteLinkInfo]
+  def checkChatFolderInviteLink(invite_link:)
+    broadcast('@type'       => 'checkChatFolderInviteLink',
+              'invite_link' => invite_link)
   end
   
   # Checks the validity of an invite link for a chat and returns information about the corresponding chat.
@@ -750,6 +789,18 @@ module TD::ClientMethods
               'message_id' => message_id)
   end
   
+  # Informs TDLib that the user opened the sponsored chat via the button, the name, the photo, or a mention in the
+  #   sponsored message.
+  #
+  # @param chat_id [Integer] Chat identifier of the sponsored message.
+  # @param message_id [Integer] Identifier of the sponsored message.
+  # @return [TD::Types::Ok]
+  def clickChatSponsoredMessage(chat_id:, message_id:)
+    broadcast('@type'      => 'clickChatSponsoredMessage',
+              'chat_id'    => chat_id,
+              'message_id' => message_id)
+  end
+  
   # Informs TDLib that the user clicked Premium subscription button on the Premium features screen.
   #
   # @return [TD::Types::Ok]
@@ -784,6 +835,17 @@ module TD::ClientMethods
   def closeSecretChat(secret_chat_id:)
     broadcast('@type'          => 'closeSecretChat',
               'secret_chat_id' => secret_chat_id)
+  end
+  
+  # Informs TDLib that a story is closed by the user.
+  #
+  # @param story_sender_chat_id [Integer] The identifier of the sender of the story to close.
+  # @param story_id [Integer] The identifier of the story.
+  # @return [TD::Types::Ok]
+  def closeStory(story_sender_chat_id:, story_id:)
+    broadcast('@type'                => 'closeStory',
+              'story_sender_chat_id' => story_sender_chat_id,
+              'story_id'             => story_id)
   end
   
   # Informs TDLib that a previously opened Web App was closed.
@@ -831,16 +893,32 @@ module TD::ClientMethods
               'is_video' => is_video)
   end
   
-  # Creates new chat filter.
-  # Returns information about the created chat filter.
-  # There can be up to getOption("chat_filter_count_max") chat filters, but the limit can be increased with Telegram
+  # Creates new chat folder.
+  # Returns information about the created chat folder.
+  # There can be up to getOption("chat_folder_count_max") chat folders, but the limit can be increased with Telegram
   #   Premium.
   #
-  # @param filter [TD::Types::ChatFilter] Chat filter.
-  # @return [TD::Types::ChatFilterInfo]
-  def createChatFilter(filter:)
-    broadcast('@type'  => 'createChatFilter',
-              'filter' => filter)
+  # @param folder [TD::Types::ChatFolder] The new chat folder.
+  # @return [TD::Types::ChatFolderInfo]
+  def createChatFolder(folder:)
+    broadcast('@type'  => 'createChatFolder',
+              'folder' => folder)
+  end
+  
+  # Creates a new invite link for a chat folder.
+  # A link can be created for a chat folder if it has only pinned and included chats.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param name [TD::Types::String] Name of the link; 0-32 characters.
+  # @param chat_ids [Array<Integer>] Identifiers of chats to be accessible by the invite link.
+  #   Use getChatsForChatFolderInviteLink to get suitable chats.
+  #   Basic groups will be automatically converted to supergroups before link creation.
+  # @return [TD::Types::ChatFolderInviteLink]
+  def createChatFolderInviteLink(chat_folder_id:, name:, chat_ids:)
+    broadcast('@type'          => 'createChatFolderInviteLink',
+              'chat_folder_id' => chat_folder_id,
+              'name'           => name,
+              'chat_ids'       => chat_ids)
   end
   
   # Creates a new invite link for a chat.
@@ -1085,13 +1163,27 @@ module TD::ClientMethods
               'chat_id' => chat_id)
   end
   
-  # Deletes existing chat filter.
+  # Deletes existing chat folder.
   #
-  # @param chat_filter_id [Integer] Chat filter identifier.
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param leave_chat_ids [Array<Integer>] Identifiers of the chats to leave.
+  #   The chats must be pinned or always included in the folder.
   # @return [TD::Types::Ok]
-  def deleteChatFilter(chat_filter_id:)
-    broadcast('@type'          => 'deleteChatFilter',
-              'chat_filter_id' => chat_filter_id)
+  def deleteChatFolder(chat_folder_id:, leave_chat_ids:)
+    broadcast('@type'          => 'deleteChatFolder',
+              'chat_folder_id' => chat_folder_id,
+              'leave_chat_ids' => leave_chat_ids)
+  end
+  
+  # Deletes an invite link for a chat folder.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param invite_link [TD::Types::String] Invite link to be deleted.
+  # @return [TD::Types::Ok]
+  def deleteChatFolderInviteLink(chat_folder_id:, invite_link:)
+    broadcast('@type'          => 'deleteChatFolderInviteLink',
+              'chat_folder_id' => chat_folder_id,
+              'invite_link'    => invite_link)
   end
   
   # Deletes all messages in the chat.
@@ -1264,6 +1356,15 @@ module TD::ClientMethods
               'name'  => name)
   end
   
+  # Deletes a previously sent story.
+  #
+  # @param story_id [Integer] Identifier of the story to delete.
+  # @return [TD::Types::Ok]
+  def deleteStory(story_id:)
+    broadcast('@type'    => 'deleteStory',
+              'story_id' => story_id)
+  end
+  
   # Closes the TDLib instance, destroying all local data without a proper logout.
   # The current user session will remain in the list of all active sessions.
   # All local data will be destroyed.
@@ -1350,16 +1451,33 @@ module TD::ClientMethods
               'synchronous' => synchronous)
   end
   
-  # Edits existing chat filter.
-  # Returns information about the edited chat filter.
+  # Edits existing chat folder.
+  # Returns information about the edited chat folder.
   #
-  # @param chat_filter_id [Integer] Chat filter identifier.
-  # @param filter [TD::Types::ChatFilter] The edited chat filter.
-  # @return [TD::Types::ChatFilterInfo]
-  def editChatFilter(chat_filter_id:, filter:)
-    broadcast('@type'          => 'editChatFilter',
-              'chat_filter_id' => chat_filter_id,
-              'filter'         => filter)
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param folder [TD::Types::ChatFolder] The edited chat folder.
+  # @return [TD::Types::ChatFolderInfo]
+  def editChatFolder(chat_folder_id:, folder:)
+    broadcast('@type'          => 'editChatFolder',
+              'chat_folder_id' => chat_folder_id,
+              'folder'         => folder)
+  end
+  
+  # Edits an invite link for a chat folder.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param invite_link [TD::Types::String] Invite link to be edited.
+  # @param name [TD::Types::String] New name of the link; 0-32 characters.
+  # @param chat_ids [Array<Integer>] New identifiers of chats to be accessible by the invite link.
+  #   Use getChatsForChatFolderInviteLink to get suitable chats.
+  #   Basic groups will be automatically converted to supergroups before link editing.
+  # @return [TD::Types::ChatFolderInviteLink]
+  def editChatFolderInviteLink(chat_folder_id:, invite_link:, name:, chat_ids:)
+    broadcast('@type'          => 'editChatFolderInviteLink',
+              'chat_folder_id' => chat_folder_id,
+              'invite_link'    => invite_link,
+              'name'           => name,
+              'chat_ids'       => chat_ids)
   end
   
   # Edits a non-primary invite link for a chat.
@@ -1624,6 +1742,23 @@ module TD::ClientMethods
               'type'     => type)
   end
   
+  # Changes content and caption of a previously sent story.
+  #
+  # @param story_id [Integer] Identifier of the story to edit.
+  # @param content [TD::Types::InputStoryContent] New content of the story; pass null to keep the current content.
+  # @param areas [TD::Types::InputStoryAreas] New clickable rectangle areas to be shown on the story media; pass null
+  #   to keep the current areas.
+  #   Areas can't be edited if story content isn't changed.
+  # @param caption [TD::Types::FormattedText] New story caption; pass null to keep the current caption.
+  # @return [TD::Types::Ok]
+  def editStory(story_id:, content:, areas:, caption:)
+    broadcast('@type'    => 'editStory',
+              'story_id' => story_id,
+              'content'  => content,
+              'areas'    => areas,
+              'caption'  => caption)
+  end
+  
   # Enables a proxy.
   # Only one proxy can be enabled at a time.
   # Can be called before authorization.
@@ -1765,6 +1900,13 @@ module TD::ClientMethods
     broadcast('@type' => 'getApplicationDownloadLink')
   end
   
+  # Returns settings for automatic moving of chats to and from the Archive chat lists.
+  #
+  # @return [TD::Types::ArchiveChatListSettings]
+  def getArchiveChatListSettings
+    broadcast('@type' => 'getArchiveChatListSettings')
+  end
+  
   # Returns a list of archived sticker sets.
   #
   # @param sticker_type [TD::Types::StickerType] Type of the sticker sets to return.
@@ -1776,6 +1918,21 @@ module TD::ClientMethods
               'sticker_type'          => sticker_type,
               'offset_sticker_set_id' => offset_sticker_set_id,
               'limit'                 => limit)
+  end
+  
+  # Returns the list of all stories of the current user.
+  # The stories are returned in a reverse chronological order (i.e., in order of decreasing story_id).
+  # For optimal performance, the number of returned stories is chosen by TDLib.
+  #
+  # @param from_story_id [Integer] Identifier of the story starting from which stories must be returned; use 0 to get
+  #   results from the last story.
+  # @param limit [Integer] The maximum number of stories to be returned For optimal performance, the number of returned
+  #   stories is chosen by TDLib and can be smaller than the specified limit.
+  # @return [TD::Types::Stories]
+  def getArchivedStories(from_story_id:, limit:)
+    broadcast('@type'         => 'getArchivedStories',
+              'from_story_id' => from_story_id,
+              'limit'         => limit)
   end
   
   # Returns a list of sticker sets attached to a file, including regular, mask, and emoji sticker sets.
@@ -1871,31 +2028,51 @@ module TD::ClientMethods
   
   # Returns users and chats that were blocked by the current user.
   #
+  # @param block_list [TD::Types::BlockList] Block list from which to return users.
   # @param offset [Integer] Number of users and chats to skip in the result; must be non-negative.
   # @param limit [Integer] The maximum number of users and chats to return; up to 100.
   # @return [TD::Types::MessageSenders]
-  def getBlockedMessageSenders(offset:, limit:)
-    broadcast('@type'  => 'getBlockedMessageSenders',
-              'offset' => offset,
-              'limit'  => limit)
+  def getBlockedMessageSenders(block_list:, offset:, limit:)
+    broadcast('@type'      => 'getBlockedMessageSenders',
+              'block_list' => block_list,
+              'offset'     => offset,
+              'limit'      => limit)
   end
   
-  # Returns the text shown in the chat with the bot if the chat is empty in the given language; bots only.
+  # Returns the text shown in the chat with a bot if the chat is empty in the given language.
+  # Can be called only if userTypeBot.can_be_edited == true.
   #
+  # @param bot_user_id [Integer] Identifier of the target bot.
   # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code or an empty string.
   # @return [TD::Types::Text]
-  def getBotInfoDescription(language_code:)
+  def getBotInfoDescription(bot_user_id:, language_code:)
     broadcast('@type'         => 'getBotInfoDescription',
+              'bot_user_id'   => bot_user_id,
               'language_code' => language_code)
   end
   
-  # Returns the text shown on the bot's profile page and sent together with the link when users share the bot in the
-  #   given language; bots only.
+  # Returns the text shown on a bot's profile page and sent together with the link when users share the bot in the
+  #   given language.
+  # Can be called only if userTypeBot.can_be_edited == true.
   #
+  # @param bot_user_id [Integer] Identifier of the target bot.
   # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code or an empty string.
   # @return [TD::Types::Text]
-  def getBotInfoShortDescription(language_code:)
+  def getBotInfoShortDescription(bot_user_id:, language_code:)
     broadcast('@type'         => 'getBotInfoShortDescription',
+              'bot_user_id'   => bot_user_id,
+              'language_code' => language_code)
+  end
+  
+  # Returns the name of a bot in the given language.
+  # Can be called only if userTypeBot.can_be_edited == true.
+  #
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code or an empty string.
+  # @return [TD::Types::Text]
+  def getBotName(bot_user_id:, language_code:)
+    broadcast('@type'         => 'getBotName',
+              'bot_user_id'   => bot_user_id,
               'language_code' => language_code)
   end
   
@@ -1926,12 +2103,21 @@ module TD::ClientMethods
               'callback_query_id' => callback_query_id)
   end
   
-  # Returns information about a chat by its identifier, this is an offline request if the current user is not a bot.
+  # Returns information about a chat by its identifier; this is an offline request if the current user is not a bot.
   #
   # @param chat_id [Integer] Chat identifier.
   # @return [TD::Types::Chat]
   def getChat(chat_id:)
     broadcast('@type'   => 'getChat',
+              'chat_id' => chat_id)
+  end
+  
+  # Returns the list of active stories posted by the given chat.
+  #
+  # @param chat_id [Integer] Chat identifier.
+  # @return [TD::Types::ChatActiveStories]
+  def getChatActiveStories(chat_id:)
+    broadcast('@type'   => 'getChatActiveStories',
               'chat_id' => chat_id)
   end
   
@@ -1978,23 +2164,63 @@ module TD::ClientMethods
               'user_ids'      => user_ids)
   end
   
-  # Returns information about a chat filter by its identifier.
+  # Returns information about a chat folder by its identifier.
   #
-  # @param chat_filter_id [Integer] Chat filter identifier.
-  # @return [TD::Types::ChatFilter]
-  def getChatFilter(chat_filter_id:)
-    broadcast('@type'          => 'getChatFilter',
-              'chat_filter_id' => chat_filter_id)
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @return [TD::Types::ChatFolder]
+  def getChatFolder(chat_folder_id:)
+    broadcast('@type'          => 'getChatFolder',
+              'chat_folder_id' => chat_folder_id)
   end
   
-  # Returns default icon name for a filter.
+  # Returns approximate number of chats in a being created chat folder.
+  # Main and archive chat lists must be fully preloaded for this function to work correctly.
+  #
+  # @param folder [TD::Types::ChatFolder] The new chat folder.
+  # @return [TD::Types::Count]
+  def getChatFolderChatCount(folder:)
+    broadcast('@type'  => 'getChatFolderChatCount',
+              'folder' => folder)
+  end
+  
+  # Returns identifiers of pinned or always included chats from a chat folder, which are suggested to be left when the
+  #   chat folder is deleted.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @return [TD::Types::Chats]
+  def getChatFolderChatsToLeave(chat_folder_id:)
+    broadcast('@type'          => 'getChatFolderChatsToLeave',
+              'chat_folder_id' => chat_folder_id)
+  end
+  
+  # Returns default icon name for a folder.
   # Can be called synchronously.
   #
-  # @param filter [TD::Types::ChatFilter] Chat filter.
-  # @return [TD::Types::Text]
-  def getChatFilterDefaultIconName(filter:)
-    broadcast('@type'  => 'getChatFilterDefaultIconName',
-              'filter' => filter)
+  # @param folder [TD::Types::ChatFolder] Chat folder.
+  # @return [TD::Types::ChatFolderIcon]
+  def getChatFolderDefaultIconName(folder:)
+    broadcast('@type'  => 'getChatFolderDefaultIconName',
+              'folder' => folder)
+  end
+  
+  # Returns invite links created by the current user for a shareable chat folder.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @return [TD::Types::ChatFolderInviteLinks]
+  def getChatFolderInviteLinks(chat_folder_id:)
+    broadcast('@type'          => 'getChatFolderInviteLinks',
+              'chat_folder_id' => chat_folder_id)
+  end
+  
+  # Returns new chats added to a shareable chat folder by its owner.
+  # The method must be called at most once in getOption("chat_folder_new_chats_update_period") for the given chat
+  #   folder.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @return [TD::Types::Chats]
+  def getChatFolderNewChats(chat_folder_id:)
+    broadcast('@type'          => 'getChatFolderNewChats',
+              'chat_folder_id' => chat_folder_id)
   end
   
   # Returns messages in a chat.
@@ -2196,7 +2422,7 @@ module TD::ClientMethods
               'message_thread_id' => message_thread_id)
   end
   
-  # Returns list of chats with non-default notification settings.
+  # Returns list of chats with non-default notification settings for new messages.
   #
   # @param scope [TD::Types::NotificationSettingsScope] If specified, only chats from the scope will be returned; pass
   #   null to return chats from all scopes.
@@ -2215,6 +2441,23 @@ module TD::ClientMethods
   def getChatPinnedMessage(chat_id:)
     broadcast('@type'   => 'getChatPinnedMessage',
               'chat_id' => chat_id)
+  end
+  
+  # Returns the list of pinned stories posted by the given chat.
+  # The stories are returned in a reverse chronological order (i.e., in order of decreasing story_id).
+  # For optimal performance, the number of returned stories is chosen by TDLib.
+  #
+  # @param chat_id [Integer] Chat identifier.
+  # @param from_story_id [Integer] Identifier of the story starting from which stories must be returned; use 0 to get
+  #   results from the last story.
+  # @param limit [Integer] The maximum number of stories to be returned For optimal performance, the number of returned
+  #   stories is chosen by TDLib and can be smaller than the specified limit.
+  # @return [TD::Types::Stories]
+  def getChatPinnedStories(chat_id:, from_story_id:, limit:)
+    broadcast('@type'         => 'getChatPinnedStories',
+              'chat_id'       => chat_id,
+              'from_story_id' => from_story_id,
+              'limit'         => limit)
   end
   
   # Returns all scheduled messages in a chat.
@@ -2284,6 +2527,22 @@ module TD::ClientMethods
               'limit'     => limit)
   end
   
+  # Returns identifiers of chats from a chat folder, suitable for adding to a chat folder invite link.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @return [TD::Types::Chats]
+  def getChatsForChatFolderInviteLink(chat_folder_id:)
+    broadcast('@type'          => 'getChatsForChatFolderInviteLink',
+              'chat_folder_id' => chat_folder_id)
+  end
+  
+  # Returns all close friends of the current user.
+  #
+  # @return [TD::Types::Users]
+  def getCloseFriends
+    broadcast('@type' => 'getCloseFriends')
+  end
+  
   # Returns list of commands supported by the bot for the given user scope and language; for bots only.
   #
   # @param scope [TD::Types::BotCommandScope] The scope to which the commands are relevant; pass null to get commands
@@ -2303,7 +2562,7 @@ module TD::ClientMethods
     broadcast('@type' => 'getConnectedWebsites')
   end
   
-  # Returns all user contacts.
+  # Returns all contacts of the user.
   #
   # @return [TD::Types::Users]
   def getContacts
@@ -2680,12 +2939,13 @@ module TD::ClientMethods
   # Sends an inline query to a bot and returns its results.
   # Returns an error with code 502 if the bot fails to answer the query before the query timeout expires.
   #
-  # @param bot_user_id [Integer] The identifier of the target bot.
+  # @param bot_user_id [Integer] Identifier of the target bot.
   # @param chat_id [Integer] Identifier of the chat where the query was sent.
   # @param user_location [TD::Types::Location] Location of the user; pass null if unknown or the bot doesn't need
   #   user's location.
   # @param query [TD::Types::String] Text of the query.
-  # @param offset [TD::Types::String] Offset of the first entry to return.
+  # @param offset [TD::Types::String] Offset of the first entry to return; use empty string to get the first chunk of
+  #   results.
   # @return [TD::Types::InlineQueryResults]
   def getInlineQueryResults(bot_user_id:, chat_id:, user_location:, query:, offset:)
     broadcast('@type'         => 'getInlineQueryResults',
@@ -3255,17 +3515,17 @@ module TD::ClientMethods
               'phone_number_prefix' => phone_number_prefix)
   end
   
-  # Returns users voted for the specified option in a non-anonymous polls.
+  # Returns message senders voted for the specified option in a non-anonymous polls.
   # For optimal performance, the number of returned users is chosen by TDLib.
   #
   # @param chat_id [Integer] Identifier of the chat to which the poll belongs.
   # @param message_id [Integer] Identifier of the message containing the poll.
   # @param option_id [Integer] 0-based identifier of the answer option.
-  # @param offset [Integer] Number of users to skip in the result; must be non-negative.
-  # @param limit [Integer] The maximum number of users to be returned; must be positive and can't be greater than 50.
-  #   For optimal performance, the number of returned users is chosen by TDLib and can be smaller than the specified
+  # @param offset [Integer] Number of voters to skip in the result; must be non-negative.
+  # @param limit [Integer] The maximum number of voters to be returned; must be positive and can't be greater than 50.
+  #   For optimal performance, the number of returned voters is chosen by TDLib and can be smaller than the specified
   #   limit, even if the end of the voter list has not been reached.
-  # @return [TD::Types::Users]
+  # @return [TD::Types::MessageSenders]
   def getPollVoters(chat_id:, message_id:, option_id:, offset:, limit:)
     broadcast('@type'      => 'getPollVoters',
               'chat_id'    => chat_id,
@@ -3383,7 +3643,7 @@ module TD::ClientMethods
               'is_attached' => is_attached)
   end
   
-  # Returns recently opened chats, this is an offline request.
+  # Returns recently opened chats; this is an offline request.
   # Returns chats in the order of last opening.
   #
   # @param limit [Integer] The maximum number of chats to be returned.
@@ -3402,11 +3662,11 @@ module TD::ClientMethods
               'referrer' => referrer)
   end
   
-  # Returns recommended chat filters for the current user.
+  # Returns recommended chat folders for the current user.
   #
-  # @return [TD::Types::RecommendedChatFilters]
-  def getRecommendedChatFilters
-    broadcast('@type' => 'getRecommendedChatFilters')
+  # @return [TD::Types::RecommendedChatFolders]
+  def getRecommendedChatFolders
+    broadcast('@type' => 'getRecommendedChatFolders')
   end
   
   # Returns a 2-step verification recovery email address that was previously set up.
@@ -3436,8 +3696,8 @@ module TD::ClientMethods
   
   # Returns information about a message that is replied by a given message.
   # Also, returns the pinned message, the game message, the invoice message, and the topic creation message for
-  #   messages of the types messagePinMessage, messageGameScore, messagePaymentSuccessful, and topic messages without replied
-  #   message respectively.
+  #   messages of the types messagePinMessage, messageGameScore, messagePaymentSuccessful, messageChatSetBackground and topic
+  #   messages without replied message respectively.
   #
   # @param chat_id [Integer] Identifier of the chat the message belongs to.
   # @param message_id [Integer] Identifier of the reply message.
@@ -3572,6 +3832,58 @@ module TD::ClientMethods
   # @return [TD::Types::StorageStatisticsFast]
   def getStorageStatisticsFast
     broadcast('@type' => 'getStorageStatisticsFast')
+  end
+  
+  # Returns a story.
+  #
+  # @param story_sender_chat_id [Integer] Identifier of the chat that posted the story.
+  # @param story_id [Integer] Story identifier.
+  # @param only_local [Boolean] Pass true to get only locally available information without sending network requests.
+  # @return [TD::Types::Story]
+  def getStory(story_sender_chat_id:, story_id:, only_local:)
+    broadcast('@type'                => 'getStory',
+              'story_sender_chat_id' => story_sender_chat_id,
+              'story_id'             => story_id,
+              'only_local'           => only_local)
+  end
+  
+  # Returns reactions, which can be chosen for a story.
+  #
+  # @param row_size [Integer] Number of reaction per row, 5-25.
+  # @return [TD::Types::AvailableReactions]
+  def getStoryAvailableReactions(row_size:)
+    broadcast('@type'    => 'getStoryAvailableReactions',
+              'row_size' => row_size)
+  end
+  
+  # Returns list of chats with non-default notification settings for stories.
+  #
+  # @return [TD::Types::Chats]
+  def getStoryNotificationSettingsExceptions
+    broadcast('@type' => 'getStoryNotificationSettingsExceptions')
+  end
+  
+  # Returns viewers of a story.
+  # The method can be called if story.can_get_viewers == true.
+  #
+  # @param story_id [Integer] Story identifier.
+  # @param query [TD::Types::String, nil] Query to search for in names and usernames of the viewers; may be empty to
+  #   get all relevant viewers.
+  # @param only_contacts [Boolean] Pass true to get only contacts; pass false to get all relevant viewers.
+  # @param prefer_with_reaction [Boolean] Pass true to get viewers with reaction first; pass false to get viewers
+  #   sorted just by view_date.
+  # @param offset [TD::Types::String] Offset of the first entry to return as received from the previous request; use
+  #   empty string to get the first chunk of results.
+  # @param limit [Integer] The maximum number of story viewers to return.
+  # @return [TD::Types::StoryViewers]
+  def getStoryViewers(story_id:, query: nil, only_contacts:, prefer_with_reaction:, offset:, limit:)
+    broadcast('@type'                => 'getStoryViewers',
+              'story_id'             => story_id,
+              'query'                => query,
+              'only_contacts'        => only_contacts,
+              'prefer_with_reaction' => prefer_with_reaction,
+              'offset'               => offset,
+              'limit'                => limit)
   end
   
   # Returns suggested name for saving a file in a given directory.
@@ -3974,6 +4286,19 @@ module TD::ClientMethods
               'group_call_id' => group_call_id)
   end
   
+  # Loads more active stories from a story list.
+  # The loaded stories will be sent through updates.
+  # Active stories are sorted by the pair (active_stories.order, active_stories.story_sender_chat_id) in descending
+  #   order.
+  # Returns a 404 error if all active stories have been loaded.
+  #
+  # @param story_list [TD::Types::StoryList] The story list in which to load active stories.
+  # @return [TD::Types::Ok]
+  def loadActiveStories(story_list:)
+    broadcast('@type'      => 'loadActiveStories',
+              'story_list' => story_list)
+  end
+  
   # Loads more chats from a chat list.
   # The loaded chats and their positions in the chat list will be sent through updates.
   # Chats are sorted by the pair (chat.position.order, chat.id) in descending order.
@@ -4039,6 +4364,17 @@ module TD::ClientMethods
               'message_id' => message_id)
   end
   
+  # Informs TDLib that a story is opened and is being viewed by the user.
+  #
+  # @param story_sender_chat_id [Integer] The identifier of the sender of the opened story.
+  # @param story_id [Integer] The identifier of the story.
+  # @return [TD::Types::Ok]
+  def openStory(story_sender_chat_id:, story_id:)
+    broadcast('@type'                => 'openStory',
+              'story_sender_chat_id' => story_sender_chat_id,
+              'story_id'             => story_id)
+  end
+  
   # Informs TDLib that a Web App is being opened from attachment menu, a botMenuButton button, an
   #   internalLinkTypeAttachmentMenuBot link, or an inlineKeyboardButtonTypeWebApp button.
   # For each bot, a confirmation alert about data sent to the bot must be shown once.
@@ -4053,18 +4389,18 @@ module TD::ClientMethods
   # @param application_name [TD::Types::String] Short name of the application; 0-64 English letters, digits, and
   #   underscores.
   # @param message_thread_id [Integer] If not 0, a message thread identifier in which the message will be sent.
-  # @param reply_to_message_id [Integer] Identifier of the replied message for the message sent by the Web App; 0 if
-  #   none.
+  # @param reply_to [TD::Types::MessageReplyTo] Identifier of the replied message or story for the message sent by the
+  #   Web App; pass null if none.
   # @return [TD::Types::WebAppInfo]
-  def openWebApp(chat_id:, bot_user_id:, url:, theme:, application_name:, message_thread_id:, reply_to_message_id:)
-    broadcast('@type'               => 'openWebApp',
-              'chat_id'             => chat_id,
-              'bot_user_id'         => bot_user_id,
-              'url'                 => url,
-              'theme'               => theme,
-              'application_name'    => application_name,
-              'message_thread_id'   => message_thread_id,
-              'reply_to_message_id' => reply_to_message_id)
+  def openWebApp(chat_id:, bot_user_id:, url:, theme:, application_name:, message_thread_id:, reply_to:)
+    broadcast('@type'             => 'openWebApp',
+              'chat_id'           => chat_id,
+              'bot_user_id'       => bot_user_id,
+              'url'               => url,
+              'theme'             => theme,
+              'application_name'  => application_name,
+              'message_thread_id' => message_thread_id,
+              'reply_to'          => reply_to)
   end
   
   # Optimizes storage usage, i.e.
@@ -4178,6 +4514,18 @@ module TD::ClientMethods
               'priority'  => priority)
   end
   
+  # Process new chats added to a shareable chat folder by its owner.
+  #
+  # @param chat_folder_id [Integer] Chat folder identifier.
+  # @param added_chat_ids [Array<Integer>] Identifiers of the new chats, which are added to the chat folder.
+  #   The chats are automatically joined if they aren't joined yet.
+  # @return [TD::Types::Ok]
+  def processChatFolderNewChats(chat_folder_id:, added_chat_ids:)
+    broadcast('@type'          => 'processChatFolderNewChats',
+              'chat_folder_id' => chat_folder_id,
+              'added_chat_ids' => added_chat_ids)
+  end
+  
   # Handles a pending join request in a chat.
   #
   # @param chat_id [Integer] Chat identifier.
@@ -4271,6 +4619,15 @@ module TD::ClientMethods
     broadcast('@type'             => 'readAllMessageThreadReactions',
               'chat_id'           => chat_id,
               'message_thread_id' => message_thread_id)
+  end
+  
+  # Traverse all chats in a chat list and marks all messages in the chats as read.
+  #
+  # @param chat_list [TD::Types::ChatList] Chat list in which to mark all chats as read.
+  # @return [TD::Types::Ok]
+  def readChatList(chat_list:)
+    broadcast('@type'     => 'readChatList',
+              'chat_list' => chat_list)
   end
   
   # Reads a part of a file from the TDLib file cache and returns read bytes.
@@ -4547,15 +4904,28 @@ module TD::ClientMethods
               'usernames' => usernames)
   end
   
-  # Changes the order of chat filters.
+  # Changes order of active usernames of a bot.
+  # Can be called only if userTypeBot.can_be_edited == true.
   #
-  # @param chat_filter_ids [Array<Integer>] Identifiers of chat filters in the new correct order.
-  # @param main_chat_list_position [Integer] Position of the main chat list among chat filters, 0-based.
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param usernames [Array<TD::Types::String>] The new order of active usernames.
+  #   All currently active usernames must be specified.
+  # @return [TD::Types::Ok]
+  def reorderBotActiveUsernames(bot_user_id:, usernames:)
+    broadcast('@type'       => 'reorderBotActiveUsernames',
+              'bot_user_id' => bot_user_id,
+              'usernames'   => usernames)
+  end
+  
+  # Changes the order of chat folders.
+  #
+  # @param chat_folder_ids [Array<Integer>] Identifiers of chat folders in the new correct order.
+  # @param main_chat_list_position [Integer] Position of the main chat list among chat folders, 0-based.
   #   Can be non-zero only for Premium users.
   # @return [TD::Types::Ok]
-  def reorderChatFilters(chat_filter_ids:, main_chat_list_position:)
-    broadcast('@type'                   => 'reorderChatFilters',
-              'chat_filter_ids'         => chat_filter_ids,
+  def reorderChatFolders(chat_folder_ids:, main_chat_list_position:)
+    broadcast('@type'                   => 'reorderChatFolders',
+              'chat_folder_ids'         => chat_folder_ids,
               'main_chat_list_position' => main_chat_list_position)
   end
   
@@ -4608,7 +4978,7 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Chat identifier.
   # @param message_ids [Array<Integer>, nil] Identifiers of reported messages; may be empty to report the whole chat.
-  # @param reason [TD::Types::ChatReportReason] The reason for reporting the chat.
+  # @param reason [TD::Types::ReportReason] The reason for reporting the chat.
   # @param text [TD::Types::String] Additional report details; 0-1024 characters.
   # @return [TD::Types::Ok]
   def reportChat(chat_id:, message_ids: nil, reason:, text:)
@@ -4625,7 +4995,7 @@ module TD::ClientMethods
   # @param chat_id [Integer] Chat identifier.
   # @param file_id [Integer] Identifier of the photo to report.
   #   Only full photos from {TD::Types::ChatPhoto} can be reported.
-  # @param reason [TD::Types::ChatReportReason] The reason for reporting the chat photo.
+  # @param reason [TD::Types::ReportReason] The reason for reporting the chat photo.
   # @param text [TD::Types::String] Additional report details; 0-1024 characters.
   # @return [TD::Types::Ok]
   def reportChatPhoto(chat_id:, file_id:, reason:, text:)
@@ -4648,6 +5018,21 @@ module TD::ClientMethods
               'chat_id'    => chat_id,
               'message_id' => message_id,
               'sender_id'  => sender_id)
+  end
+  
+  # Reports a story to the Telegram moderators.
+  #
+  # @param story_sender_chat_id [Integer] The identifier of the sender of the story to report.
+  # @param story_id [Integer] The identifier of the story to report.
+  # @param reason [TD::Types::ReportReason] The reason for reporting the story.
+  # @param text [TD::Types::String] Additional report details; 0-1024 characters.
+  # @return [TD::Types::Ok]
+  def reportStory(story_sender_chat_id:, story_id:, reason:, text:)
+    broadcast('@type'                => 'reportStory',
+              'story_sender_chat_id' => story_sender_chat_id,
+              'story_id'             => story_id,
+              'reason'               => reason,
+              'text'                 => text)
   end
   
   # Reports a false deletion of a message by aggressive anti-spam checks; requires administrator rights in the
@@ -4950,7 +5335,7 @@ module TD::ClientMethods
               'limit'   => limit)
   end
   
-  # Searches for the specified query in the title and username of already known chats, this is an offline request.
+  # Searches for the specified query in the title and username of already known chats; this is an offline request.
   # Returns chats in the order seen in the main chat list.
   #
   # @param query [TD::Types::String] Query to search for.
@@ -5119,6 +5504,18 @@ module TD::ClientMethods
   def searchPublicChats(query:)
     broadcast('@type' => 'searchPublicChats',
               'query' => query)
+  end
+  
+  # Searches for the specified query in the title and username of up to 50 recently found chats; this is an offline
+  #   request.
+  #
+  # @param query [TD::Types::String] Query to search for.
+  # @param limit [Integer] The maximum number of chats to be returned.
+  # @return [TD::Types::Chats]
+  def searchRecentlyFoundChats(query:, limit:)
+    broadcast('@type' => 'searchRecentlyFoundChats',
+              'query' => query,
+              'limit' => limit)
   end
   
   # Searches for messages in secret chats.
@@ -5301,16 +5698,6 @@ module TD::ClientMethods
               'action'            => action)
   end
   
-  # Sends a notification about a screenshot taken in a chat.
-  # Supported only in private and secret chats.
-  #
-  # @param chat_id [Integer] Chat identifier.
-  # @return [TD::Types::Ok]
-  def sendChatScreenshotTakenNotification(chat_id:)
-    broadcast('@type'   => 'sendChatScreenshotTakenNotification',
-              'chat_id' => chat_id)
-  end
-  
   # Sends a custom request; for bots only.
   #
   # @param method [TD::Types::String] The method name.
@@ -5337,25 +5724,25 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Target chat.
   # @param message_thread_id [Integer] If not 0, a message thread identifier in which the message will be sent.
-  # @param reply_to_message_id [Integer] Identifier of a replied message; 0 if none.
+  # @param reply_to [TD::Types::MessageReplyTo] Identifier of the replied message or story; pass null if none.
   # @param options [TD::Types::MessageSendOptions] Options to be used to send the message; pass null to use default
   #   options.
   # @param query_id [Integer] Identifier of the inline query.
-  # @param result_id [TD::Types::String] Identifier of the inline result.
+  # @param result_id [TD::Types::String] Identifier of the inline query result.
   # @param hide_via_bot [Boolean] Pass true to hide the bot, via which the message is sent.
   #   Can be used only for bots getOption("animation_search_bot_username"), getOption("photo_search_bot_username"), and
   #   getOption("venue_search_bot_username").
   # @return [TD::Types::Message]
-  def sendInlineQueryResultMessage(chat_id:, message_thread_id:, reply_to_message_id:, options:, query_id:, result_id:,
+  def sendInlineQueryResultMessage(chat_id:, message_thread_id:, reply_to:, options:, query_id:, result_id:,
                                    hide_via_bot:)
-    broadcast('@type'               => 'sendInlineQueryResultMessage',
-              'chat_id'             => chat_id,
-              'message_thread_id'   => message_thread_id,
-              'reply_to_message_id' => reply_to_message_id,
-              'options'             => options,
-              'query_id'            => query_id,
-              'result_id'           => result_id,
-              'hide_via_bot'        => hide_via_bot)
+    broadcast('@type'             => 'sendInlineQueryResultMessage',
+              'chat_id'           => chat_id,
+              'message_thread_id' => message_thread_id,
+              'reply_to'          => reply_to,
+              'options'           => options,
+              'query_id'          => query_id,
+              'result_id'         => result_id,
+              'hide_via_bot'      => hide_via_bot)
   end
   
   # Sends a message.
@@ -5363,17 +5750,17 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Target chat.
   # @param message_thread_id [Integer] If not 0, a message thread identifier in which the message will be sent.
-  # @param reply_to_message_id [Integer] Identifier of the replied message; 0 if none.
+  # @param reply_to [TD::Types::MessageReplyTo] Identifier of the replied message or story; pass null if none.
   # @param options [TD::Types::MessageSendOptions] Options to be used to send the message; pass null to use default
   #   options.
   # @param reply_markup [TD::Types::ReplyMarkup] Markup for replying to the message; pass null if none; for bots only.
   # @param input_message_content [TD::Types::InputMessageContent] The content of the message to be sent.
   # @return [TD::Types::Message]
-  def sendMessage(chat_id:, message_thread_id:, reply_to_message_id:, options:, reply_markup:, input_message_content:)
+  def sendMessage(chat_id:, message_thread_id:, reply_to:, options:, reply_markup:, input_message_content:)
     broadcast('@type'                 => 'sendMessage',
               'chat_id'               => chat_id,
               'message_thread_id'     => message_thread_id,
-              'reply_to_message_id'   => reply_to_message_id,
+              'reply_to'              => reply_to,
               'options'               => options,
               'reply_markup'          => reply_markup,
               'input_message_content' => input_message_content)
@@ -5386,19 +5773,18 @@ module TD::ClientMethods
   #
   # @param chat_id [Integer] Target chat.
   # @param message_thread_id [Integer] If not 0, a message thread identifier in which the messages will be sent.
-  # @param reply_to_message_id [Integer] Identifier of a replied message; 0 if none.
+  # @param reply_to [TD::Types::MessageReplyTo] Identifier of the replied message or story; pass null if none.
   # @param options [TD::Types::MessageSendOptions] Options to be used to send the messages; pass null to use default
   #   options.
   # @param input_message_contents [Array<TD::Types::InputMessageContent>] Contents of messages to be sent.
   #   At most 10 messages can be added to an album.
   # @param only_preview [Boolean] Pass true to get fake messages instead of actually sending them.
   # @return [TD::Types::Messages]
-  def sendMessageAlbum(chat_id:, message_thread_id:, reply_to_message_id:, options:, input_message_contents:,
-                       only_preview:)
+  def sendMessageAlbum(chat_id:, message_thread_id:, reply_to:, options:, input_message_contents:, only_preview:)
     broadcast('@type'                  => 'sendMessageAlbum',
               'chat_id'                => chat_id,
               'message_thread_id'      => message_thread_id,
-              'reply_to_message_id'    => reply_to_message_id,
+              'reply_to'               => reply_to,
               'options'                => options,
               'input_message_contents' => input_message_contents,
               'only_preview'           => only_preview)
@@ -5463,12 +5849,38 @@ module TD::ClientMethods
               'settings'     => settings)
   end
   
+  # Sends a new story.
+  # Returns a temporary story.
+  #
+  # @param content [TD::Types::InputStoryContent] Content of the story.
+  # @param areas [TD::Types::InputStoryAreas] Clickable rectangle areas to be shown on the story media; pass null if
+  #   none.
+  # @param caption [TD::Types::FormattedText] Story caption; pass null to use an empty caption;
+  #   0-getOption("story_caption_length_max") characters.
+  # @param privacy_settings [TD::Types::StoryPrivacySettings] The privacy settings for the story.
+  # @param active_period [Integer] Period after which the story is moved to archive, in seconds; must be one of 6 *
+  #   3600, 12 * 3600, 86400, or 2 * 86400 for Telegram Premium users, and 86400 otherwise.
+  # @param is_pinned [Boolean] Pass true to keep the story accessible after expiration.
+  # @param protect_content [Boolean] Pass true if the content of the story must be protected from forwarding and
+  #   screenshotting.
+  # @return [TD::Types::Story]
+  def sendStory(content:, areas:, caption:, privacy_settings:, active_period:, is_pinned:, protect_content:)
+    broadcast('@type'            => 'sendStory',
+              'content'          => content,
+              'areas'            => areas,
+              'caption'          => caption,
+              'privacy_settings' => privacy_settings,
+              'active_period'    => active_period,
+              'is_pinned'        => is_pinned,
+              'protect_content'  => protect_content)
+  end
+  
   # Sends data received from a keyboardButtonTypeWebApp Web App to a bot.
   #
   # @param bot_user_id [Integer] Identifier of the target bot.
   # @param button_text [TD::Types::String] Text of the {TD::Types::KeyboardButtonType::WebApp} button, which opened the
   #   Web App.
-  # @param data [TD::Types::String] Received data.
+  # @param data [TD::Types::String] The data.
   # @return [TD::Types::Ok]
   def sendWebAppData(bot_user_id:, button_text:, data:)
     broadcast('@type'       => 'sendWebAppData',
@@ -5494,6 +5906,15 @@ module TD::ClientMethods
   def setAlarm(seconds:)
     broadcast('@type'   => 'setAlarm',
               'seconds' => seconds)
+  end
+  
+  # Changes settings for automatic moving of chats to and from the Archive chat lists.
+  #
+  # @param settings [TD::Types::ArchiveChatListSettings] New settings.
+  # @return [TD::Types::Ok]
+  def setArchiveChatListSettings(settings:)
+    broadcast('@type'    => 'setArchiveChatListSettings',
+              'settings' => settings)
   end
   
   # Sets the email address of the user and sends an authentication code to the email address.
@@ -5549,7 +5970,7 @@ module TD::ClientMethods
   # Changes the background selected by the user; adds background to the list of installed backgrounds.
   #
   # @param background [TD::Types::InputBackground] The input background to use; pass null to create a new filled
-  #   backgrounds or to remove the current background.
+  #   background or to remove the current background.
   # @param type [TD::Types::BackgroundType] Background type; pass null to use the default type of the remote background
   #   or to remove the current background.
   # @param for_dark_theme [Boolean] Pass true if the background is changed for a dark theme.
@@ -5571,29 +5992,61 @@ module TD::ClientMethods
               'bio'   => bio)
   end
   
-  # Sets the text shown in the chat with the bot if the chat is empty; bots only.
+  # Sets the text shown in the chat with a bot if the chat is empty.
+  # Can be called only if userTypeBot.can_be_edited == true.
   #
+  # @param bot_user_id [Integer] Identifier of the target bot.
   # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code.
-  #   If empty, the description will be shown to all users, for which language there are no dedicated description.
+  #   If empty, the description will be shown to all users for whose languages there is no dedicated description.
   # @param description [TD::Types::String] New bot's description on the specified language.
   # @return [TD::Types::Ok]
-  def setBotInfoDescription(language_code:, description:)
+  def setBotInfoDescription(bot_user_id:, language_code:, description:)
     broadcast('@type'         => 'setBotInfoDescription',
+              'bot_user_id'   => bot_user_id,
               'language_code' => language_code,
               'description'   => description)
   end
   
-  # Sets the text shown on the bot's profile page and sent together with the link when users share the bot; bots only.
+  # Sets the text shown on a bot's profile page and sent together with the link when users share the bot.
+  # Can be called only if userTypeBot.can_be_edited == true.
   #
+  # @param bot_user_id [Integer] Identifier of the target bot.
   # @param language_code [TD::Types::String] A two-letter ISO 639-1 language code.
-  #   If empty, the short description will be shown to all users, for which language there are no dedicated
-  #   description.
+  #   If empty, the short description will be shown to all users for whose languages there is no dedicated description.
   # @param short_description [TD::Types::String] New bot's short description on the specified language.
   # @return [TD::Types::Ok]
-  def setBotInfoShortDescription(language_code:, short_description:)
+  def setBotInfoShortDescription(bot_user_id:, language_code:, short_description:)
     broadcast('@type'             => 'setBotInfoShortDescription',
+              'bot_user_id'       => bot_user_id,
               'language_code'     => language_code,
               'short_description' => short_description)
+  end
+  
+  # Sets the name of a bot.
+  # Can be called only if userTypeBot.can_be_edited == true.
+  #
+  # @param bot_user_id [Integer, nil] Identifier of the target bot.
+  # @param language_code [TD::Types::String, nil] A two-letter ISO 639-1 language code.
+  #   If empty, the name will be shown to all users for whose languages there is no dedicated name.
+  # @param name [TD::Types::String] New bot's name on the specified language; 0-64 characters; must be non-empty if
+  #   language code is empty.
+  # @return [TD::Types::Ok]
+  def setBotName(bot_user_id: nil, language_code: nil, name:)
+    broadcast('@type'         => 'setBotName',
+              'bot_user_id'   => bot_user_id,
+              'language_code' => language_code,
+              'name'          => name)
+  end
+  
+  # Changes a profile photo for a bot.
+  #
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param photo [TD::Types::InputChatPhoto] Profile photo to set; pass null to delete the chat photo.
+  # @return [TD::Types::Ok]
+  def setBotProfilePhoto(bot_user_id:, photo:)
+    broadcast('@type'       => 'setBotProfilePhoto',
+              'bot_user_id' => bot_user_id,
+              'photo'       => photo)
   end
   
   # Informs the server about the number of pending bot updates if they haven't been processed for a long time; for bots
@@ -5608,6 +6061,17 @@ module TD::ClientMethods
               'error_message'        => error_message)
   end
   
+  # Changes story list in which stories from the chat are shown.
+  #
+  # @param chat_id [Integer] Identifier of the chat that posted stories.
+  # @param story_list [TD::Types::StoryList] New list for active stories posted by the chat.
+  # @return [TD::Types::Ok]
+  def setChatActiveStoriesList(chat_id:, story_list:)
+    broadcast('@type'      => 'setChatActiveStoriesList',
+              'chat_id'    => chat_id,
+              'story_list' => story_list)
+  end
+  
   # Changes reactions, available in a chat.
   # Available for basic groups, supergroups, and channels.
   # Requires can_change_info administrator right.
@@ -5620,6 +6084,23 @@ module TD::ClientMethods
     broadcast('@type'               => 'setChatAvailableReactions',
               'chat_id'             => chat_id,
               'available_reactions' => available_reactions)
+  end
+  
+  # Changes the background in a specific chat.
+  # Supported only in private and secret chats with non-deleted users.
+  #
+  # @param chat_id [Integer] Chat identifier.
+  # @param background [TD::Types::InputBackground] The input background to use; pass null to create a new filled
+  #   background or to remove the current background.
+  # @param type [TD::Types::BackgroundType] Background type; pass null to remove the current background.
+  # @param dark_theme_dimming [Integer] Dimming of the background in dark themes, as a percentage; 0-100.
+  # @return [TD::Types::Ok]
+  def setChatBackground(chat_id:, background:, type:, dark_theme_dimming:)
+    broadcast('@type'              => 'setChatBackground',
+              'chat_id'            => chat_id,
+              'background'         => background,
+              'type'               => type,
+              'dark_theme_dimming' => dark_theme_dimming)
   end
   
   # Changes application-specific data associated with a chat.
@@ -5810,6 +6291,15 @@ module TD::ClientMethods
               'title'   => title)
   end
   
+  # Changes the list of close friends of the current user.
+  #
+  # @param user_ids [Array<Integer>] User identifiers of close friends; the users must be contacts of the current user.
+  # @return [TD::Types::Ok]
+  def setCloseFriends(user_ids:)
+    broadcast('@type'    => 'setCloseFriends',
+              'user_ids' => user_ids)
+  end
+  
   # Sets the list of commands supported by the bot for the given user scope and language; for bots only.
   #
   # @param scope [TD::Types::BotCommandScope] The scope to which the commands are relevant; pass null to change
@@ -5877,20 +6367,20 @@ module TD::ClientMethods
   
   # Sets default administrator rights for adding the bot to channel chats; for bots only.
   #
-  # @param default_channel_administrator_rights [TD::Types::ChatAdministratorRights, nil] Default administrator rights
-  #   for adding the bot to channels; may be null.
+  # @param default_channel_administrator_rights [TD::Types::ChatAdministratorRights] Default administrator rights for
+  #   adding the bot to channels; pass null to remove default rights.
   # @return [TD::Types::Ok]
-  def setDefaultChannelAdministratorRights(default_channel_administrator_rights: nil)
+  def setDefaultChannelAdministratorRights(default_channel_administrator_rights:)
     broadcast('@type'                                => 'setDefaultChannelAdministratorRights',
               'default_channel_administrator_rights' => default_channel_administrator_rights)
   end
   
   # Sets default administrator rights for adding the bot to basic group and supergroup chats; for bots only.
   #
-  # @param default_group_administrator_rights [TD::Types::ChatAdministratorRights, nil] Default administrator rights
-  #   for adding the bot to basic group and supergroup chats; may be null.
+  # @param default_group_administrator_rights [TD::Types::ChatAdministratorRights] Default administrator rights for
+  #   adding the bot to basic group and supergroup chats; pass null to remove default rights.
   # @return [TD::Types::Ok]
-  def setDefaultGroupAdministratorRights(default_group_administrator_rights: nil)
+  def setDefaultGroupAdministratorRights(default_group_administrator_rights:)
     broadcast('@type'                              => 'setDefaultGroupAdministratorRights',
               'default_group_administrator_rights' => default_group_administrator_rights)
   end
@@ -5918,13 +6408,10 @@ module TD::ClientMethods
   # Changes the emoji status of the current user; for Telegram Premium users only.
   #
   # @param emoji_status [TD::Types::EmojiStatus] New emoji status; pass null to switch to the default badge.
-  # @param duration [Integer] Duration of the status, in seconds; pass 0 to keep the status active until it will be
-  #   changed manually.
   # @return [TD::Types::Ok]
-  def setEmojiStatus(emoji_status:, duration:)
+  def setEmojiStatus(emoji_status:)
     broadcast('@type'        => 'setEmojiStatus',
-              'emoji_status' => emoji_status,
-              'duration'     => duration)
+              'emoji_status' => emoji_status)
   end
   
   # Informs TDLib on a file generation progress.
@@ -6110,6 +6597,19 @@ module TD::ClientMethods
     broadcast('@type'       => 'setMenuButton',
               'user_id'     => user_id,
               'menu_button' => menu_button)
+  end
+  
+  # Changes the block list of a message sender.
+  # Currently, only users and supergroup chats can be blocked.
+  #
+  # @param sender_id [TD::Types::MessageSender] Identifier of a message sender to block/unblock.
+  # @param block_list [TD::Types::BlockList] New block list for the message sender; pass null to unblock the message
+  #   sender.
+  # @return [TD::Types::Ok]
+  def setMessageSenderBlockList(sender_id:, block_list:)
+    broadcast('@type'      => 'setMessageSenderBlockList',
+              'sender_id'  => sender_id,
+              'block_list' => block_list)
   end
   
   # Changes the first and last name of the current user.
@@ -6347,6 +6847,33 @@ module TD::ClientMethods
     broadcast('@type' => 'setStickerSetTitle',
               'name'  => name,
               'title' => title)
+  end
+  
+  # Changes privacy settings of a previously sent story.
+  #
+  # @param story_id [Integer] Identifier of the story.
+  # @param privacy_settings [TD::Types::StoryPrivacySettings] The new privacy settigs for the story.
+  # @return [TD::Types::Ok]
+  def setStoryPrivacySettings(story_id:, privacy_settings:)
+    broadcast('@type'            => 'setStoryPrivacySettings',
+              'story_id'         => story_id,
+              'privacy_settings' => privacy_settings)
+  end
+  
+  # Changes chosen reaction on a story.
+  #
+  # @param story_sender_chat_id [Integer] The identifier of the sender of the story.
+  # @param story_id [Integer] The identifier of the story.
+  # @param reaction_type [TD::Types::ReactionType] Type of the reaction to set; pass null to remove the reaction.
+  #   `reactionTypeCustomEmoji` reactions can be used only by Telegram Premium users.
+  # @param update_recent_reactions [Boolean] Pass true if the reaction needs to be added to recent reactions.
+  # @return [TD::Types::Ok]
+  def setStoryReaction(story_sender_chat_id:, story_id:, reaction_type:, update_recent_reactions:)
+    broadcast('@type'                   => 'setStoryReaction',
+              'story_sender_chat_id'    => story_sender_chat_id,
+              'story_id'                => story_id,
+              'reaction_type'           => reaction_type,
+              'update_recent_reactions' => update_recent_reactions)
   end
   
   # Changes the sticker set of a supergroup; requires can_change_info administrator right.
@@ -6659,6 +7186,23 @@ module TD::ClientMethods
               'allow_write_access' => allow_write_access)
   end
   
+  # Changes active state for a username of a bot.
+  # The editable username can't be disabled.
+  # May return an error with a message "USERNAMES_ACTIVE_TOO_MUCH" if the maximum number of active usernames has been
+  #   reached.
+  # Can be called only if userTypeBot.can_be_edited == true.
+  #
+  # @param bot_user_id [Integer] Identifier of the target bot.
+  # @param username [TD::Types::String] The username to change.
+  # @param is_active [Boolean] Pass true to activate the username; pass false to disable it.
+  # @return [TD::Types::Ok]
+  def toggleBotUsernameIsActive(bot_user_id:, username:, is_active:)
+    broadcast('@type'       => 'toggleBotUsernameIsActive',
+              'bot_user_id' => bot_user_id,
+              'username'    => username,
+              'is_active'   => is_active)
+  end
+  
   # Changes the value of the default disable_notification parameter, used when a message is sent to a chat.
   #
   # @param chat_id [Integer] Chat identifier.
@@ -6837,7 +7381,7 @@ module TD::ClientMethods
   #
   # @param group_call_id [Integer] Group call identifier.
   # @param participant_id [TD::Types::MessageSender] Participant identifier.
-  # @param is_muted [Boolean] Pass true to mute the user; pass false to unmute the them.
+  # @param is_muted [Boolean] Pass true to mute the user; pass false to unmute them.
   # @return [TD::Types::Ok]
   def toggleGroupCallParticipantIsMuted(group_call_id:, participant_id:, is_muted:)
     broadcast('@type'          => 'toggleGroupCallParticipantIsMuted',
@@ -6855,18 +7399,6 @@ module TD::ClientMethods
     broadcast('@type'         => 'toggleGroupCallScreenSharingIsPaused',
               'group_call_id' => group_call_id,
               'is_paused'     => is_paused)
-  end
-  
-  # Changes the block state of a message sender.
-  # Currently, only users and supergroup chats can be blocked.
-  #
-  # @param sender_id [TD::Types::MessageSender] Identifier of a message sender to block/unblock.
-  # @param is_blocked [Boolean] New value of is_blocked.
-  # @return [TD::Types::Ok]
-  def toggleMessageSenderIsBlocked(sender_id:, is_blocked:)
-    broadcast('@type'      => 'toggleMessageSenderIsBlocked',
-              'sender_id'  => sender_id,
-              'is_blocked' => is_blocked)
   end
   
   # Toggles whether a session can accept incoming calls.
@@ -6890,6 +7422,17 @@ module TD::ClientMethods
     broadcast('@type'                   => 'toggleSessionCanAcceptSecretChats',
               'session_id'              => session_id,
               'can_accept_secret_chats' => can_accept_secret_chats)
+  end
+  
+  # Toggles whether a story is accessible after expiration.
+  #
+  # @param story_id [Integer] Identifier of the story.
+  # @param is_pinned [Boolean] Pass true to make the story accessible after expiration; pass false to make it private.
+  # @return [TD::Types::Ok]
+  def toggleStoryIsPinned(story_id:, is_pinned:)
+    broadcast('@type'     => 'toggleStoryIsPinned',
+              'story_id'  => story_id,
+              'is_pinned' => is_pinned)
   end
   
   # Toggles whether aggressive anti-spam checks are enabled in the supergroup.

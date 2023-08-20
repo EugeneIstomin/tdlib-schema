@@ -31,6 +31,7 @@ module TD::Types
       ChatNotificationSettings
       ChatPendingJoinRequests
       ChatReplyMarkup
+      ChatBackground
       ChatTheme
       ChatUnreadMentionCount
       ChatUnreadReactionCount
@@ -39,9 +40,9 @@ module TD::Types
       ChatHasProtectedContent
       ChatIsTranslatable
       ChatIsMarkedAsUnread
-      ChatIsBlocked
+      ChatBlockList
       ChatHasScheduledMessages
-      ChatFilters
+      ChatFolders
       ChatOnlineMemberCount
       ForumTopicInfo
       ScopeNotificationSettings
@@ -74,6 +75,13 @@ module TD::Types
       UserPrivacySettingRules
       UnreadMessageCount
       UnreadChatCount
+      Story
+      StoryDeleted
+      StorySendSucceeded
+      StorySendFailed
+      ChatActiveStories
+      StoryListChatCount
+      StoryStealthMode
       Option
       StickerSet
       InstalledStickerSets

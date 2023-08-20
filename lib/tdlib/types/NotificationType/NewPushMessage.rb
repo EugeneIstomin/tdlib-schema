@@ -2,8 +2,8 @@ module TD::Types
   # New message was received through a push notification.
   #
   # @attr message_id [Integer] The message identifier.
-  #   The message will not be available in the chat history, but the ID can be used in viewMessages, or as
-  #   reply_to_message_id.
+  #   The message will not be available in the chat history, but the ID can be used in viewMessages, or as a message to
+  #   reply.
   # @attr sender_id [TD::Types::MessageSender] Identifier of the sender of the message.
   #   Corresponding user or chat may be inaccessible.
   # @attr sender_name [TD::Types::String] Name of the sender.

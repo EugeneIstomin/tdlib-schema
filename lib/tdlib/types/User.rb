@@ -14,6 +14,7 @@ module TD::Types
   # @attr is_contact [Boolean] The user is a contact of the current user.
   # @attr is_mutual_contact [Boolean] The user is a contact of the current user and the current user is a contact of
   #   the user.
+  # @attr is_close_friend [Boolean] The user is a close friend of the current user; implies that the user is a contact.
   # @attr is_verified [Boolean] True, if the user is verified.
   # @attr is_premium [Boolean] True, if the user is a Telegram Premium user.
   # @attr is_support [Boolean] True, if the user is Telegram support account.
@@ -21,6 +22,9 @@ module TD::Types
   #   why access to this user must be restricted.
   # @attr is_scam [Boolean] True, if many users reported this user as a scam.
   # @attr is_fake [Boolean] True, if many users reported this user as a fake account.
+  # @attr has_active_stories [Boolean] True, if the user has non-expired stories available to the current user.
+  # @attr has_unread_active_stories [Boolean] True, if the user has unread non-expired stories available to the current
+  #   user.
   # @attr have_access [Boolean] If false, the user is inaccessible, and the only information known about the user is
   #   inside this class.
   #   Identifier of the user can't be passed to any method.
@@ -39,12 +43,15 @@ module TD::Types
     attribute :emoji_status, TD::Types::EmojiStatus.optional.default(nil)
     attribute :is_contact, TD::Types::Bool
     attribute :is_mutual_contact, TD::Types::Bool
+    attribute :is_close_friend, TD::Types::Bool
     attribute :is_verified, TD::Types::Bool
     attribute :is_premium, TD::Types::Bool
     attribute :is_support, TD::Types::Bool
     attribute :restriction_reason, TD::Types::String
     attribute :is_scam, TD::Types::Bool
     attribute :is_fake, TD::Types::Bool
+    attribute :has_active_stories, TD::Types::Bool
+    attribute :has_unread_active_stories, TD::Types::Bool
     attribute :have_access, TD::Types::Bool
     attribute :type, TD::Types::UserType
     attribute :language_code, TD::Types::String

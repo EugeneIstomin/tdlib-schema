@@ -6,6 +6,7 @@ module TD::Types
       ShowProfilePhoto
       ShowLinkInForwardedMessages
       ShowPhoneNumber
+      ShowBio
       AllowChatInvites
       AllowCalls
       AllowPeerToPeerCalls

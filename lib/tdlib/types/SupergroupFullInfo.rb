@@ -21,7 +21,6 @@ module TD::Types
   #   getSupergroupMembers or searchChatMembers.
   # @attr can_hide_members [Boolean] True, if non-administrators and non-bots can be hidden in responses to
   #   getSupergroupMembers and searchChatMembers for non-administrators.
-  # @attr can_set_username [Boolean] True, if the chat username can be changed.
   # @attr can_set_sticker_set [Boolean] True, if the supergroup sticker set can be changed.
   # @attr can_set_location [Boolean] True, if the supergroup location can be changed.
   # @attr can_get_statistics [Boolean] True, if the supergroup or channel statistics are available.
@@ -35,7 +34,7 @@ module TD::Types
   #   supergroup.
   #   The value of this field is only available to chat administrators.
   # @attr sticker_set_id [Integer] Identifier of the supergroup sticker set; 0 if none.
-  # @attr location [TD::Types::ChatLocation, nil] Location to which the supergroup is connected; may be null.
+  # @attr location [TD::Types::ChatLocation, nil] Location to which the supergroup is connected; may be null if none.
   # @attr invite_link [TD::Types::ChatInviteLink, nil] Primary invite link for the chat; may be null.
   #   For chat administrators with can_invite_users right only.
   # @attr bot_commands [Array<TD::Types::BotCommands>] List of commands of bots in the group.
@@ -56,7 +55,6 @@ module TD::Types
     attribute :can_get_members, TD::Types::Bool
     attribute :has_hidden_members, TD::Types::Bool
     attribute :can_hide_members, TD::Types::Bool
-    attribute :can_set_username, TD::Types::Bool
     attribute :can_set_sticker_set, TD::Types::Bool
     attribute :can_set_location, TD::Types::Bool
     attribute :can_get_statistics, TD::Types::Bool

@@ -1,8 +1,8 @@
 module TD::Types
-  # Contains a list of emoji statuses.
+  # Contains a list of custom emoji identifiers, which can be set as emoji statuses.
   #
-  # @attr emoji_statuses [Array<TD::Types::EmojiStatus>] The list of emoji statuses.
+  # @attr custom_emoji_ids [Array<Integer>] The list of custom emoji identifiers.
   class EmojiStatuses < Base
-    attribute :emoji_statuses, TD::Types::Array.of(TD::Types::EmojiStatus)
+    attribute :custom_emoji_ids, TD::Types::Array.of(TD::Types::Coercible::Integer)
   end
 end

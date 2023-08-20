@@ -9,6 +9,7 @@ module TD::Types
       ConvertToBroadcastGroup
       SetPassword
       UpgradePremium
+      RestorePremium
       SubscribeToAnnualPremium
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/SuggestedAction/#{type}"

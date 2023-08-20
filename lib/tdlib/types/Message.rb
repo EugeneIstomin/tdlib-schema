@@ -4,8 +4,10 @@ module TD::Types
   # @attr id [Integer] Message identifier; unique for the chat to which the message belongs.
   # @attr sender_id [TD::Types::MessageSender] Identifier of the sender of the message.
   # @attr chat_id [Integer] Chat identifier.
-  # @attr sending_state [TD::Types::MessageSendingState, nil] The sending state of the message; may be null.
-  # @attr scheduling_state [TD::Types::MessageSchedulingState, nil] The scheduling state of the message; may be null.
+  # @attr sending_state [TD::Types::MessageSendingState, nil] The sending state of the message; may be null if the
+  #   message isn't being sent and didn't fail to be sent.
+  # @attr scheduling_state [TD::Types::MessageSchedulingState, nil] The scheduling state of the message; may be null if
+  #   the message isn't scheduled.
   # @attr is_outgoing [Boolean] True, if the message is outgoing.
   # @attr is_pinned [Boolean] True, if the message is pinned.
   # @attr can_be_edited [Boolean] True, if the message can be edited.
@@ -35,14 +37,13 @@ module TD::Types
   # @attr contains_unread_mention [Boolean] True, if the message contains an unread mention for the current user.
   # @attr date [Integer] Point in time (Unix timestamp) when the message was sent.
   # @attr edit_date [Integer] Point in time (Unix timestamp) when the message was last edited.
-  # @attr forward_info [TD::Types::MessageForwardInfo, nil] Information about the initial message sender; may be null.
+  # @attr forward_info [TD::Types::MessageForwardInfo, nil] Information about the initial message sender; may be null
+  #   if none or unknown.
   # @attr interaction_info [TD::Types::MessageInteractionInfo, nil] Information about interactions with the message;
-  #   may be null.
+  #   may be null if none.
   # @attr unread_reactions [Array<TD::Types::UnreadReaction>] Information about unread reactions added to the message.
-  # @attr reply_in_chat_id [Integer] If non-zero, the identifier of the chat to which the replied message belongs;
-  #   Currently, only messages in the Replies chat can have different reply_in_chat_id and chat_id.
-  # @attr reply_to_message_id [Integer] If non-zero, the identifier of the message this message is replying to; can be
-  #   the identifier of a deleted message.
+  # @attr reply_to [TD::Types::MessageReplyTo, nil] Information about the message or the story this message is replying
+  #   to; may be null if none.
   # @attr message_thread_id [Integer] If non-zero, the identifier of the message thread the message belongs to; unique
   #   within the chat to which the message belongs.
   # @attr self_destruct_time [Integer] The message's self-destruct time, in seconds; 0 if none.
@@ -60,7 +61,7 @@ module TD::Types
   # @attr restriction_reason [TD::Types::String] If non-empty, contains a human-readable description of the reason why
   #   access to this message must be restricted.
   # @attr content [TD::Types::MessageContent] Content of the message.
-  # @attr reply_markup [TD::Types::ReplyMarkup, nil] Reply markup for the message; may be null.
+  # @attr reply_markup [TD::Types::ReplyMarkup, nil] Reply markup for the message; may be null if none.
   class Message < Base
     attribute :id, TD::Types::Coercible::Integer
     attribute :sender_id, TD::Types::MessageSender
@@ -89,8 +90,7 @@ module TD::Types
     attribute :forward_info, TD::Types::MessageForwardInfo.optional.default(nil)
     attribute :interaction_info, TD::Types::MessageInteractionInfo.optional.default(nil)
     attribute :unread_reactions, TD::Types::Array.of(TD::Types::UnreadReaction)
-    attribute :reply_in_chat_id, TD::Types::Coercible::Integer
-    attribute :reply_to_message_id, TD::Types::Coercible::Integer
+    attribute :reply_to, TD::Types::MessageReplyTo.optional.default(nil)
     attribute :message_thread_id, TD::Types::Coercible::Integer
     attribute :self_destruct_time, TD::Types::Coercible::Integer
     attribute :self_destruct_in, TD::Types::Coercible::Float

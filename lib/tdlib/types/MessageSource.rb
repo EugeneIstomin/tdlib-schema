@@ -10,6 +10,7 @@ module TD::Types
       Search
       ChatEventLog
       Notification
+      Screenshot
       Other
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/MessageSource/#{type}"

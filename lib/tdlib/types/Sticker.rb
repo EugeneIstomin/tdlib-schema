@@ -2,7 +2,7 @@ module TD::Types
   # Describes a sticker.
   #
   # @attr id [Integer] Unique sticker identifier within the set; 0 if none.
-  # @attr set_id [Integer] The identifier of the sticker set to which the sticker belongs; 0 if none.
+  # @attr set_id [Integer] Identifier of the sticker set to which the sticker belongs; 0 if none.
   # @attr width [Integer] Sticker width; as defined by the sender.
   # @attr height [Integer] Sticker height; as defined by the sender.
   # @attr emoji [TD::Types::String] Emoji corresponding to the sticker.

@@ -23,6 +23,8 @@ module TD::Types
   # @attr video [TD::Types::Video, nil] Preview of the content as a video, if available; may be null.
   # @attr video_note [TD::Types::VideoNote, nil] Preview of the content as a video note, if available; may be null.
   # @attr voice_note [TD::Types::VoiceNote, nil] Preview of the content as a voice note, if available; may be null.
+  # @attr story_sender_chat_id [Integer] The identifier of the sender of the previewed story; 0 if none.
+  # @attr story_id [Integer] The identifier of the previewed story; 0 if none.
   # @attr instant_view_version [Integer] Version of web page instant view (currently, can be 1 or 2); 0 if none.
   class WebPage < Base
     attribute :url, TD::Types::String
@@ -45,6 +47,8 @@ module TD::Types
     attribute :video, TD::Types::Video.optional.default(nil)
     attribute :video_note, TD::Types::VideoNote.optional.default(nil)
     attribute :voice_note, TD::Types::VoiceNote.optional.default(nil)
+    attribute :story_sender_chat_id, TD::Types::Coercible::Integer
+    attribute :story_id, TD::Types::Coercible::Integer
     attribute :instant_view_version, TD::Types::Coercible::Integer
   end
 end

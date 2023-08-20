@@ -20,6 +20,7 @@ module TD::Types
       Dice
       Game
       Poll
+      Story
       Invoice
       Call
       VideoChatScheduled
@@ -39,6 +40,7 @@ module TD::Types
       ChatUpgradeFrom
       PinMessage
       ScreenshotTaken
+      ChatSetBackground
       ChatSetTheme
       ChatSetMessageAutoDeleteTime
       ForumTopicCreated

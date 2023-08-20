@@ -4,6 +4,7 @@ module TD::Types
     %w[
       LimitExceeded
       Feature
+      StoryFeature
       Link
       Settings
     ].each do |type|

@@ -3,7 +3,7 @@ module TD::Types
   #
   # @attr button_text [TD::Types::String] Text of the {TD::Types::KeyboardButtonType::WebApp} button, which opened the
   #   Web App.
-  # @attr data [TD::Types::String] Received data.
+  # @attr data [TD::Types::String] The data.
   class MessageContent::WebAppDataReceived < MessageContent
     attribute :button_text, TD::Types::String
     attribute :data, TD::Types::String

@@ -7,11 +7,17 @@ module TD::Types
       CreatedPublicChatCount
       SavedAnimationCount
       FavoriteStickerCount
-      ChatFilterCount
-      ChatFilterChosenChatCount
+      ChatFolderCount
+      ChatFolderChosenChatCount
       PinnedArchivedChatCount
       CaptionLength
       BioLength
+      ChatFolderInviteLinkCount
+      ShareableChatFolderCount
+      ActiveStoryCount
+      WeeklySentStoryCount
+      MonthlySentStoryCount
+      StoryCaptionLength
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/PremiumLimitType/#{type}"
     end

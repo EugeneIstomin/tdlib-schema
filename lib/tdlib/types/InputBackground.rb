@@ -4,6 +4,7 @@ module TD::Types
     %w[
       Local
       Remote
+      Previous
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/InputBackground/#{type}"
     end

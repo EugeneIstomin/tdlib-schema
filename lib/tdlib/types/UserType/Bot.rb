@@ -1,6 +1,9 @@
 module TD::Types
   # A bot (see https://core.telegram.org/bots).
   #
+  # @attr can_be_edited [Boolean] True, if the bot is owned by the current user and can be edited using the methods
+  #   toggleBotUsernameIsActive, reorderBotActiveUsernames, setBotProfilePhoto, setBotName, setBotInfoDescription, and
+  #   setBotInfoShortDescription.
   # @attr can_join_groups [Boolean] True, if the bot can be invited to basic group and supergroup chats.
   # @attr can_read_all_group_messages [Boolean] True, if the bot can read all messages in basic group or supergroup
   #   chats and not just those addressed to the bot.
@@ -12,6 +15,7 @@ module TD::Types
   #   this bot.
   # @attr can_be_added_to_attachment_menu [Boolean] True, if the bot can be added to attachment menu.
   class UserType::Bot < UserType
+    attribute :can_be_edited, TD::Types::Bool
     attribute :can_join_groups, TD::Types::Bool
     attribute :can_read_all_group_messages, TD::Types::Bool
     attribute :is_inline, TD::Types::Bool

@@ -10,10 +10,11 @@ module TD::Types
       BotStart
       BotStartInGroup
       ChangePhoneNumber
+      ChatFolderInvite
+      ChatFolderSettings
       ChatInvite
       DefaultMessageAutoDeleteTimerSettings
       EditProfileSettings
-      FilterSettings
       Game
       InstantView
       Invoice
@@ -31,6 +32,7 @@ module TD::Types
       RestorePurchases
       Settings
       StickerSet
+      Story
       Theme
       ThemeSettings
       UnknownDeepLink

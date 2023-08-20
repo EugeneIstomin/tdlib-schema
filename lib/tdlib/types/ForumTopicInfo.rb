@@ -4,7 +4,7 @@ module TD::Types
   # @attr message_thread_id [Integer] Message thread identifier of the topic.
   # @attr name [TD::Types::String] Name of the topic.
   # @attr icon [TD::Types::ForumTopicIcon] Icon of the topic.
-  # @attr creation_date [Integer] Date the topic was created.
+  # @attr creation_date [Integer] Point in time (Unix timestamp) when the topic was created.
   # @attr creator_id [TD::Types::MessageSender] Identifier of the creator of the topic.
   # @attr is_general [Boolean] True, if the topic is the General topic list.
   # @attr is_outgoing [Boolean] True, if the topic was created by the current user.

@@ -4,7 +4,7 @@ module TD::Types
     %w[
       Main
       Archive
-      Filter
+      Folder
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/ChatList/#{type}"
     end

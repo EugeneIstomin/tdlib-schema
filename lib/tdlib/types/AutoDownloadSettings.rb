@@ -10,6 +10,7 @@ module TD::Types
   #   playback.
   # @attr preload_next_audio [Boolean] True, if the next audio track needs to be preloaded while the user is listening
   #   to an audio file.
+  # @attr preload_stories [Boolean] True, if stories needs to be preloaded.
   # @attr use_less_data_for_calls [Boolean] True, if "use less data for calls" option needs to be enabled.
   class AutoDownloadSettings < Base
     attribute :is_auto_download_enabled, TD::Types::Bool
@@ -19,6 +20,7 @@ module TD::Types
     attribute :video_upload_bitrate, TD::Types::Coercible::Integer
     attribute :preload_large_videos, TD::Types::Bool
     attribute :preload_next_audio, TD::Types::Bool
+    attribute :preload_stories, TD::Types::Bool
     attribute :use_less_data_for_calls, TD::Types::Bool
   end
 end

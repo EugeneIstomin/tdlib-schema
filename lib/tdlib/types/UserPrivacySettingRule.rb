@@ -1,5 +1,5 @@
 module TD::Types
-  # Represents a single rule for managing privacy settings.
+  # Represents a single rule for managing user privacy settings.
   class UserPrivacySettingRule < Base
     %w[
       AllowAll

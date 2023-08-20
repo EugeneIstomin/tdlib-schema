@@ -18,6 +18,7 @@ module TD::Types
       Game
       Invoice
       Poll
+      Story
       Forwarded
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/InputMessageContent/#{type}"

@@ -17,6 +17,7 @@ module TD::Types
       ForumTopicIcon
       AppIcons
       RealTimeChatTranslation
+      UpgradedStories
     ].each do |type|
       autoload TD::Types.camelize(type), "tdlib/types/PremiumFeature/#{type}"
     end

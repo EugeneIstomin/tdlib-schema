@@ -10,7 +10,7 @@ module TD::Types
   # @attr unread_mention_count [Integer] Number of unread messages with a mention/reply in the topic.
   # @attr unread_reaction_count [Integer] Number of messages with unread reactions in the topic.
   # @attr notification_settings [TD::Types::ChatNotificationSettings] Notification settings for the topic.
-  # @attr draft_message [TD::Types::DraftMessage, nil] A draft of a message in the topic; may be null.
+  # @attr draft_message [TD::Types::DraftMessage, nil] A draft of a message in the topic; may be null if none.
   class ForumTopic < Base
     attribute :info, TD::Types::ForumTopicInfo
     attribute :last_message, TD::Types::Message.optional.default(nil)

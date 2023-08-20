@@ -16,6 +16,7 @@ module TD::Types
       Poll
       ScreenshotTaken
       Sticker
+      Story
       Text
       Video
       VideoNote
@@ -24,6 +25,7 @@ module TD::Types
       ChatAddMembers
       ChatChangePhoto
       ChatChangeTitle
+      ChatSetBackground
       ChatSetTheme
       ChatDeleteMember
       ChatJoinByLink

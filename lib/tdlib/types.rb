@@ -102,6 +102,9 @@ module TD::Types
       'game'                                                    => 'Game',
       'webApp'                                                  => 'WebApp',
       'poll'                                                    => 'Poll',
+      'background'                                              => 'Background',
+      'backgrounds'                                             => 'Backgrounds',
+      'chatBackground'                                          => 'ChatBackground',
       'profilePhoto'                                            => 'ProfilePhoto',
       'chatPhotoInfo'                                           => 'ChatPhotoInfo',
       'UserType'                                                => 'UserType',
@@ -208,6 +211,9 @@ module TD::Types
       'MessageSendingState'                                     => 'MessageSendingState',
       'messageSendingStatePending'                              => 'MessageSendingState::Pending',
       'messageSendingStateFailed'                               => 'MessageSendingState::Failed',
+      'MessageReplyTo'                                          => 'MessageReplyTo',
+      'messageReplyToMessage'                                   => 'MessageReplyTo::Message',
+      'messageReplyToStory'                                     => 'MessageReplyTo::Story',
       'message'                                                 => 'Message',
       'messages'                                                => 'Messages',
       'foundMessages'                                           => 'FoundMessages',
@@ -225,7 +231,14 @@ module TD::Types
       'messageSourceSearch'                                     => 'MessageSource::Search',
       'messageSourceChatEventLog'                               => 'MessageSource::ChatEventLog',
       'messageSourceNotification'                               => 'MessageSource::Notification',
+      'messageSourceScreenshot'                                 => 'MessageSource::Screenshot',
       'messageSourceOther'                                      => 'MessageSource::Other',
+      'MessageSponsorType'                                      => 'MessageSponsorType',
+      'messageSponsorTypeBot'                                   => 'MessageSponsorType::Bot',
+      'messageSponsorTypePublicChannel'                         => 'MessageSponsorType::PublicChannel',
+      'messageSponsorTypePrivateChannel'                        => 'MessageSponsorType::PrivateChannel',
+      'messageSponsorTypeWebsite'                               => 'MessageSponsorType::Website',
+      'messageSponsor'                                          => 'MessageSponsor',
       'sponsoredMessage'                                        => 'SponsoredMessage',
       'sponsoredMessages'                                       => 'SponsoredMessages',
       'fileDownload'                                            => 'FileDownload',
@@ -243,14 +256,19 @@ module TD::Types
       'chatTypeBasicGroup'                                      => 'ChatType::BasicGroup',
       'chatTypeSupergroup'                                      => 'ChatType::Supergroup',
       'chatTypeSecret'                                          => 'ChatType::Secret',
-      'chatFilter'                                              => 'ChatFilter',
-      'chatFilterInfo'                                          => 'ChatFilterInfo',
-      'recommendedChatFilter'                                   => 'RecommendedChatFilter',
-      'recommendedChatFilters'                                  => 'RecommendedChatFilters',
+      'chatFolderIcon'                                          => 'ChatFolderIcon',
+      'chatFolder'                                              => 'ChatFolder',
+      'chatFolderInfo'                                          => 'ChatFolderInfo',
+      'chatFolderInviteLink'                                    => 'ChatFolderInviteLink',
+      'chatFolderInviteLinks'                                   => 'ChatFolderInviteLinks',
+      'chatFolderInviteLinkInfo'                                => 'ChatFolderInviteLinkInfo',
+      'recommendedChatFolder'                                   => 'RecommendedChatFolder',
+      'recommendedChatFolders'                                  => 'RecommendedChatFolders',
+      'archiveChatListSettings'                                 => 'ArchiveChatListSettings',
       'ChatList'                                                => 'ChatList',
       'chatListMain'                                            => 'ChatList::Main',
       'chatListArchive'                                         => 'ChatList::Archive',
-      'chatListFilter'                                          => 'ChatList::Filter',
+      'chatListFolder'                                          => 'ChatList::Folder',
       'chatLists'                                               => 'ChatLists',
       'ChatSource'                                              => 'ChatSource',
       'chatSourceMtprotoProxy'                                  => 'ChatSource::MtprotoProxy',
@@ -503,6 +521,7 @@ module TD::Types
       'messageDice'                                             => 'MessageContent::Dice',
       'messageGame'                                             => 'MessageContent::Game',
       'messagePoll'                                             => 'MessageContent::Poll',
+      'messageStory'                                            => 'MessageContent::Story',
       'messageInvoice'                                          => 'MessageContent::Invoice',
       'messageCall'                                             => 'MessageContent::Call',
       'messageVideoChatScheduled'                               => 'MessageContent::VideoChatScheduled',
@@ -522,6 +541,7 @@ module TD::Types
       'messageChatUpgradeFrom'                                  => 'MessageContent::ChatUpgradeFrom',
       'messagePinMessage'                                       => 'MessageContent::PinMessage',
       'messageScreenshotTaken'                                  => 'MessageContent::ScreenshotTaken',
+      'messageChatSetBackground'                                => 'MessageContent::ChatSetBackground',
       'messageChatSetTheme'                                     => 'MessageContent::ChatSetTheme',
       'messageChatSetMessageAutoDeleteTime'                     => 'MessageContent::ChatSetMessageAutoDeleteTime',
       'messageForumTopicCreated'                                => 'MessageContent::ForumTopicCreated',
@@ -589,6 +609,7 @@ module TD::Types
       'inputMessageGame'                                        => 'InputMessageContent::Game',
       'inputMessageInvoice'                                     => 'InputMessageContent::Invoice',
       'inputMessagePoll'                                        => 'InputMessageContent::Poll',
+      'inputMessageStory'                                       => 'InputMessageContent::Story',
       'inputMessageForwarded'                                   => 'InputMessageContent::Forwarded',
       'SearchMessagesFilter'                                    => 'SearchMessagesFilter',
       'searchMessagesFilterEmpty'                               => 'SearchMessagesFilter::Empty',
@@ -810,11 +831,17 @@ module TD::Types
       'premiumLimitTypeCreatedPublicChatCount'                  => 'PremiumLimitType::CreatedPublicChatCount',
       'premiumLimitTypeSavedAnimationCount'                     => 'PremiumLimitType::SavedAnimationCount',
       'premiumLimitTypeFavoriteStickerCount'                    => 'PremiumLimitType::FavoriteStickerCount',
-      'premiumLimitTypeChatFilterCount'                         => 'PremiumLimitType::ChatFilterCount',
-      'premiumLimitTypeChatFilterChosenChatCount'               => 'PremiumLimitType::ChatFilterChosenChatCount',
+      'premiumLimitTypeChatFolderCount'                         => 'PremiumLimitType::ChatFolderCount',
+      'premiumLimitTypeChatFolderChosenChatCount'               => 'PremiumLimitType::ChatFolderChosenChatCount',
       'premiumLimitTypePinnedArchivedChatCount'                 => 'PremiumLimitType::PinnedArchivedChatCount',
       'premiumLimitTypeCaptionLength'                           => 'PremiumLimitType::CaptionLength',
       'premiumLimitTypeBioLength'                               => 'PremiumLimitType::BioLength',
+      'premiumLimitTypeChatFolderInviteLinkCount'               => 'PremiumLimitType::ChatFolderInviteLinkCount',
+      'premiumLimitTypeShareableChatFolderCount'                => 'PremiumLimitType::ShareableChatFolderCount',
+      'premiumLimitTypeActiveStoryCount'                        => 'PremiumLimitType::ActiveStoryCount',
+      'premiumLimitTypeWeeklySentStoryCount'                    => 'PremiumLimitType::WeeklySentStoryCount',
+      'premiumLimitTypeMonthlySentStoryCount'                   => 'PremiumLimitType::MonthlySentStoryCount',
+      'premiumLimitTypeStoryCaptionLength'                      => 'PremiumLimitType::StoryCaptionLength',
       'PremiumFeature'                                          => 'PremiumFeature',
       'premiumFeatureIncreasedLimits'                           => 'PremiumFeature::IncreasedLimits',
       'premiumFeatureIncreasedUploadFileSize'                   => 'PremiumFeature::IncreasedUploadFileSize',
@@ -831,11 +858,20 @@ module TD::Types
       'premiumFeatureForumTopicIcon'                            => 'PremiumFeature::ForumTopicIcon',
       'premiumFeatureAppIcons'                                  => 'PremiumFeature::AppIcons',
       'premiumFeatureRealTimeChatTranslation'                   => 'PremiumFeature::RealTimeChatTranslation',
+      'premiumFeatureUpgradedStories'                           => 'PremiumFeature::UpgradedStories',
+      'PremiumStoryFeature'                                     => 'PremiumStoryFeature',
+      'premiumStoryFeaturePriorityOrder'                        => 'PremiumStoryFeature::PriorityOrder',
+      'premiumStoryFeatureStealthMode'                          => 'PremiumStoryFeature::StealthMode',
+      'premiumStoryFeaturePermanentViewsHistory'                => 'PremiumStoryFeature::PermanentViewsHistory',
+      'premiumStoryFeatureCustomExpirationDuration'             => 'PremiumStoryFeature::CustomExpirationDuration',
+      'premiumStoryFeatureSaveStories'                          => 'PremiumStoryFeature::SaveStories',
+      'premiumStoryFeatureLinksAndFormatting'                   => 'PremiumStoryFeature::LinksAndFormatting',
       'premiumLimit'                                            => 'PremiumLimit',
       'premiumFeatures'                                         => 'PremiumFeatures',
       'PremiumSource'                                           => 'PremiumSource',
       'premiumSourceLimitExceeded'                              => 'PremiumSource::LimitExceeded',
       'premiumSourceFeature'                                    => 'PremiumSource::Feature',
+      'premiumSourceStoryFeature'                               => 'PremiumSource::StoryFeature',
       'premiumSourceLink'                                       => 'PremiumSource::Link',
       'premiumSourceSettings'                                   => 'PremiumSource::Settings',
       'premiumFeaturePromotionAnimation'                        => 'PremiumFeaturePromotionAnimation',
@@ -865,14 +901,19 @@ module TD::Types
       'backgroundTypeWallpaper'                                 => 'BackgroundType::Wallpaper',
       'backgroundTypePattern'                                   => 'BackgroundType::Pattern',
       'backgroundTypeFill'                                      => 'BackgroundType::Fill',
-      'background'                                              => 'Background',
-      'backgrounds'                                             => 'Backgrounds',
       'InputBackground'                                         => 'InputBackground',
       'inputBackgroundLocal'                                    => 'InputBackground::Local',
       'inputBackgroundRemote'                                   => 'InputBackground::Remote',
+      'inputBackgroundPrevious'                                 => 'InputBackground::Previous',
       'themeSettings'                                           => 'ThemeSettings',
       'chatTheme'                                               => 'ChatTheme',
       'hashtags'                                                => 'Hashtags',
+      'CanSendStoryResult'                                      => 'CanSendStoryResult',
+      'canSendStoryResultOk'                                    => 'CanSendStoryResult::Ok',
+      'canSendStoryResultPremiumNeeded'                         => 'CanSendStoryResult::PremiumNeeded',
+      'canSendStoryResultActiveStoryLimitExceeded'              => 'CanSendStoryResult::ActiveStoryLimitExceeded',
+      'canSendStoryResultWeeklyLimitExceeded'                   => 'CanSendStoryResult::WeeklyLimitExceeded',
+      'canSendStoryResultMonthlyLimitExceeded'                  => 'CanSendStoryResult::MonthlyLimitExceeded',
       'CanTransferOwnershipResult'                              => 'CanTransferOwnershipResult',
       'canTransferOwnershipResultOk'                            => 'CanTransferOwnershipResult::Ok',
       'canTransferOwnershipResultPasswordNeeded'                => 'CanTransferOwnershipResult::PasswordNeeded',
@@ -912,6 +953,7 @@ module TD::Types
       'pushMessageContentPoll'                                  => 'PushMessageContent::Poll',
       'pushMessageContentScreenshotTaken'                       => 'PushMessageContent::ScreenshotTaken',
       'pushMessageContentSticker'                               => 'PushMessageContent::Sticker',
+      'pushMessageContentStory'                                 => 'PushMessageContent::Story',
       'pushMessageContentText'                                  => 'PushMessageContent::Text',
       'pushMessageContentVideo'                                 => 'PushMessageContent::Video',
       'pushMessageContentVideoNote'                             => 'PushMessageContent::VideoNote',
@@ -920,6 +962,7 @@ module TD::Types
       'pushMessageContentChatAddMembers'                        => 'PushMessageContent::ChatAddMembers',
       'pushMessageContentChatChangePhoto'                       => 'PushMessageContent::ChatChangePhoto',
       'pushMessageContentChatChangeTitle'                       => 'PushMessageContent::ChatChangeTitle',
+      'pushMessageContentChatSetBackground'                     => 'PushMessageContent::ChatSetBackground',
       'pushMessageContentChatSetTheme'                          => 'PushMessageContent::ChatSetTheme',
       'pushMessageContentChatDeleteMember'                      => 'PushMessageContent::ChatDeleteMember',
       'pushMessageContentChatJoinByLink'                        => 'PushMessageContent::ChatJoinByLink',
@@ -955,6 +998,11 @@ module TD::Types
       'jsonValueString'                                         => 'JsonValue::String',
       'jsonValueArray'                                          => 'JsonValue::Array',
       'jsonValueObject'                                         => 'JsonValue::Object',
+      'StoryPrivacySettings'                                    => 'StoryPrivacySettings',
+      'storyPrivacySettingsEveryone'                            => 'StoryPrivacySettings::Everyone',
+      'storyPrivacySettingsContacts'                            => 'StoryPrivacySettings::Contacts',
+      'storyPrivacySettingsCloseFriends'                        => 'StoryPrivacySettings::CloseFriends',
+      'storyPrivacySettingsSelectedContacts'                    => 'StoryPrivacySettings::SelectedContacts',
       'UserPrivacySettingRule'                                  => 'UserPrivacySettingRule',
       'userPrivacySettingRuleAllowAll'                          => 'UserPrivacySettingRule::AllowAll',
       'userPrivacySettingRuleAllowContacts'                     => 'UserPrivacySettingRule::AllowContacts',
@@ -970,6 +1018,7 @@ module TD::Types
       'userPrivacySettingShowProfilePhoto'                      => 'UserPrivacySetting::ShowProfilePhoto',
       'userPrivacySettingShowLinkInForwardedMessages'           => 'UserPrivacySetting::ShowLinkInForwardedMessages',
       'userPrivacySettingShowPhoneNumber'                       => 'UserPrivacySetting::ShowPhoneNumber',
+      'userPrivacySettingShowBio'                               => 'UserPrivacySetting::ShowBio',
       'userPrivacySettingAllowChatInvites'                      => 'UserPrivacySetting::AllowChatInvites',
       'userPrivacySettingAllowCalls'                            => 'UserPrivacySetting::AllowCalls',
       'userPrivacySettingAllowPeerToPeerCalls'                  => 'UserPrivacySetting::AllowPeerToPeerCalls',
@@ -999,17 +1048,17 @@ module TD::Types
       'sessions'                                                => 'Sessions',
       'connectedWebsite'                                        => 'ConnectedWebsite',
       'connectedWebsites'                                       => 'ConnectedWebsites',
-      'ChatReportReason'                                        => 'ChatReportReason',
-      'chatReportReasonSpam'                                    => 'ChatReportReason::Spam',
-      'chatReportReasonViolence'                                => 'ChatReportReason::Violence',
-      'chatReportReasonPornography'                             => 'ChatReportReason::Pornography',
-      'chatReportReasonChildAbuse'                              => 'ChatReportReason::ChildAbuse',
-      'chatReportReasonCopyright'                               => 'ChatReportReason::Copyright',
-      'chatReportReasonUnrelatedLocation'                       => 'ChatReportReason::UnrelatedLocation',
-      'chatReportReasonFake'                                    => 'ChatReportReason::Fake',
-      'chatReportReasonIllegalDrugs'                            => 'ChatReportReason::IllegalDrugs',
-      'chatReportReasonPersonalDetails'                         => 'ChatReportReason::PersonalDetails',
-      'chatReportReasonCustom'                                  => 'ChatReportReason::Custom',
+      'ReportReason'                                            => 'ReportReason',
+      'reportReasonSpam'                                        => 'ReportReason::Spam',
+      'reportReasonViolence'                                    => 'ReportReason::Violence',
+      'reportReasonPornography'                                 => 'ReportReason::Pornography',
+      'reportReasonChildAbuse'                                  => 'ReportReason::ChildAbuse',
+      'reportReasonCopyright'                                   => 'ReportReason::Copyright',
+      'reportReasonUnrelatedLocation'                           => 'ReportReason::UnrelatedLocation',
+      'reportReasonFake'                                        => 'ReportReason::Fake',
+      'reportReasonIllegalDrugs'                                => 'ReportReason::IllegalDrugs',
+      'reportReasonPersonalDetails'                             => 'ReportReason::PersonalDetails',
+      'reportReasonCustom'                                      => 'ReportReason::Custom',
       'TargetChat'                                              => 'TargetChat',
       'targetChatCurrent'                                       => 'TargetChat::Current',
       'targetChatChosen'                                        => 'TargetChat::Chosen',
@@ -1023,10 +1072,11 @@ module TD::Types
       'internalLinkTypeBotStart'                                => 'InternalLinkType::BotStart',
       'internalLinkTypeBotStartInGroup'                         => 'InternalLinkType::BotStartInGroup',
       'internalLinkTypeChangePhoneNumber'                       => 'InternalLinkType::ChangePhoneNumber',
+      'internalLinkTypeChatFolderInvite'                        => 'InternalLinkType::ChatFolderInvite',
+      'internalLinkTypeChatFolderSettings'                      => 'InternalLinkType::ChatFolderSettings',
       'internalLinkTypeChatInvite'                              => 'InternalLinkType::ChatInvite',
       'internalLinkTypeDefaultMessageAutoDeleteTimerSettings'   => 'InternalLinkType::DefaultMessageAutoDeleteTimerSettings',
       'internalLinkTypeEditProfileSettings'                     => 'InternalLinkType::EditProfileSettings',
-      'internalLinkTypeFilterSettings'                          => 'InternalLinkType::FilterSettings',
       'internalLinkTypeGame'                                    => 'InternalLinkType::Game',
       'internalLinkTypeInstantView'                             => 'InternalLinkType::InstantView',
       'internalLinkTypeInvoice'                                 => 'InternalLinkType::Invoice',
@@ -1044,6 +1094,7 @@ module TD::Types
       'internalLinkTypeRestorePurchases'                        => 'InternalLinkType::RestorePurchases',
       'internalLinkTypeSettings'                                => 'InternalLinkType::Settings',
       'internalLinkTypeStickerSet'                              => 'InternalLinkType::StickerSet',
+      'internalLinkTypeStory'                                   => 'InternalLinkType::Story',
       'internalLinkTypeTheme'                                   => 'InternalLinkType::Theme',
       'internalLinkTypeThemeSettings'                           => 'InternalLinkType::ThemeSettings',
       'internalLinkTypeUnknownDeepLink'                         => 'InternalLinkType::UnknownDeepLink',
@@ -1054,6 +1105,38 @@ module TD::Types
       'internalLinkTypeWebApp'                                  => 'InternalLinkType::WebApp',
       'messageLink'                                             => 'MessageLink',
       'messageLinkInfo'                                         => 'MessageLinkInfo',
+      'storyViewer'                                             => 'StoryViewer',
+      'storyViewers'                                            => 'StoryViewers',
+      'storyAreaPosition'                                       => 'StoryAreaPosition',
+      'StoryAreaType'                                           => 'StoryAreaType',
+      'storyAreaTypeLocation'                                   => 'StoryAreaType::Location',
+      'storyAreaTypeVenue'                                      => 'StoryAreaType::Venue',
+      'storyArea'                                               => 'StoryArea',
+      'InputStoryAreaType'                                      => 'InputStoryAreaType',
+      'inputStoryAreaTypeLocation'                              => 'InputStoryAreaType::Location',
+      'inputStoryAreaTypeFoundVenue'                            => 'InputStoryAreaType::FoundVenue',
+      'inputStoryAreaTypePreviousVenue'                         => 'InputStoryAreaType::PreviousVenue',
+      'inputStoryArea'                                          => 'InputStoryArea',
+      'inputStoryAreas'                                         => 'InputStoryAreas',
+      'storyVideo'                                              => 'StoryVideo',
+      'StoryContent'                                            => 'StoryContent',
+      'storyContentPhoto'                                       => 'StoryContent::Photo',
+      'storyContentVideo'                                       => 'StoryContent::Video',
+      'storyContentUnsupported'                                 => 'StoryContent::Unsupported',
+      'InputStoryContent'                                       => 'InputStoryContent',
+      'inputStoryContentPhoto'                                  => 'InputStoryContent::Photo',
+      'inputStoryContentVideo'                                  => 'InputStoryContent::Video',
+      'StoryList'                                               => 'StoryList',
+      'storyListMain'                                           => 'StoryList::Main',
+      'storyListArchive'                                        => 'StoryList::Archive',
+      'storyInteractionInfo'                                    => 'StoryInteractionInfo',
+      'story'                                                   => 'Story',
+      'stories'                                                 => 'Stories',
+      'storyInfo'                                               => 'StoryInfo',
+      'chatActiveStories'                                       => 'ChatActiveStories',
+      'BlockList'                                               => 'BlockList',
+      'blockListMain'                                           => 'BlockList::Main',
+      'blockListStories'                                        => 'BlockList::Stories',
       'filePart'                                                => 'FilePart',
       'FileType'                                                => 'FileType',
       'fileTypeNone'                                            => 'FileType::None',
@@ -1062,6 +1145,7 @@ module TD::Types
       'fileTypeDocument'                                        => 'FileType::Document',
       'fileTypeNotificationSound'                               => 'FileType::NotificationSound',
       'fileTypePhoto'                                           => 'FileType::Photo',
+      'fileTypePhotoStory'                                      => 'FileType::PhotoStory',
       'fileTypeProfilePhoto'                                    => 'FileType::ProfilePhoto',
       'fileTypeSecret'                                          => 'FileType::Secret',
       'fileTypeSecretThumbnail'                                 => 'FileType::SecretThumbnail',
@@ -1071,6 +1155,7 @@ module TD::Types
       'fileTypeUnknown'                                         => 'FileType::Unknown',
       'fileTypeVideo'                                           => 'FileType::Video',
       'fileTypeVideoNote'                                       => 'FileType::VideoNote',
+      'fileTypeVideoStory'                                      => 'FileType::VideoStory',
       'fileTypeVoiceNote'                                       => 'FileType::VoiceNote',
       'fileTypeWallpaper'                                       => 'FileType::Wallpaper',
       'storageStatisticsByFileType'                             => 'StorageStatisticsByFileType',
@@ -1127,6 +1212,7 @@ module TD::Types
       'suggestedActionConvertToBroadcastGroup'                  => 'SuggestedAction::ConvertToBroadcastGroup',
       'suggestedActionSetPassword'                              => 'SuggestedAction::SetPassword',
       'suggestedActionUpgradePremium'                           => 'SuggestedAction::UpgradePremium',
+      'suggestedActionRestorePremium'                           => 'SuggestedAction::RestorePremium',
       'suggestedActionSubscribeToAnnualPremium'                 => 'SuggestedAction::SubscribeToAnnualPremium',
       'count'                                                   => 'Count',
       'text'                                                    => 'Text',
@@ -1199,6 +1285,7 @@ module TD::Types
       'updateChatNotificationSettings'                          => 'Update::ChatNotificationSettings',
       'updateChatPendingJoinRequests'                           => 'Update::ChatPendingJoinRequests',
       'updateChatReplyMarkup'                                   => 'Update::ChatReplyMarkup',
+      'updateChatBackground'                                    => 'Update::ChatBackground',
       'updateChatTheme'                                         => 'Update::ChatTheme',
       'updateChatUnreadMentionCount'                            => 'Update::ChatUnreadMentionCount',
       'updateChatUnreadReactionCount'                           => 'Update::ChatUnreadReactionCount',
@@ -1207,9 +1294,9 @@ module TD::Types
       'updateChatHasProtectedContent'                           => 'Update::ChatHasProtectedContent',
       'updateChatIsTranslatable'                                => 'Update::ChatIsTranslatable',
       'updateChatIsMarkedAsUnread'                              => 'Update::ChatIsMarkedAsUnread',
-      'updateChatIsBlocked'                                     => 'Update::ChatIsBlocked',
+      'updateChatBlockList'                                     => 'Update::ChatBlockList',
       'updateChatHasScheduledMessages'                          => 'Update::ChatHasScheduledMessages',
-      'updateChatFilters'                                       => 'Update::ChatFilters',
+      'updateChatFolders'                                       => 'Update::ChatFolders',
       'updateChatOnlineMemberCount'                             => 'Update::ChatOnlineMemberCount',
       'updateForumTopicInfo'                                    => 'Update::ForumTopicInfo',
       'updateScopeNotificationSettings'                         => 'Update::ScopeNotificationSettings',
@@ -1242,6 +1329,13 @@ module TD::Types
       'updateUserPrivacySettingRules'                           => 'Update::UserPrivacySettingRules',
       'updateUnreadMessageCount'                                => 'Update::UnreadMessageCount',
       'updateUnreadChatCount'                                   => 'Update::UnreadChatCount',
+      'updateStory'                                             => 'Update::Story',
+      'updateStoryDeleted'                                      => 'Update::StoryDeleted',
+      'updateStorySendSucceeded'                                => 'Update::StorySendSucceeded',
+      'updateStorySendFailed'                                   => 'Update::StorySendFailed',
+      'updateChatActiveStories'                                 => 'Update::ChatActiveStories',
+      'updateStoryListChatCount'                                => 'Update::StoryListChatCount',
+      'updateStoryStealthMode'                                  => 'Update::StoryStealthMode',
       'updateOption'                                            => 'Update::Option',
       'updateStickerSet'                                        => 'Update::StickerSet',
       'updateInstalledStickerSets'                              => 'Update::InstalledStickerSets',
@@ -1333,6 +1427,7 @@ module TD::Types
     AnimatedEmoji
     Animation
     Animations
+    ArchiveChatListSettings
     AttachmentMenuBot
     AttachmentMenuBotColor
     Audio
@@ -1355,6 +1450,7 @@ module TD::Types
     Base
     BasicGroup
     BasicGroupFullInfo
+    BlockList
     BotCommand
     BotCommandScope
     BotCommands
@@ -1370,20 +1466,27 @@ module TD::Types
     CallState
     CallbackQueryAnswer
     CallbackQueryPayload
+    CanSendStoryResult
     CanTransferOwnershipResult
     Chat
     ChatAction
     ChatActionBar
+    ChatActiveStories
     ChatAdministrator
     ChatAdministratorRights
     ChatAdministrators
     ChatAvailableReactions
+    ChatBackground
     ChatEvent
     ChatEventAction
     ChatEventLogFilters
     ChatEvents
-    ChatFilter
-    ChatFilterInfo
+    ChatFolder
+    ChatFolderIcon
+    ChatFolderInfo
+    ChatFolderInviteLink
+    ChatFolderInviteLinkInfo
+    ChatFolderInviteLinks
     ChatInviteLink
     ChatInviteLinkCount
     ChatInviteLinkCounts
@@ -1412,7 +1515,6 @@ module TD::Types
     ChatPhotoStickerType
     ChatPhotos
     ChatPosition
-    ChatReportReason
     ChatSource
     ChatStatistics
     ChatStatisticsAdministratorActionsInfo
@@ -1507,6 +1609,10 @@ module TD::Types
     InputPassportElementErrorSource
     InputPersonalDocument
     InputSticker
+    InputStoryArea
+    InputStoryAreaType
+    InputStoryAreas
+    InputStoryContent
     InputThumbnail
     InternalLinkType
     Invoice
@@ -1545,12 +1651,15 @@ module TD::Types
     MessagePositions
     MessageReaction
     MessageReplyInfo
+    MessageReplyTo
     MessageSchedulingState
     MessageSendOptions
     MessageSender
     MessageSenders
     MessageSendingState
     MessageSource
+    MessageSponsor
+    MessageSponsorType
     MessageStatistics
     MessageThreadInfo
     MessageViewer
@@ -1611,6 +1720,7 @@ module TD::Types
     PremiumSource
     PremiumState
     PremiumStatePaymentOption
+    PremiumStoryFeature
     ProfilePhoto
     Proxies
     Proxy
@@ -1619,11 +1729,12 @@ module TD::Types
     PushMessageContent
     PushReceiverId
     ReactionType
-    RecommendedChatFilter
-    RecommendedChatFilters
+    RecommendedChatFolder
+    RecommendedChatFolders
     RecoveryEmailAddress
     RemoteFile
     ReplyMarkup
+    ReportReason
     ResetPasswordResult
     RichText
     RtmpUrl
@@ -1657,6 +1768,19 @@ module TD::Types
     StorageStatisticsByFileType
     StorageStatisticsFast
     StorePaymentPurpose
+    Stories
+    Story
+    StoryArea
+    StoryAreaPosition
+    StoryAreaType
+    StoryContent
+    StoryInfo
+    StoryInteractionInfo
+    StoryList
+    StoryPrivacySettings
+    StoryVideo
+    StoryViewer
+    StoryViewers
     SuggestedAction
     Supergroup
     SupergroupFullInfo
